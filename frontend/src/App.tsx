@@ -3,7 +3,6 @@ import './App.css';
 import { io, Socket } from 'socket.io-client';
 import GameTable from './components/GameTable';
 import React from 'react';
-import Card from './components/Card';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { TouchBackend } from 'react-dnd-touch-backend';
@@ -40,10 +39,6 @@ const clientId = getOrCreateClientId();
 const socket: Socket = io(`http://${backendHost}:4000`, { query: { clientId } });
 (window as any).chroniumSocket = socket;
 
-function getBackend() {
-  return window.matchMedia('(pointer: coarse)').matches ? TouchBackend : HTML5Backend;
-}
-
 // Удаляет дубликаты карт по id (оставляет первую встреченную)
 function deduplicateTable(table: any[]) {
   const seen = new Set();
@@ -55,19 +50,6 @@ function deduplicateTable(table: any[]) {
     }
   }
   return result;
-}
-
-function StatusBlock({ progress, timeLeft }: { progress: number, timeLeft: number }) {
-  return (
-    <div style={{ background: '#faf8f4', borderRadius: 12, padding: '16px 22px', minWidth: 210, boxShadow: '0 4px 16px rgba(0,0,0,0.10)', border: '1px solid #ece6da', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 8, marginBottom: 16 }}>
-      <div style={{ fontWeight: 600, fontSize: 17, marginBottom: 4 }}>Статус игры</div>
-      <div style={{ fontWeight: 400, fontSize: 14, marginBottom: 2 }}>Прогресс</div>
-      <div style={{ width: '100%', background: '#eee', borderRadius: 5, height: 7, marginBottom: 6 }}>
-        <div style={{ width: `${progress}%`, height: 7, background: '#d4a373', borderRadius: 5, transition: 'width 0.3s' }} />
-      </div>
-      <div style={{ fontSize: 13, marginTop: 0 }}>Осталось времени <span style={{ fontWeight: 600 }}>{Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</span></div>
-    </div>
-  );
 }
 
 // Получение начального состояния из sessionStorage
@@ -373,21 +355,6 @@ function App() {
         sessionStorage.removeItem('chronium_single_state');
       }
     });
-  };
-
-  const playCard = () => {
-    if (isGameOver || hand.length === 0) {
-      setToast('Игра завершена или у вас нет карт!');
-      return;
-    }
-    if (selectedCard == null || insertIndex == null) return;
-    socket.emit('playCard', {
-      roomId,
-      cardId: selectedCard.id,
-      insertIndex
-    });
-    setSelectedCard(null);
-    setInsertIndex(null);
   };
 
   // Количество карт для прогресса (например, 10 или 12, либо динамически)

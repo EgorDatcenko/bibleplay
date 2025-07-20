@@ -23,7 +23,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandE
   }), [card, disabled]);
 
   return (
-    <div ref={drag} style={{ opacity: isDragging ? 0.5 : 1, pointerEvents: disabled ? 'none' : undefined }}>
+    <div ref={drag as unknown as React.Ref<HTMLDivElement>} style={{ opacity: isDragging ? 0.5 : 1, pointerEvents: disabled ? 'none' : undefined }}>
       <Card
         title={card.title}
         image={card.imageFront}

@@ -45,17 +45,6 @@ const Card: React.FC<CardProps> = ({
     zIndex: isDragPreview ? 9999 : 'auto',
   };
 
-  const innerStyle = (isFaceUp: boolean): React.CSSProperties => ({
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    transition: 'transform 0.5s cubic-bezier(.4,2,.6,1)',
-    transformStyle: 'preserve-3d',
-    transform: isFaceUp ? 'rotateY(180deg)' : 'rotateY(0deg)',
-  });
-
   const faceStyle: React.CSSProperties = {
     width: '100%',
     height: '100%',

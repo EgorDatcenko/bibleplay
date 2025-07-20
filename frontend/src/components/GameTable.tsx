@@ -51,7 +51,7 @@ const DropZone: React.FC<{ onDrop: (cardId: number) => void; large?: boolean; di
   const height = isMobile ? 170 : 300;
   return (
     <div
-      ref={drop}
+      ref={drop as unknown as React.Ref<HTMLDivElement>}
       style={{
         width,
         minWidth,
