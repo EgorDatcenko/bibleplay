@@ -35,8 +35,8 @@ function getOrCreateClientId() {
   return clientId as string;
 }
 const clientId = getOrCreateClientId();
-// Подключение к серверу с clientId
-const socket: Socket = io(`http://${backendHost}:4000`, { query: { clientId } });
+const apiUrl = import.meta.env.VITE_API_URL || window.location.origin;
+const socket: Socket = io(apiUrl, { query: { clientId } });
 (window as any).chroniumSocket = socket;
 
 // Удаляет дубликаты карт по id (оставляет первую встреченную)
