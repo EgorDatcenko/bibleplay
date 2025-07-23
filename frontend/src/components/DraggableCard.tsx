@@ -32,8 +32,9 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandE
         isFaceUp={false}
         color={card.color}
         isDragPreview={isDragging}
-        width={width}
-        height={height}
+        width={180}
+        height={450}
+        imageScaleOffset={-10}
       />
     </div>
   );
