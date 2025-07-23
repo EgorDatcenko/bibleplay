@@ -81,9 +81,7 @@ const SinglePlayerGame: React.FC<{ onExit: () => void }> = ({ onExit }) => {
     let newTable = [...table];
     if (correct) {
       newTable.splice(insertIdx, 0, card);
-      let addScore = 1;
-      if (card.color === '#1a365d' || card.color === '#22345d') addScore = 2;
-      if (card.color === '#742a2a' || card.color === '#8a2a2a') addScore = 3;
+      const addScore = getCardScore(card);
       setScore((s: any) => s + addScore);
       setToast('Верно!');
     } else {
@@ -111,6 +109,11 @@ const SinglePlayerGame: React.FC<{ onExit: () => void }> = ({ onExit }) => {
       setTimeout(() => setGameOver(true), 800);
     }
   };
+
+  // Функция для определения баллов по полю score
+  function getCardScore(card: any) {
+    return card.score || 1;
+  }
 
   if (gameOver) {
     const getScoreText = (score: number) => {

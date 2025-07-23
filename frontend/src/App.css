@@ -350,7 +350,7 @@ body, html {
 @media (max-width: 700px) {
   .mobile-v2-root {
     min-height: 100vh;
-    width: 100vw;
+    width: 100%;
     background: #faf8f4;
     display: flex;
     flex-direction: column;
@@ -359,7 +359,65 @@ body, html {
     overflow-x: hidden;
     box-sizing: border-box;
     font-family: 'Istok Web', Arial, sans-serif;
+    touch-action: pan-x pan-y pinch-zoom;
   }
+
+  .mobile-v2-main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    padding-left: 0;
+    padding-right: 8px;
+    padding-top: 0;
+    touch-action: pan-x pan-y pinch-zoom;
+  }
+
+  .mobile-v2-tablewrap {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    min-height: 180px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    padding-left: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y pinch-zoom;
+  }
+
+  .game-table {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    touch-action: pan-x pan-y pinch-zoom;
+  }
+
+  /* Убираем фиксированные ширины */
+  .mobile-v2-main,
+  .mobile-v2-infocard,
+  .mobile-v2-handwrap,
+  .mobile-v2-handscroll,
+  .mobile-v2-infobox {
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 700px) {
   .mobile-v2-header-fixed {
     position: fixed;
     top: 0;
@@ -813,3 +871,86 @@ body, html {
   -webkit-user-select: none !important;
   -ms-user-select: none !important;
 }
+
+@media (max-width: 700px) {
+  .mobile-v2-title {
+    margin: 90px 0 6px 0 !important;
+  }
+}
+
+.card img, .card, .mobile-v2-title img, .mobile-v2-root img {
+  -webkit-user-drag: none !important;
+  user-drag: none !important;
+  pointer-events: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+
+.card img, .card, .mobile-v2-root img {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+  pointer-events: none !important;
+}
+
+@media (max-width: 700px) {
+  .game-table, .mobile-v2-tablewrap {
+    min-width: 2000px !important;
+    width: auto !important;
+    max-width: none !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* Контейнер для скролла */
+  .mobile-v2-main {
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .game-table > div {
+    min-width: 2000px !important;
+    overflow-anchor: none !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .mobile-v2-tablewrap {
+    width: 100% !important;
+    max-width: none !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    position: relative !important;
+  }
+  .game-table {
+    width: 100% !important;
+    max-width: none !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    position: relative !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .mobile-v2-root,
+  .mobile-v2-main,
+  .mobile-v2-tablewrap {
+    width: 100vw !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    overflow-x: visible !important;
+    box-sizing: border-box !important;
+    position: static !important;
+  }
+  .game-table {
+    width: 100vw !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    overflow-x: auto !important;
+    box-sizing: border-box !important;
+    position: static !important;
+  }
+}
+
+/* Удаляю диагностическую рамку */

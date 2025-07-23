@@ -1,15 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import Card from './Card';
 
 interface CardType {
   id: number;
-  title: string;
   imageFront?: string;
   imageBack?: string;
-  verse: string;
   order: number;
-  color?: string;
 }
 
 interface GameTableProps {
@@ -17,6 +14,27 @@ interface GameTableProps {
   onDropCard: (cardId: number, insertIndex: number) => void;
   isGameOver?: boolean;
   isHandEmpty?: boolean;
+}
+
+// Хук для отслеживания ширины visual viewport (учитывает zoom)
+function useVisualViewportWidth() {
+  const [vw, setVw] = useState(
+    typeof window !== 'undefined' && window.visualViewport
+      ? window.visualViewport.width
+      : window.innerWidth
+  );
+  useEffect(() => {
+    function handleResize() {
+      setVw(window.visualViewport ? window.visualViewport.width : window.innerWidth);
+    }
+    window.visualViewport?.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.visualViewport?.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  return vw;
 }
 
 const CardFade: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -78,32 +96,42 @@ const DropZone: React.FC<{ onDrop: (cardId: number) => void; large?: boolean; di
 
 const GameTable: React.FC<GameTableProps> = ({ table, onDropCard, isGameOver, isHandEmpty }) => {
   const dropDisabled = !!isGameOver || !!isHandEmpty;
-  // console.log('table ids:', table.map(c => c.id));
-  if (table.length === 0) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '24px 0', minHeight: 240, width: '100%' }}>
-        <DropZone onDrop={(cardId) => onDropCard(cardId, 0)} large disabled={dropDisabled} />
-      </div>
-    );
-  }
+
   return (
-    <div className="game-table" style={{ overflowX: 'auto', overflowY: 'hidden', whiteSpace: 'nowrap', padding: '8px 0', margin: '24px 0', width: '100%', maxWidth: '100vw', boxSizing: 'border-box' }}>
-      <div style={{ display: 'inline-flex', gap: 0, alignItems: 'center', minHeight: 300, paddingRight: 150, boxSizing: 'content-box' }}>
+    <div className="game-table" style={{ 
+      overflowX: 'auto', 
+      overflowY: 'hidden', 
+      whiteSpace: 'nowrap', 
+      padding: '8px 0', 
+      margin: '24px 0', 
+      boxSizing: 'border-box',
+      background: '#fff'
+    }}>
+      <div style={{ 
+        display: 'inline-flex', 
+        gap: 0, 
+        alignItems: 'center', 
+        minHeight: 300, 
+        paddingRight: 150, 
+        boxSizing: 'content-box',
+        minWidth: 2000, // фиксированная минимальная ширина для скролла
+        overflowAnchor: 'none'
+      }}>
         <DropZone onDrop={(cardId) => onDropCard(cardId, 0)} disabled={dropDisabled} />
         {table.map((card) => (
           <React.Fragment key={card.id}>
             <CardFade>
-              {card && card.title && card.order && card.id ? (
+              {card && card.order && card.id ? (
                 <Card
-                  title={card.title}
-                  order={card.order}
-                  verse={card.verse}
+                  image={card.imageBack ?? ''}
                   isFaceUp={true}
-                  color={card.color}
-                  image={card.imageFront}
+                  imageBack={card.imageBack ?? ''}
+                  width={150}
+                  height={400}
+                  imageScaleOffset={-20}
                 />
               ) : (
-                <div style={{ width: 130, height: 300, background: '#eee', border: '2px solid red', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#b71c1c', fontWeight: 700 }}>
+                <div style={{ width: 180, height: 300, background: '#eee', border: '2px solid red', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#b71c1c', fontWeight: 700 }}>
                   Ошибка карты
                 </div>
               )}
