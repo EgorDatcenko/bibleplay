@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import { io, Socket } from 'socket.io-client';
 import GameTable from './components/GameTable';
-import React from 'react';
+import React, { useRef } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { TouchBackend } from 'react-dnd-touch-backend';
@@ -13,6 +13,7 @@ import Lobby from './components/Lobby';
 import SinglePlayerGame from './components/SinglePlayerGame';
 import GameRules from './components/GameRules';
 import MobileGameLayout from './components/MobileGameLayout';
+import cards from './components/cards.json';
 
 // Исправить определение backendHost:
 // Если window.location.hostname === 'localhost', использовать prompt для ввода IP или брать из localStorage, иначе использовать window.location.hostname
@@ -69,6 +70,22 @@ function getInitialStateFromStorage() {
   };
 }
 
+// Функция для обогащения карточек из cards.json
+function enrichCards(arr: any[]) {
+  if (!arr) return arr;
+  return arr.map(cardFromServer => {
+    const fresh = cards.find(c => c.id === cardFromServer.id);
+    // Всегда подставляем imageFront и imageBack из cards.json, остальные поля не трогаем
+    return { ...cardFromServer, imageFront: fresh?.imageFront, imageBack: fresh?.imageBack };
+  });
+}
+
+const DEFAULT_TURN_TIME = 30; // секунд
+const TURN_TIME_8 = 45;
+const TURN_TIME_12 = 60;
+const TURN_TIME_16 = 75;
+const TURN_TIME_30 = 90;
+
 function App() {
   const initial = getInitialStateFromStorage();
   const [inRoom, setInRoom] = useState(initial.inRoom);
@@ -80,6 +97,7 @@ function App() {
   const [insertIndex, setInsertIndex] = useState<number | null>(null);
   const [deckCount, setDeckCount] = useState(0);
   const [currentPlayerId, setCurrentPlayerId] = useState('');
+  const [currentPlayerClientId, setCurrentPlayerClientId] = useState('');
   const [joinRoomMode, setJoinRoomMode] = useState(false);
   const [createRoomMode, setCreateRoomMode] = useState(false);
   const [joinRoomId, setJoinRoomId] = useState('');
@@ -98,6 +116,17 @@ function App() {
   const [showDonate, setShowDonate] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [scoreboard, setScoreboard] = useState<any[]>([]);
+  const [nameError, setNameError] = useState('');
+  const [scrollToCardIndex, setScrollToCardIndex] = useState<number | null>(null);
+  const [lastPlayedCardId, setLastPlayedCardId] = useState<number | null>(null);
+  const [canPlayNow, setCanPlayNow] = useState(false);
+  const [showStartWarning, setShowStartWarning] = useState(() => {
+    return sessionStorage.getItem('chronium_startWarningShown') !== '1';
+  });
+
+  // refs для автоскролла к формам
+  const createFormRef = useRef<HTMLDivElement>(null);
+  const joinFormRef = useRef<HTMLDivElement>(null);
 
   // Проверяем URL для автоматического входа в комнату
   React.useEffect(() => {
@@ -116,7 +145,13 @@ function App() {
     const savedInLobby = sessionStorage.getItem('chronium_inLobby');
     const savedGameStarted = sessionStorage.getItem('chronium_gameStarted');
     const savedSingleMode = sessionStorage.getItem('chronium_singleMode');
-    // console.log('Восстановление мультиплеера:', { savedRoomId, savedPlayerName, savedInLobby, savedGameStarted, savedSingleMode, clientId });
+    console.log('[APP-MOUNT] clientId:', clientId, 'sessionStorage:', {
+      roomId: sessionStorage.getItem('chronium_roomId'),
+      playerName: sessionStorage.getItem('chronium_playerName'),
+      inLobby: sessionStorage.getItem('chronium_inLobby'),
+      gameStarted: sessionStorage.getItem('chronium_gameStarted'),
+      singleMode: sessionStorage.getItem('chronium_singleMode')
+    });
     // Одиночка
     if (savedSingleMode === '1') {
       setSingleMode(true);
@@ -141,15 +176,16 @@ function App() {
           return;
         }
         setRoomId(res.roomId);
-        setHand(res.hand || []);
+        setHand(enrichCards(res.hand || []));
         setSingleMode(false);
         if (res.gameStarted) {
           setInRoom(true);
           setInLobby(false);
           setGameStarted(true);
-          if (res.table) setTable(res.table);
+          if (res.table) setTable(enrichCards(res.table));
           if (res.deck) setDeckCount(res.deck.length);
           if (res.currentPlayerId) setCurrentPlayerId(res.currentPlayerId);
+          if (res.currentPlayerClientId) setCurrentPlayerClientId(res.currentPlayerClientId);
           if (res.turnTimeout) setTurnTimeout(res.turnTimeout);
         } else {
           setInRoom(true);
@@ -188,14 +224,22 @@ function App() {
 
     socket.on('gameStarted', (data: any) => {
       if (!data || !data.hand) return;
-      setHand(data.hand);
+      setHand(enrichCards(data.hand));
       setInLobby(false);
       setGameStarted(true);
       setCurrentPlayerId(data.currentPlayerId || '');
+      setCurrentPlayerClientId(data.currentPlayerClientId || '');
       setTurnTimeout(data.turnTimeout || 0);
+      // Показываем предупреждение только один раз за сессию
+      if (sessionStorage.getItem('chronium_startWarningShown') !== '1') {
+        setShowStartWarning(true);
+        sessionStorage.setItem('chronium_startWarningShown', '1');
+      }
     });
 
     socket.on('update', (room: any) => {
+      // Логирование для диагностики синхронизации хода
+      console.log('[SYNC-DEBUG] socket.id:', socket.id, 'currentPlayerId:', room.currentPlayerId, 'currentPlayerClientId:', room.currentPlayerClientId, 'clientId:', clientId);
       // console.log('update data:', room);
       if (!room || !room.players) return;
       updateCount++;
@@ -206,16 +250,19 @@ function App() {
       // }
       // Фильтруем дубликаты на клиенте
       const filteredTable = deduplicateTable(room.table || []);
-      setTable(JSON.parse(JSON.stringify(filteredTable)));
+      setTable(enrichCards(JSON.parse(JSON.stringify(filteredTable))));
       setDeckCount(room.deck ? room.deck.length : 0);
       setCurrentPlayerId(room.currentPlayerId || '');
+      setCurrentPlayerClientId(room.currentPlayerClientId || '');
       setTurnTimeout(room.turnTimeout || 0);
       // Обновляем список игроков для sidebar
       setLobbyPlayers(Array.isArray(room.players) ? room.players.filter((p: any) => p && (p.online === undefined || p.online === true)) : []);
       // Обновляем руку только если она передана в обновлении
       if (room.hand) {
-        setHand(JSON.parse(JSON.stringify(room.hand)));
+        setHand(enrichCards(JSON.parse(JSON.stringify(room.hand))));
       }
+      // Разрешаем ходить только если ход реально за этим сокетом
+      // Удаляю обработку syncTurn и canPlayNow
     });
 
     socket.on('gameOver', (data: any) => {
@@ -231,11 +278,20 @@ function App() {
       // Можно добавить отображение scoreboard, если нужно
     });
 
+    socket.on('autoSkipNotice', (data: any) => {
+      if (data && data.message) {
+        setToast(data.message);
+        setToastDuration(10000);
+        setTimeout(() => setToast(''), 10000);
+      }
+    });
+
     return () => {
       socket.off('lobbyUpdate');
       socket.off('gameStarted');
       socket.off('update');
       socket.off('gameOver');
+      socket.off('autoSkipNotice');
     };
   }, []);
 
@@ -256,10 +312,10 @@ function App() {
   // Toast с авто-скрытием
   React.useEffect(() => {
     if (toast) {
-      const timer = setTimeout(() => setToast(''), 2000);
+      const timer = setTimeout(() => setToast(''), toastDuration);
       return () => clearTimeout(timer);
     }
-  }, [toast]);
+  }, [toast, toastDuration]);
 
   // При выходе в меню (главная)
   const goToMenu = () => {
@@ -300,16 +356,18 @@ function App() {
   // При создании комнаты
   const createRoom = () => {
     if (!playerName.trim()) {
+      setNameError('Введите ваше имя');
       setToast('Введите ваше имя');
       return;
     }
+    setNameError('');
     socket.emit('createRoom', { name: playerName.trim(), clientId }, (response: any) => {
       if (!response || !response.roomId || !response.hand) {
         setToast('Ошибка создания комнаты');
         return;
       }
       setRoomId(response.roomId);
-      setHand(response.hand);
+      setHand(enrichCards(response.hand));
       setInRoom(true);
       setInLobby(true);
       setIsHost(true);
@@ -362,14 +420,25 @@ function App() {
   const progress = table.length > 0 ? Math.min(100, Math.round((table.length / maxProgressCards) * 100)) : 0;
 
   const onDropCard = (cardId: number, insertIndex: number) => {
+    console.log('[DROP-CARD-DEBUG]', {
+      socketId: socket.id,
+      currentPlayerId,
+      clientId,
+      currentPlayerClientId,
+      isGameOver,
+      handLength: hand.length
+    });
     if (isGameOver || hand.length === 0) {
       setToast('Игра завершена или у вас нет карт!');
+      console.log('[DROP-CARD-DEBUG] Блокировка: isGameOver или hand.length === 0');
       return;
     }
-    if (currentPlayerId && currentPlayerId !== socket.id) {
-      setToast('Сейчас не ваш ход!');
+    if (!(currentPlayerId === socket.id || currentPlayerClientId === clientId)) {
+      setToast('Дождитесь своего хода!');
+      console.log('[DROP-CARD-DEBUG] Блокировка: не ваш ход (жёсткая проверка)');
       return;
     }
+    setLastPlayedCardId(cardId);
     socket.emit('playCard', {
       roomId,
       cardId,
@@ -378,12 +447,30 @@ function App() {
       if (res && res.incorrect) {
         setToast('❌ Карта не попала в правильный порядок!');
         setToastDuration(3500);
+        if (typeof res.correctIndex === 'number') {
+          setScrollToCardIndex(res.correctIndex);
+        } else {
+          setTimeout(() => {
+            setTable(prevTable => {
+              const idx = deduplicateTable(prevTable).findIndex(c => c.id === cardId);
+              if (idx !== -1) setScrollToCardIndex(idx);
+              return prevTable;
+            });
+          }, 0);
+        }
       } else if (res && !res.error) {
         setToast('✅ Верно!');
         setToastDuration(1800);
+        setScrollToCardIndex(null);
       }
       if (res && res.error) {
-        setToast(res.error);
+        if (res.error === 'Сейчас не ваш ход') {
+          setToast('Из-за вашего переподключения вы не можете сделать ход, дождитесь окончания таймера для продолжения игры');
+          setToastDuration(10000); // 10 секунд
+        } else {
+          setToast(res.error);
+          // Не сбрасываем toastDuration здесь, чтобы не перебивать длительность для других сообщений
+        }
       }
     });
   };
@@ -394,6 +481,13 @@ function App() {
       setToast('Введите код комнаты');
       return;
     }
+    if (!playerName.trim()) {
+      setNameError('Введите ваше имя');
+      setToast('Введите ваше имя');
+      return;
+    }
+    setNameError('');
+    console.log('[JOINROOM-CALL]', { roomId, playerName, clientId });
     socket.emit('joinRoom', { roomId: joinRoomId.trim().toLowerCase(), name: playerName, clientId }, (res: any) => {
       if (!res) {
         setToast('Ошибка соединения с сервером');
@@ -404,7 +498,7 @@ function App() {
         setJoinError(res.error);
       } else if (res.roomId && res.hand) {
         setRoomId(res.roomId);
-        setHand(res.hand);
+        setHand(enrichCards(res.hand));
         setInRoom(true);
         setInLobby(true);
         setSingleMode(false);
@@ -412,9 +506,10 @@ function App() {
           setInRoom(true);
           setInLobby(false);
           setGameStarted(true);
-          if (res.table) setTable(res.table);
+          if (res.table) setTable(enrichCards(res.table));
           if (res.deck) setDeckCount(res.deck.length);
           if (res.currentPlayerId) setCurrentPlayerId(res.currentPlayerId);
+          if (res.currentPlayerClientId) setCurrentPlayerClientId(res.currentPlayerClientId);
           if (res.turnTimeout) setTurnTimeout(res.turnTimeout);
         } else {
           setInRoom(true);
@@ -476,6 +571,36 @@ function App() {
       socket.off('deckCleared');
     };
   }, []);
+
+  // Автоскролл к форме на мобильных
+  React.useEffect(() => {
+    if (createRoomMode && typeof window !== 'undefined' && window.innerWidth <= 700 && createFormRef.current) {
+      setTimeout(() => createFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    }
+    if (joinRoomMode && typeof window !== 'undefined' && window.innerWidth <= 700 && joinFormRef.current) {
+      setTimeout(() => joinFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    }
+  }, [createRoomMode, joinRoomMode]);
+
+  // После рендера сбрасываем scrollToCardIndex
+  React.useEffect(() => {
+    if (scrollToCardIndex !== null) {
+      const timer = setTimeout(() => setScrollToCardIndex(null), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [scrollToCardIndex, table]);
+
+  // Динамический таймер хода
+  React.useEffect(() => {
+    if (!gameStarted) return;
+    let turnTime = DEFAULT_TURN_TIME;
+    const cardsOnTable = deduplicateTable(table).length;
+    if (cardsOnTable > 30) turnTime = TURN_TIME_30;
+    else if (cardsOnTable > 16) turnTime = TURN_TIME_16;
+    else if (cardsOnTable > 12) turnTime = TURN_TIME_12;
+    else if (cardsOnTable > 8) turnTime = TURN_TIME_8;
+    setTurnTimeout(Date.now() + turnTime * 1000);
+  }, [gameStarted, table]);
 
   if (winner) {
     // Если есть scoreboard и игроков больше 3, показываем таблицу мест и очков
@@ -549,7 +674,7 @@ function App() {
               </button>
             </div>
           </div>
-          <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @example</div>
+          <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @bibleplay</div>
         </>
       );
     }
@@ -619,7 +744,7 @@ function App() {
             </button>
           </div>
         </div>
-        <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @example</div>
+        <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @bibleplay</div>
       </>
     );
   }
@@ -638,7 +763,7 @@ function App() {
           onLeaveRoom={leaveRoom}
           currentPlayerId={socket.id || ''}
         />
-        <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @example</div>
+        <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @bibleplay</div>
       </>
     );
   }
@@ -652,7 +777,7 @@ function App() {
             sessionStorage.removeItem('chronium_singleMode');
             setSingleMode(false);
           }} />
-          <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @example</div>
+          <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @bibleplay</div>
         </>
       );
     }
@@ -664,7 +789,7 @@ function App() {
           sessionStorage.removeItem('chronium_singleMode');
           setSingleMode(false);
         }} />
-        <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @example</div>
+        <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @bibleplay</div>
       </>
     );
   }
@@ -768,34 +893,16 @@ function App() {
             </div>
 
             {createRoomMode && (
-              <div style={{
-                background: '#fff',
-                borderRadius: 12,
-                padding: '24px',
-                border: '1px solid #ece6da'
-              }}>
-                <h3 style={{ 
-                  marginBottom: 16, 
-                  color: '#2c1810',
-                  fontSize: 20,
-                  fontWeight: 600
-                }}>
-                  Создать новую игру
-                </h3>
-                
+              <div ref={createFormRef} style={{ background: '#fff', borderRadius: 12, padding: '24px', border: '1px solid #ece6da' }}>
+                <h3 style={{ marginBottom: 16, color: '#2c1810', fontSize: 20, fontWeight: 600 }}>Создать новую игру</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 20 }}>
-                  <input 
-                    placeholder="Ваше имя" 
-                    value={playerName} 
-                    onChange={e => setPlayerName(e.target.value)} 
-                    style={{
-                      padding: '12px 16px',
-                      border: '1px solid #d4a373',
-                      borderRadius: 8,
-                      fontSize: 16,
-                      outline: 'none'
-                    }}
+                  <input
+                    placeholder="Ваше имя"
+                    value={playerName}
+                    onChange={e => { setPlayerName(e.target.value); setNameError(''); }}
+                    style={{ padding: '12px 16px', border: '1px solid #d4a373', borderRadius: 8, fontSize: 16, outline: 'none' }}
                   />
+                  {nameError && <div style={{ color: '#d32f2f', fontWeight: 600, fontSize: 16, marginTop: 2 }}>{nameError}</div>}
                 </div>
                 
                 <div style={{ display: 'flex', gap: 8 }}>
@@ -837,21 +944,8 @@ function App() {
             )}
 
             {joinRoomMode && (
-              <div style={{
-                background: '#fff',
-                borderRadius: 12,
-                padding: '24px',
-                border: '1px solid #ece6da'
-              }}>
-                <h3 style={{ 
-                  marginBottom: 16, 
-                  color: '#2c1810',
-                  fontSize: 20,
-                  fontWeight: 600
-                }}>
-                  Присоединиться к игре
-                </h3>
-                
+              <div ref={joinFormRef} style={{ background: '#fff', borderRadius: 12, padding: '24px', border: '1px solid #ece6da' }}>
+                <h3 style={{ marginBottom: 16, color: '#2c1810', fontSize: 20, fontWeight: 600 }}>Присоединиться к игре</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 20 }}>
                   <input 
                     placeholder="Код комнаты" 
@@ -873,7 +967,7 @@ function App() {
                   <input 
                     placeholder="Ваше имя" 
                     value={playerName} 
-                    onChange={e => setPlayerName(e.target.value)} 
+                    onChange={e => { setPlayerName(e.target.value); setNameError(''); }}
                     style={{
                       padding: '12px 16px',
                       border: '1px solid #d4a373',
@@ -882,6 +976,7 @@ function App() {
                       outline: 'none'
                     }}
                   />
+                  {nameError && <div style={{ color: '#d32f2f', fontWeight: 600, fontSize: 16, marginTop: 2 }}>{nameError}</div>}
                 </div>
                 
                 <div style={{ display: 'flex', gap: 8 }}>
@@ -960,7 +1055,7 @@ function App() {
                 <p style={{ color: '#7c6f57', fontSize: 16, marginBottom: 24 }}>
                   Ваши пожертвования помогут в оплате серверов, поддержке и расширении проекта (усовершенствование и добавление новых игр).
                 </p>
-                <a href="https://www.donationalerts.com/r/your_link" target="_blank" rel="noopener noreferrer" style={{
+                <a href="https://www.donationalerts.com/r/bibleplay" target="_blank" rel="noopener noreferrer" style={{
                   display: 'inline-block',
                   background: '#ffd600',
                   color: '#2c1810',
@@ -995,7 +1090,7 @@ function App() {
           )}
         </div>
         <div className="footer" style={{ position: 'fixed', left: 0, right: 0, bottom: 0, background: '#faf8f4', borderTop: '1px solid #ece6da', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#7c6f57', fontSize: 15, fontFamily: 'Istok Web, Arial, sans-serif', minHeight: 40, zIndex: 10000 }}>
-          При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @example
+          При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @bibleplay
         </div>
       </>
     );
@@ -1009,7 +1104,6 @@ function App() {
   const timeLeft = 60; // секунд, для примера
 
   // Перед рендером GameTable
-  // console.log('table for render:', table.map(c => c.id));
   // const uniqueIds = new Set(table.map(c => c.id));
   // console.log('table length:', table.length, 'unique ids:', uniqueIds.size);
 
@@ -1017,27 +1111,80 @@ function App() {
 
   // Удалён useEffect с автоматическим масштабированием
 
+  // --- Модальное окно-предупреждение для мобильной версии ---
   if (isMobile) {
-    // Новый layout для мобильных
     return (
-      <MobileGameLayout
-        mode={singleMode ? 'single' : 'multiplayer'}
-        onLeaveRoom={leaveRoom}
-        onShowRules={() => setShowRules(true)}
-        players={players}
-        currentPlayerId={currentPlayerId}
-        progress={progress}
-        timeLeft={turnTimeLeft}
-        table={deduplicateTable(table)}
-        hand={hand}
-        onDropCard={onDropCard}
-        isGameOver={isGameOver}
-        isHandEmpty={hand.length === 0}
-        deckCount={deckCount}
-        toast={toast}
-        setToast={setToast}
-        toastDuration={toastDuration}
-      />
+      <>
+        {showStartWarning && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 3000
+          }}>
+            <div style={{
+              background: '#fff',
+              borderRadius: 16,
+              padding: '36px 18px',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+              border: '1px solid #ece6da',
+              maxWidth: 340,
+              width: '90vw',
+              minWidth: 180,
+              textAlign: 'center',
+              boxSizing: 'border-box',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <h2 style={{ color: '#b71c1c', fontSize: 22, fontWeight: 700, marginBottom: 14 }}>Внимание!</h2>
+              <div style={{ color: '#2c1810', fontSize: 15, marginBottom: 22, lineHeight: 1.5 }}>
+                Если вы обновите страницу во время своего хода, вы не сможете сделать ход и будете вынуждены дождаться окончания таймера.<br /><br />
+                Рекомендуем обновлять страницу только во время хода другого игрока.
+              </div>
+              <button onClick={() => setShowStartWarning(false)} style={{
+                background: '#d4a373',
+                color: 'white',
+                border: 'none',
+                borderRadius: 8,
+                padding: '12px 32px',
+                fontSize: 16,
+                cursor: 'pointer',
+                fontWeight: 600,
+                marginTop: 8
+              }}>
+                Хорошо
+              </button>
+            </div>
+          </div>
+        )}
+        <MobileGameLayout
+          mode={singleMode ? 'single' : 'multiplayer'}
+          onLeaveRoom={leaveRoom}
+          onShowRules={() => setShowRules(true)}
+          players={players}
+          currentPlayerId={currentPlayerId}
+          progress={progress}
+          timeLeft={turnTimeLeft}
+          table={deduplicateTable(table)}
+          hand={hand}
+          onDropCard={onDropCard}
+          isGameOver={isGameOver}
+          isHandEmpty={hand.length === 0}
+          deckCount={deckCount}
+          toast={toast}
+          setToast={setToast}
+          toastDuration={toastDuration}
+          scrollToCardIndex={scrollToCardIndex}
+        />
+      </>
     );
   }
 
@@ -1045,6 +1192,56 @@ function App() {
   return (
     <>
       <div className="header"><span className="header-logo">BiblePlay</span></div>
+      {showStartWarning && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 3000
+        }}>
+          <div style={{
+            background: '#fff',
+            borderRadius: 16,
+            padding: '36px 32px',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+            border: '1px solid #ece6da',
+            maxWidth: 420,
+            width: '90vw',
+            minWidth: 220,
+            textAlign: 'center',
+            boxSizing: 'border-box',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <h2 style={{ color: '#b71c1c', fontSize: 28, fontWeight: 700, marginBottom: 18 }}>Внимание!</h2>
+            <div style={{ color: '#2c1810', fontSize: 18, marginBottom: 28, lineHeight: 1.6 }}>
+              Если вы обновите страницу во время своего хода, вы не сможете сделать ход и будете вынуждены дождаться окончания таймера.<br /><br />
+              Рекомендуем обновлять страницу только во время хода другого игрока.
+            </div>
+            <button onClick={() => setShowStartWarning(false)} style={{
+              background: '#d4a373',
+              color: 'white',
+              border: 'none',
+              borderRadius: 8,
+              padding: '14px 38px',
+              fontSize: 18,
+              cursor: 'pointer',
+              fontWeight: 600,
+              marginTop: 8
+            }}>
+              Хорошо
+            </button>
+          </div>
+        </div>
+      )}
       <DndProvider backend={HTML5Backend}>
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#faf8f4', position: 'relative', alignItems: 'center', paddingTop: 60, paddingBottom: 48 }}>
           {/* Заголовок и кнопка правил на одном уровне, заголовок строго по центру */}
@@ -1102,7 +1299,7 @@ function App() {
           {/* Игровое поле и рука по центру */}
           <div style={{ width: '100%', maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', marginTop: 60 }}>
             <div style={{ width: '100%', maxWidth: 1100, margin: '0 auto', overflowX: 'auto', position: 'relative', display: 'flex', justifyContent: 'center' }}>
-              <GameTable table={deduplicateTable(table)} onDropCard={onDropCard} isGameOver={isGameOver} isHandEmpty={hand.length === 0} />
+              <GameTable table={deduplicateTable(table)} onDropCard={onDropCard} isGameOver={isGameOver} isHandEmpty={hand.length === 0} scrollToCardIndex={scrollToCardIndex} />
             </div>
             <div style={{ marginTop: 32, width: '100%', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
               <h3 style={{ textAlign: 'center', marginBottom: 12 }}>Ваши карты:</h3>
@@ -1175,7 +1372,7 @@ function App() {
             <p style={{ color: '#7c6f57', fontSize: 16, marginBottom: 24 }}>
               Ваши пожертвования помогут в оплате серверов, поддержке и расширении проекта (усовершенствование и добавление новых игр).
             </p>
-            <a href="https://www.donationalerts.com/r/your_link" target="_blank" rel="noopener noreferrer" style={{
+            <a href="https://www.donationalerts.com/r/bibleplay" target="_blank" rel="noopener noreferrer" style={{
               display: 'inline-block',
               background: '#ffd600',
               color: '#2c1810',
@@ -1208,7 +1405,7 @@ function App() {
           </div>
         </div>
       )}
-      <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @example</div>
+      <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @bibleplay</div>
     </>
   );
 }

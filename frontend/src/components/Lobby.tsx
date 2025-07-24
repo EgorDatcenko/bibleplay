@@ -29,6 +29,11 @@ const Lobby: React.FC<LobbyProps> = ({
   const [tempName, setTempName] = useState(currentPlayerName || '');
   const [showRules, setShowRules] = useState(false);
 
+  // Автоматический скролл вверх при появлении окна лобби
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   // Универсальная функция копирования с fallback
   const copyTextUniversal = async (text: string, onSuccess: () => void, onError: () => void) => {
     // Сначала пробуем современный API
@@ -140,7 +145,8 @@ const Lobby: React.FC<LobbyProps> = ({
         maxWidth: 500,
         width: '100%',
         textAlign: 'center',
-        marginBottom: 60
+        marginBottom: 60,
+        marginTop: typeof window !== 'undefined' && window.innerWidth <= 700 ? 60 : 0
       }}>
         <h1 style={{ 
           marginBottom: 24, 
@@ -462,6 +468,22 @@ const Lobby: React.FC<LobbyProps> = ({
       </div>
       {toast && <div style={{ color: '#f44336', margin: '12px 0', fontSize: 15 }}>{toast}</div>}
       <GameRules isOpen={showRules} onClose={() => setShowRules(false)} mode="multiplayer" />
+      {/* Информационная надпись под окном лобби */}
+      <div style={{
+        color: '#7c6f57',
+        background: '#fffbe6',
+        border: '1px solid #ffe082',
+        borderRadius: 8,
+        padding: '10px 16px',
+        fontSize: 15,
+        margin: '18px 0 0 0',
+        fontWeight: 500,
+        maxWidth: 500,
+        width: '100%',
+        textAlign: 'center'
+      }}>
+        Если при подключении одного из пользователей список игроков не обновляется, обновите страницу
+      </div>
     </div>
   );
 };

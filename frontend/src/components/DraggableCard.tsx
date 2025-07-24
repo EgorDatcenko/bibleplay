@@ -11,7 +11,6 @@ interface DraggableCardProps {
 }
 
 const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandEmpty, width, height }) => {
-  console.log('DraggableCard card:', card);
   const disabled = !!isGameOver || !!isHandEmpty;
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'CARD',
@@ -25,15 +24,13 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandE
   return (
     <div ref={drag as unknown as React.Ref<HTMLDivElement>} style={{ opacity: isDragging ? 0.5 : 1, pointerEvents: disabled ? 'none' : undefined }}>
       <Card
-        title={card.title}
         image={card.imageFront}
-        order={card.order}
-        verse={card.verse}
-        isFaceUp={false}
-        color={card.color}
+        imageBack={card.imageBack}
+        isFaceUp={true}
         isDragPreview={isDragging}
-        width={width}
-        height={height}
+        width={120}
+        height={350}
+        imageScaleOffset={-20}
       />
     </div>
   );

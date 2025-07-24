@@ -1,2002 +1,1402 @@
 [
   {
     "id": 1,
-    "title": "Событие 1",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 1",
     "order": 1,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/1A.png",
+    "imageBack": "/cards/back/1B.png",
+    "score": 1
   },
   {
     "id": 2,
-    "title": "Событие 2",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 2",
     "order": 2,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/2A.png",
+    "imageBack": "/cards/back/2B.png",
+    "score": 2
   },
   {
     "id": 3,
-    "title": "Событие 3",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 3",
     "order": 3,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/3A.png",
+    "imageBack": "/cards/back/3B.png",
+    "score": 2
   },
   {
     "id": 4,
-    "title": "Событие 4",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 4",
     "order": 4,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/4A.png",
+    "imageBack": "/cards/back/4B.png",
+    "score": 1
   },
   {
     "id": 5,
-    "title": "Событие 5",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 5",
     "order": 5,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/5A.png",
+    "imageBack": "/cards/back/5B.png",
+    "score": 2
   },
   {
     "id": 6,
-    "title": "Событие 6",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 6",
     "order": 6,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/6A.png",
+    "imageBack": "/cards/back/6B.png",
+    "score": 1
   },
   {
     "id": 7,
-    "title": "Событие 7",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 7",
     "order": 7,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/7A.png",
+    "imageBack": "/cards/back/7B.png",
+    "score": 2
   },
   {
     "id": 8,
-    "title": "Событие 8",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 8",
     "order": 8,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/8A.png",
+    "imageBack": "/cards/back/8B.png",
+    "score": 1
   },
   {
     "id": 9,
-    "title": "Событие 9",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 9",
     "order": 9,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/9A.png",
+    "imageBack": "/cards/back/9B.png",
+    "score": 2
   },
   {
     "id": 10,
-    "title": "Событие 10",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 10",
     "order": 10,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/10A.png",
+    "imageBack": "/cards/back/10B.png",
+    "score": 1
   },
   {
     "id": 11,
-    "title": "Событие 11",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 11",
     "order": 11,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/11A.png",
+    "imageBack": "/cards/back/11B.png",
+    "score": 2
   },
   {
     "id": 12,
-    "title": "Событие 12",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 12",
     "order": 12,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/12A.png",
+    "imageBack": "/cards/back/12B.png",
+    "score": 1
   },
   {
     "id": 13,
-    "title": "Событие 13",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 13",
     "order": 13,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/13A.png",
+    "imageBack": "/cards/back/13B.png",
+    "score": 2
   },
   {
     "id": 14,
-    "title": "Событие 14",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 14",
     "order": 14,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/14A.png",
+    "imageBack": "/cards/back/14B.png",
+    "score": 1
   },
   {
     "id": 15,
-    "title": "Событие 15",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 15",
     "order": 15,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/15A.png",
+    "imageBack": "/cards/back/15B.png",
+    "score": 1
   },
   {
     "id": 16,
-    "title": "Событие 16",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 16",
     "order": 16,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/16A.png",
+    "imageBack": "/cards/back/16B.png",
+    "score": 2
   },
   {
     "id": 17,
-    "title": "Событие 17",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 17",
     "order": 17,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/17A.png",
+    "imageBack": "/cards/back/17B.png",
+    "score": 1
   },
   {
     "id": 18,
-    "title": "Событие 18",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 18",
     "order": 18,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/18A.png",
+    "imageBack": "/cards/back/18B.png",
+    "score": 2
   },
   {
     "id": 19,
-    "title": "Событие 19",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 19",
     "order": 19,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/19A.png",
+    "imageBack": "/cards/back/19B.png",
+    "score": 2
   },
   {
     "id": 20,
-    "title": "Событие 20",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 20",
     "order": 20,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/20A.png",
+    "imageBack": "/cards/back/20B.png",
+    "score": 1
   },
   {
     "id": 21,
-    "title": "Событие 21",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 21",
     "order": 21,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/21A.png",
+    "imageBack": "/cards/back/21B.png",
+    "score": 1
   },
   {
     "id": 22,
-    "title": "Событие 22",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 22",
     "order": 22,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/22A.png",
+    "imageBack": "/cards/back/22B.png",
+    "score": 2
   },
   {
     "id": 23,
-    "title": "Событие 23",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 23",
     "order": 23,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/23A.png",
+    "imageBack": "/cards/back/23B.png",
+    "score": 2
   },
   {
     "id": 24,
-    "title": "Событие 24",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 24",
     "order": 24,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/24A.png",
+    "imageBack": "/cards/back/24B.png",
+    "score": 2
   },
   {
     "id": 25,
-    "title": "Событие 25",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 25",
     "order": 25,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/25A.png",
+    "imageBack": "/cards/back/25B.png",
+    "score": 2
   },
   {
     "id": 26,
-    "title": "Событие 26",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 26",
     "order": 26,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/26A.png",
+    "imageBack": "/cards/back/26B.png",
+    "score": 2
   },
   {
     "id": 27,
-    "title": "Событие 27",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 27",
     "order": 27,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/27A.png",
+    "imageBack": "/cards/back/27B.png",
+    "score": 1
   },
   {
     "id": 28,
-    "title": "Событие 28",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 28",
     "order": 28,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/28A.png",
+    "imageBack": "/cards/back/28B.png",
+    "score": 2
   },
   {
     "id": 29,
-    "title": "Событие 29",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 29",
     "order": 29,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/29A.png",
+    "imageBack": "/cards/back/29B.png",
+    "score": 2
   },
   {
     "id": 30,
-    "title": "Событие 30",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 30",
     "order": 30,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/30A.png",
+    "imageBack": "/cards/back/30B.png",
+    "score": 2
   },
   {
     "id": 31,
-    "title": "Событие 31",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 31",
     "order": 31,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/31A.png",
+    "imageBack": "/cards/back/31B.png",
+    "score": 3
   },
   {
     "id": 32,
-    "title": "Событие 32",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 32",
     "order": 32,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/32A.png",
+    "imageBack": "/cards/back/32B.png",
+    "score": 2
   },
   {
     "id": 33,
-    "title": "Событие 33",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 33",
     "order": 33,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/33A.png",
+    "imageBack": "/cards/back/33B.png",
+    "score": 3
   },
   {
     "id": 34,
-    "title": "Событие 34",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 34",
     "order": 34,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/34A.png",
+    "imageBack": "/cards/back/34B.png",
+    "score": 3
   },
   {
     "id": 35,
-    "title": "Событие 35",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 35",
     "order": 35,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/35A.png",
+    "imageBack": "/cards/back/35B.png",
+    "score": 2
   },
   {
     "id": 36,
-    "title": "Событие 36",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 36",
     "order": 36,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/36A.png",
+    "imageBack": "/cards/back/36B.png",
+    "score": 2
   },
   {
     "id": 37,
-    "title": "Событие 37",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 37",
     "order": 37,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/37A.png",
+    "imageBack": "/cards/back/37B.png",
+    "score": 2
   },
   {
     "id": 38,
-    "title": "Событие 38",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 38",
     "order": 38,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/38A.png",
+    "imageBack": "/cards/back/38B.png",
+    "score": 2
   },
   {
     "id": 39,
-    "title": "Событие 39",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 39",
     "order": 39,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/39A.png",
+    "imageBack": "/cards/back/39B.png",
+    "score": 2
   },
   {
     "id": 40,
-    "title": "Событие 40",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 40",
     "order": 40,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/40A.png",
+    "imageBack": "/cards/back/40B.png",
+    "score": 2
   },
   {
     "id": 41,
-    "title": "Событие 41",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 41",
     "order": 41,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/41A.png",
+    "imageBack": "/cards/back/41B.png",
+    "score": 3
   },
   {
     "id": 42,
-    "title": "Событие 42",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 42",
     "order": 42,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/42A.png",
+    "imageBack": "/cards/back/42B.png",
+    "score": 3
   },
   {
     "id": 43,
-    "title": "Событие 43",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 43",
     "order": 43,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/43A.png",
+    "imageBack": "/cards/back/43B.png",
+    "score": 3
   },
   {
     "id": 44,
-    "title": "Событие 44",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 44",
     "order": 44,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/44A.png",
+    "imageBack": "/cards/back/44B.png",
+    "score": 2
   },
   {
     "id": 45,
-    "title": "Событие 45",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 45",
     "order": 45,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/45A.png",
+    "imageBack": "/cards/back/45B.png",
+    "score": 3
   },
   {
     "id": 46,
-    "title": "Событие 46",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 46",
     "order": 46,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/46A.png",
+    "imageBack": "/cards/back/46B.png",
+    "score": 3
   },
   {
     "id": 47,
-    "title": "Событие 47",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 47",
     "order": 47,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/47A.png",
+    "imageBack": "/cards/back/47B.png",
+    "score": 2
   },
   {
     "id": 48,
-    "title": "Событие 48",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 48",
     "order": 48,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/48A.png",
+    "imageBack": "/cards/back/48B.png",
+    "score": 3
   },
   {
     "id": 49,
-    "title": "Событие 49",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 49",
     "order": 49,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/49A.png",
+    "imageBack": "/cards/back/49B.png",
+    "score": 2
   },
   {
     "id": 50,
-    "title": "Событие 50",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 50",
     "order": 50,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/50A.png",
+    "imageBack": "/cards/back/50B.png",
+    "score": 2
   },
   {
     "id": 51,
-    "title": "Событие 51",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 51",
     "order": 51,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/51A.png",
+    "imageBack": "/cards/back/51B.png",
+    "score": 2
   },
   {
     "id": 52,
-    "title": "Событие 52",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 52",
     "order": 52,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/52A.png",
+    "imageBack": "/cards/back/52B.png",
+    "score": 3
   },
   {
     "id": 53,
-    "title": "Событие 53",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 53",
     "order": 53,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/53A.png",
+    "imageBack": "/cards/back/53B.png",
+    "score": 2
   },
   {
     "id": 54,
-    "title": "Событие 54",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 54",
     "order": 54,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/54A.png",
+    "imageBack": "/cards/back/54B.png",
+    "score": 3
   },
   {
     "id": 55,
-    "title": "Событие 55",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 55",
     "order": 55,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/55A.png",
+    "imageBack": "/cards/back/55B.png",
+    "score": 2
   },
   {
     "id": 56,
-    "title": "Событие 56",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 56",
     "order": 56,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/56A.png",
+    "imageBack": "/cards/back/56B.png",
+    "score": 1
   },
   {
     "id": 57,
-    "title": "Событие 57",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 57",
     "order": 57,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/57A.png",
+    "imageBack": "/cards/back/57B.png",
+    "score": 2
   },
   {
     "id": 58,
-    "title": "Событие 58",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 58",
     "order": 58,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/58A.png",
+    "imageBack": "/cards/back/58B.png",
+    "score": 1
   },
   {
     "id": 59,
-    "title": "Событие 59",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 59",
     "order": 59,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/59A.png",
+    "imageBack": "/cards/back/59B.png",
+    "score": 2
   },
   {
     "id": 60,
-    "title": "Событие 60",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 60",
     "order": 60,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/60A.png",
+    "imageBack": "/cards/back/60B.png",
+    "score": 2
   },
   {
     "id": 61,
-    "title": "Событие 61",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 61",
     "order": 61,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/61A.png",
+    "imageBack": "/cards/back/61B.png",
+    "score": 3
   },
   {
     "id": 62,
-    "title": "Событие 62",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 62",
     "order": 62,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/62A.png",
+    "imageBack": "/cards/back/62B.png",
+    "score": 1
   },
   {
     "id": 63,
-    "title": "Событие 63",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 63",
     "order": 63,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/63A.png",
+    "imageBack": "/cards/back/63B.png",
+    "score": 1
   },
   {
     "id": 64,
-    "title": "Событие 64",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 64",
     "order": 64,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/64A.png",
+    "imageBack": "/cards/back/64B.png",
+    "score": 2
   },
   {
     "id": 65,
-    "title": "Событие 65",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 65",
     "order": 65,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/65A.png",
+    "imageBack": "/cards/back/65B.png",
+    "score": 3
   },
   {
     "id": 66,
-    "title": "Событие 66",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 66",
     "order": 66,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/66A.png",
+    "imageBack": "/cards/back/66B.png",
+    "score": 2
   },
   {
     "id": 67,
-    "title": "Событие 67",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 67",
     "order": 67,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/67A.png",
+    "imageBack": "/cards/back/67B.png",
+    "score": 2
   },
   {
     "id": 68,
-    "title": "Событие 68",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 68",
     "order": 68,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/68A.png",
+    "imageBack": "/cards/back/68B.png",
+    "score": 1
   },
   {
     "id": 69,
-    "title": "Событие 69",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 69",
     "order": 69,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/69A.png",
+    "imageBack": "/cards/back/69B.png",
+    "score": 3
   },
   {
     "id": 70,
-    "title": "Событие 70",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 70",
     "order": 70,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/70A.png",
+    "imageBack": "/cards/back/70B.png",
+    "score": 1
   },
   {
     "id": 71,
-    "title": "Событие 71",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 71",
     "order": 71,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/71A.png",
+    "imageBack": "/cards/back/71B.png",
+    "score": 3
   },
   {
     "id": 72,
-    "title": "Событие 72",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 72",
     "order": 72,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/72A.png",
+    "imageBack": "/cards/back/72B.png",
+    "score": 1
   },
   {
     "id": 73,
-    "title": "Событие 73",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 73",
     "order": 73,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/73A.png",
+    "imageBack": "/cards/back/73B.png",
+    "score": 2
   },
   {
     "id": 74,
-    "title": "Событие 74",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 74",
     "order": 74,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/74A.png",
+    "imageBack": "/cards/back/74B.png",
+    "score": 2
   },
   {
     "id": 75,
-    "title": "Событие 75",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 75",
     "order": 75,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/75A.png",
+    "imageBack": "/cards/back/75B.png",
+    "score": 3
   },
   {
     "id": 76,
-    "title": "Событие 76",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 76",
     "order": 76,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/76A.png",
+    "imageBack": "/cards/back/76B.png",
+    "score": 3
   },
   {
     "id": 77,
-    "title": "Событие 77",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 77",
     "order": 77,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/77A.png",
+    "imageBack": "/cards/back/77B.png",
+    "score": 3
   },
   {
     "id": 78,
-    "title": "Событие 78",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 78",
     "order": 78,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/78A.png",
+    "imageBack": "/cards/back/78B.png",
+    "score": 1
   },
   {
     "id": 79,
-    "title": "Событие 79",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 79",
     "order": 79,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/79A.png",
+    "imageBack": "/cards/back/79B.png",
+    "score": 2
   },
   {
     "id": 80,
-    "title": "Событие 80",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 80",
     "order": 80,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/80A.png",
+    "imageBack": "/cards/back/80B.png",
+    "score": 2
   },
   {
     "id": 81,
-    "title": "Событие 81",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 81",
     "order": 81,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/81A.png",
+    "imageBack": "/cards/back/81B.png",
+    "score": 2
   },
   {
     "id": 82,
-    "title": "Событие 82",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 82",
     "order": 82,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/82A.png",
+    "imageBack": "/cards/back/82B.png",
+    "score": 2
   },
   {
     "id": 83,
-    "title": "Событие 83",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 83",
     "order": 83,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/83A.png",
+    "imageBack": "/cards/back/83B.png",
+    "score": 2
   },
   {
     "id": 84,
-    "title": "Событие 84",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 84",
     "order": 84,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/84A.png",
+    "imageBack": "/cards/back/84B.png",
+    "score": 2
   },
   {
     "id": 85,
-    "title": "Событие 85",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 85",
     "order": 85,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/85A.png",
+    "imageBack": "/cards/back/85B.png",
+    "score": 3
   },
   {
     "id": 86,
-    "title": "Событие 86",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 86",
     "order": 86,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/86A.png",
+    "imageBack": "/cards/back/86B.png",
+    "score": 2
   },
   {
     "id": 87,
-    "title": "Событие 87",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 87",
     "order": 87,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/87A.png",
+    "imageBack": "/cards/back/87B.png",
+    "score": 2
   },
   {
     "id": 88,
-    "title": "Событие 88",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 88",
     "order": 88,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/88A.png",
+    "imageBack": "/cards/back/88B.png",
+    "score": 2
   },
   {
     "id": 89,
-    "title": "Событие 89",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 89",
     "order": 89,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/89A.png",
+    "imageBack": "/cards/back/89B.png",
+    "score": 3
   },
   {
     "id": 90,
-    "title": "Событие 90",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 90",
     "order": 90,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/90A.png",
+    "imageBack": "/cards/back/90B.png",
+    "score": 3
   },
   {
     "id": 91,
-    "title": "Событие 91",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 91",
     "order": 91,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/91A.png",
+    "imageBack": "/cards/back/91B.png",
+    "score": 1
   },
   {
     "id": 92,
-    "title": "Событие 92",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 92",
     "order": 92,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/92A.png",
+    "imageBack": "/cards/back/92B.png",
+    "score": 2
   },
   {
     "id": 93,
-    "title": "Событие 93",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 93",
     "order": 93,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/93A.png",
+    "imageBack": "/cards/back/93B.png",
+    "score": 3
   },
   {
     "id": 94,
-    "title": "Событие 94",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 94",
     "order": 94,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/94A.png",
+    "imageBack": "/cards/back/94B.png",
+    "score": 3
   },
   {
     "id": 95,
-    "title": "Событие 95",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 95",
     "order": 95,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/95A.png",
+    "imageBack": "/cards/back/95B.png",
+    "score": 2
   },
   {
     "id": 96,
-    "title": "Событие 96",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 96",
     "order": 96,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/96A.png",
+    "imageBack": "/cards/back/96B.png",
+    "score": 2
   },
   {
     "id": 97,
-    "title": "Событие 97",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 97",
     "order": 97,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/97A.png",
+    "imageBack": "/cards/back/97B.png",
+    "score": 1
   },
   {
     "id": 98,
-    "title": "Событие 98",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 98",
     "order": 98,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/98A.png",
+    "imageBack": "/cards/back/98B.png",
+    "score": 2
   },
   {
     "id": 99,
-    "title": "Событие 99",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 99",
     "order": 99,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/99A.png",
+    "imageBack": "/cards/back/99B.png",
+    "score": 1
   },
   {
     "id": 100,
-    "title": "Событие 100",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 100",
     "order": 100,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/100A.png",
+    "imageBack": "/cards/back/100B.png",
+    "score": 1
   },
   {
     "id": 101,
-    "title": "Событие 101",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 101",
     "order": 101,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/101A.png",
+    "imageBack": "/cards/back/101B.png",
+    "score": 2
   },
   {
     "id": 102,
-    "title": "Событие 102",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 102",
     "order": 102,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/102A.png",
+    "imageBack": "/cards/back/102B.png",
+    "score": 3
   },
   {
     "id": 103,
-    "title": "Событие 103",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 103",
     "order": 103,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/103A.png",
+    "imageBack": "/cards/back/103B.png",
+    "score": 3
   },
   {
     "id": 104,
-    "title": "Событие 104",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 104",
     "order": 104,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/104A.png",
+    "imageBack": "/cards/back/104B.png",
+    "score": 2
   },
   {
     "id": 105,
-    "title": "Событие 105",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 105",
     "order": 105,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/105A.png",
+    "imageBack": "/cards/back/105B.png",
+    "score": 1
   },
   {
     "id": 106,
-    "title": "Событие 106",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 106",
     "order": 106,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/106A.png",
+    "imageBack": "/cards/back/106B.png",
+    "score": 1
   },
   {
     "id": 107,
-    "title": "Событие 107",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 107",
     "order": 107,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/107A.png",
+    "imageBack": "/cards/back/107B.png",
+    "score": 2
   },
   {
     "id": 108,
-    "title": "Событие 108",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 108",
     "order": 108,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/108A.png",
+    "imageBack": "/cards/back/108B.png",
+    "score": 1
   },
   {
     "id": 109,
-    "title": "Событие 109",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 109",
     "order": 109,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/109A.png",
+    "imageBack": "/cards/back/109B.png",
+    "score": 2
   },
   {
     "id": 110,
-    "title": "Событие 110",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 110",
     "order": 110,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/110A.png",
+    "imageBack": "/cards/back/110B.png",
+    "score": 1
   },
   {
     "id": 111,
-    "title": "Событие 111",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 111",
     "order": 111,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/111A.png",
+    "imageBack": "/cards/back/111B.png",
+    "score": 1
   },
   {
     "id": 112,
-    "title": "Событие 112",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 112",
     "order": 112,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/112A.png",
+    "imageBack": "/cards/back/112B.png",
+    "score": 2
   },
   {
     "id": 113,
-    "title": "Событие 113",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 113",
     "order": 113,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/113A.png",
+    "imageBack": "/cards/back/113B.png",
+    "score": 2
   },
   {
     "id": 114,
-    "title": "Событие 114",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 114",
     "order": 114,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/114A.png",
+    "imageBack": "/cards/back/114B.png",
+    "score": 1
   },
   {
     "id": 115,
-    "title": "Событие 115",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 115",
     "order": 115,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/115A.png",
+    "imageBack": "/cards/back/115B.png",
+    "score": 2
   },
   {
     "id": 116,
-    "title": "Событие 116",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 116",
     "order": 116,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/116A.png",
+    "imageBack": "/cards/back/116B.png",
+    "score": 1
   },
   {
     "id": 117,
-    "title": "Событие 117",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 117",
     "order": 117,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/117A.png",
+    "imageBack": "/cards/back/117B.png",
+    "score": 1
   },
   {
     "id": 118,
-    "title": "Событие 118",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 118",
     "order": 118,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/118A.png",
+    "imageBack": "/cards/back/118B.png",
+    "score": 1
   },
   {
     "id": 119,
-    "title": "Событие 119",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 119",
     "order": 119,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/119A.png",
+    "imageBack": "/cards/back/119B.png",
+    "score": 2
   },
   {
     "id": 120,
-    "title": "Событие 120",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 120",
     "order": 120,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/120A.png",
+    "imageBack": "/cards/back/120B.png",
+    "score": 2
   },
   {
     "id": 121,
-    "title": "Событие 121",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 121",
     "order": 121,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/121A.png",
+    "imageBack": "/cards/back/121B.png",
+    "score": 2
   },
   {
     "id": 122,
-    "title": "Событие 122",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 122",
     "order": 122,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/122A.png",
+    "imageBack": "/cards/back/122B.png",
+    "score": 1
   },
   {
     "id": 123,
-    "title": "Событие 123",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 123",
     "order": 123,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/123A.png",
+    "imageBack": "/cards/back/123B.png",
+    "score": 3
   },
   {
     "id": 124,
-    "title": "Событие 124",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 124",
     "order": 124,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/124A.png",
+    "imageBack": "/cards/back/124B.png",
+    "score": 3
   },
   {
     "id": 125,
-    "title": "Событие 125",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 125",
     "order": 125,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/125A.png",
+    "imageBack": "/cards/back/125B.png",
+    "score": 2
   },
   {
     "id": 126,
-    "title": "Событие 126",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 126",
     "order": 126,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/126A.png",
+    "imageBack": "/cards/back/126B.png",
+    "score": 2
   },
   {
     "id": 127,
-    "title": "Событие 127",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 127",
     "order": 127,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/127A.png",
+    "imageBack": "/cards/back/127B.png",
+    "score": 3
   },
   {
     "id": 128,
-    "title": "Событие 128",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 128",
     "order": 128,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/128A.png",
+    "imageBack": "/cards/back/128B.png",
+    "score": 3
   },
   {
     "id": 129,
-    "title": "Событие 129",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 129",
     "order": 129,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/129A.png",
+    "imageBack": "/cards/back/129B.png",
+    "score": 2
   },
   {
     "id": 130,
-    "title": "Событие 130",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 130",
     "order": 130,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/130A.png",
+    "imageBack": "/cards/back/130B.png",
+    "score": 3
   },
   {
     "id": 131,
-    "title": "Событие 131",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 131",
     "order": 131,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/131A.png",
+    "imageBack": "/cards/back/131B.png",
+    "score": 3
   },
   {
     "id": 132,
-    "title": "Событие 132",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 132",
     "order": 132,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/132A.png",
+    "imageBack": "/cards/back/132B.png",
+    "score": 2
   },
   {
     "id": 133,
-    "title": "Событие 133",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 133",
     "order": 133,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/133A.png",
+    "imageBack": "/cards/back/133B.png",
+    "score": 3
   },
   {
     "id": 134,
-    "title": "Событие 134",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 134",
     "order": 134,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/134A.png",
+    "imageBack": "/cards/back/134B.png",
+    "score": 3
   },
   {
     "id": 135,
-    "title": "Событие 135",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 135",
     "order": 135,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/135A.png",
+    "imageBack": "/cards/back/135B.png",
+    "score": 2
   },
   {
     "id": 136,
-    "title": "Событие 136",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 136",
     "order": 136,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/136A.png",
+    "imageBack": "/cards/back/136B.png",
+    "score": 3
   },
   {
     "id": 137,
-    "title": "Событие 137",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 137",
     "order": 137,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/137A.png",
+    "imageBack": "/cards/back/137B.png",
+    "score": 3
   },
   {
     "id": 138,
-    "title": "Событие 138",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 138",
     "order": 138,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/138A.png",
+    "imageBack": "/cards/back/138B.png",
+    "score": 2
   },
   {
     "id": 139,
-    "title": "Событие 139",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 139",
     "order": 139,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/139A.png",
+    "imageBack": "/cards/back/139B.png",
+    "score": 3
   },
   {
     "id": 140,
-    "title": "Событие 140",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 140",
     "order": 140,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/140A.png",
+    "imageBack": "/cards/back/140B.png",
+    "score": 2
   },
   {
     "id": 141,
-    "title": "Событие 141",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 141",
     "order": 141,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/141A.png",
+    "imageBack": "/cards/back/141B.png",
+    "score": 2
   },
   {
     "id": 142,
-    "title": "Событие 142",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 142",
     "order": 142,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/142A.png",
+    "imageBack": "/cards/back/142B.png",
+    "score": 1
   },
   {
     "id": 143,
-    "title": "Событие 143",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 143",
     "order": 143,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/143A.png",
+    "imageBack": "/cards/back/143B.png",
+    "score": 1
   },
   {
     "id": 144,
-    "title": "Событие 144",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 144",
     "order": 144,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/144A.png",
+    "imageBack": "/cards/back/144B.png",
+    "score": 2
   },
   {
     "id": 145,
-    "title": "Событие 145",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 145",
     "order": 145,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/145A.png",
+    "imageBack": "/cards/back/145B.png",
+    "score": 2
   },
   {
     "id": 146,
-    "title": "Событие 146",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 146",
     "order": 146,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/146A.png",
+    "imageBack": "/cards/back/146B.png",
+    "score": 1
   },
   {
     "id": 147,
-    "title": "Событие 147",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 147",
     "order": 147,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/147A.png",
+    "imageBack": "/cards/back/147B.png",
+    "score": 1
   },
   {
     "id": 148,
-    "title": "Событие 148",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 148",
     "order": 148,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/148A.png",
+    "imageBack": "/cards/back/148B.png",
+    "score": 1
   },
   {
     "id": 149,
-    "title": "Событие 149",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 149",
     "order": 149,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/149A.png",
+    "imageBack": "/cards/back/149B.png",
+    "score": 1
   },
   {
     "id": 150,
-    "title": "Событие 150",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 150",
     "order": 150,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/150A.png",
+    "imageBack": "/cards/back/150B.png",
+    "score": 1
   },
   {
     "id": 151,
-    "title": "Событие 151",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 151",
     "order": 151,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/151A.png",
+    "imageBack": "/cards/back/151B.png",
+    "score": 2
   },
   {
     "id": 152,
-    "title": "Событие 152",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 152",
     "order": 152,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/152A.png",
+    "imageBack": "/cards/back/152B.png",
+    "score": 3
   },
   {
     "id": 153,
-    "title": "Событие 153",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 153",
     "order": 153,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/153A.png",
+    "imageBack": "/cards/back/153B.png",
+    "score": 1
   },
   {
     "id": 154,
-    "title": "Событие 154",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 154",
     "order": 154,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/154A.png",
+    "imageBack": "/cards/back/154B.png",
+    "score": 1
   },
   {
     "id": 155,
-    "title": "Событие 155",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 155",
     "order": 155,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/155A.png",
+    "imageBack": "/cards/back/155B.png",
+    "score": 1
   },
   {
     "id": 156,
-    "title": "Событие 156",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 156",
     "order": 156,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/156A.png",
+    "imageBack": "/cards/back/156B.png",
+    "score": 2
   },
   {
     "id": 157,
-    "title": "Событие 157",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 157",
     "order": 157,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/157A.png",
+    "imageBack": "/cards/back/157B.png",
+    "score": 2
   },
   {
     "id": 158,
-    "title": "Событие 158",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 158",
     "order": 158,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/158A.png",
+    "imageBack": "/cards/back/158B.png",
+    "score": 2
   },
   {
     "id": 159,
-    "title": "Событие 159",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 159",
     "order": 159,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/159A.png",
+    "imageBack": "/cards/back/159B.png",
+    "score": 2
   },
   {
     "id": 160,
-    "title": "Событие 160",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 160",
     "order": 160,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/160A.png",
+    "imageBack": "/cards/back/160B.png",
+    "score": 1
   },
   {
     "id": 161,
-    "title": "Событие 161",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 161",
     "order": 161,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/161A.png",
+    "imageBack": "/cards/back/161B.png",
+    "score": 1
   },
   {
     "id": 162,
-    "title": "Событие 162",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 162",
     "order": 162,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/162A.png",
+    "imageBack": "/cards/back/162B.png",
+    "score": 1
   },
   {
     "id": 163,
-    "title": "Событие 163",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 163",
     "order": 163,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/163A.png",
+    "imageBack": "/cards/back/163B.png",
+    "score": 1
   },
   {
     "id": 164,
-    "title": "Событие 164",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 164",
     "order": 164,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/164A.png",
+    "imageBack": "/cards/back/164B.png",
+    "score": 1
   },
   {
     "id": 165,
-    "title": "Событие 165",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 165",
     "order": 165,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/165A.png",
+    "imageBack": "/cards/back/165B.png",
+    "score": 1
   },
   {
     "id": 166,
-    "title": "Событие 166",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 166",
     "order": 166,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/166A.png",
+    "imageBack": "/cards/back/166B.png",
+    "score": 1
   },
   {
     "id": 167,
-    "title": "Событие 167",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 167",
     "order": 167,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/167A.png",
+    "imageBack": "/cards/back/167B.png",
+    "score": 1
   },
   {
     "id": 168,
-    "title": "Иисус скрылся за облаком",
-    "imageFront": "/cards/168.png",
-    "imageBack": "/cards/168.png",
-    "difficulty": 3,
-    "verse": "Описание события 168",
     "order": 168,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/168A.png",
+    "imageBack": "/cards/back/168B.png",
+    "score": 1
   },
   {
     "id": 169,
-    "title": "Событие 169",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 169",
     "order": 169,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/169A.png",
+    "imageBack": "/cards/back/169B.png",
+    "score": 2
   },
   {
     "id": 170,
-    "title": "Событие 170",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 170",
     "order": 170,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/170A.png",
+    "imageBack": "/cards/back/170B.png",
+    "score": 3
   },
   {
     "id": 171,
-    "title": "Событие 171",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 171",
     "order": 171,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/171A.png",
+    "imageBack": "/cards/back/171B.png",
+    "score": 2
   },
   {
     "id": 172,
-    "title": "Событие 172",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 172",
     "order": 172,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/172A.png",
+    "imageBack": "/cards/back/172B.png",
+    "score": 2
   },
   {
     "id": 173,
-    "title": "Событие 173",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 173",
     "order": 173,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/173A.png",
+    "imageBack": "/cards/back/173B.png",
+    "score": 2
   },
   {
     "id": 174,
-    "title": "Событие 174",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 174",
     "order": 174,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/174A.png",
+    "imageBack": "/cards/back/174B.png",
+    "score": 3
   },
   {
     "id": 175,
-    "title": "Событие 175",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 175",
     "order": 175,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/175A.png",
+    "imageBack": "/cards/back/175B.png",
+    "score": 2
   },
   {
     "id": 176,
-    "title": "Событие 176",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 176",
     "order": 176,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/176A.png",
+    "imageBack": "/cards/back/176B.png",
+    "score": 2
   },
   {
     "id": 177,
-    "title": "Событие 177",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 177",
     "order": 177,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/177A.png",
+    "imageBack": "/cards/back/177B.png",
+    "score": 3
   },
   {
     "id": 178,
-    "title": "Событие 178",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 178",
     "order": 178,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/178A.png",
+    "imageBack": "/cards/back/178B.png",
+    "score": 1
   },
   {
     "id": 179,
-    "title": "Событие 179",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 179",
     "order": 179,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/179A.png",
+    "imageBack": "/cards/back/179B.png",
+    "score": 2
   },
   {
     "id": 180,
-    "title": "Событие 180",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 180",
     "order": 180,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/180A.png",
+    "imageBack": "/cards/back/180B.png",
+    "score": 2
   },
   {
     "id": 181,
-    "title": "Событие 181",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 181",
     "order": 181,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/181A.png",
+    "imageBack": "/cards/back/181B.png",
+    "score": 2
   },
   {
     "id": 182,
-    "title": "Событие 182",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 182",
     "order": 182,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/182A.png",
+    "imageBack": "/cards/back/182B.png",
+    "score": 2
   },
   {
     "id": 183,
-    "title": "Событие 183",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 183",
     "order": 183,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/183A.png",
+    "imageBack": "/cards/back/183B.png",
+    "score": 2
   },
   {
     "id": 184,
-    "title": "Событие 184",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 184",
     "order": 184,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/184A.png",
+    "imageBack": "/cards/back/184B.png",
+    "score": 2
   },
   {
     "id": 185,
-    "title": "Событие 185",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 185",
     "order": 185,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/185A.png",
+    "imageBack": "/cards/back/185B.png",
+    "score": 2
   },
   {
     "id": 186,
-    "title": "Событие 186",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 186",
     "order": 186,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/186A.png",
+    "imageBack": "/cards/back/186B.png",
+    "score": 3
   },
   {
     "id": 187,
-    "title": "Событие 187",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 187",
     "order": 187,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/187A.png",
+    "imageBack": "/cards/back/187B.png",
+    "score": 3
   },
   {
     "id": 188,
-    "title": "Событие 188",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 188",
     "order": 188,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/188A.png",
+    "imageBack": "/cards/back/188B.png",
+    "score": 2
   },
   {
     "id": 189,
-    "title": "Событие 189",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 189",
     "order": 189,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/189A.png",
+    "imageBack": "/cards/back/189B.png",
+    "score": 2
   },
   {
     "id": 190,
-    "title": "Событие 190",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 190",
     "order": 190,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/190A.png",
+    "imageBack": "/cards/back/190B.png",
+    "score": 2
   },
   {
     "id": 191,
-    "title": "Событие 191",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 191",
     "order": 191,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/191A.png",
+    "imageBack": "/cards/back/191B.png",
+    "score": 3
   },
   {
     "id": 192,
-    "title": "Событие 192",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 192",
     "order": 192,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/192A.png",
+    "imageBack": "/cards/back/192B.png",
+    "score": 2
   },
   {
     "id": 193,
-    "title": "Событие 193",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 193",
     "order": 193,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/193A.png",
+    "imageBack": "/cards/back/193B.png",
+    "score": 2
   },
   {
     "id": 194,
-    "title": "Событие 194",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 194",
     "order": 194,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/194A.png",
+    "imageBack": "/cards/back/194B.png",
+    "score": 3
   },
   {
     "id": 195,
-    "title": "Событие 195",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 195",
     "order": 195,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/195A.png",
+    "imageBack": "/cards/back/195B.png",
+    "score": 3
   },
   {
     "id": 196,
-    "title": "Событие 196",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 196",
     "order": 196,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/196A.png",
+    "imageBack": "/cards/back/196B.png",
+    "score": 1
   },
   {
     "id": 197,
-    "title": "Событие 197",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 197",
     "order": 197,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/197A.png",
+    "imageBack": "/cards/back/197B.png",
+    "score": 2
   },
   {
     "id": 198,
-    "title": "Событие 198",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 3,
-    "verse": "Описание события 198",
     "order": 198,
-    "color": "#2d5016"
+    "imageFront": "/cards/front/198A.png",
+    "imageBack": "/cards/back/198B.png",
+    "score": 3
   },
   {
     "id": 199,
-    "title": "Событие 199",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 1,
-    "verse": "Описание события 199",
     "order": 199,
-    "color": "#1a365d"
+    "imageFront": "/cards/front/199A.png",
+    "imageBack": "/cards/back/199B.png",
+    "score": 3
   },
   {
     "id": 200,
-    "title": "Событие 200",
-    "imageFront": "",
-    "imageBack": "",
-    "difficulty": 2,
-    "verse": "Описание события 200",
     "order": 200,
-    "color": "#742a2a"
+    "imageFront": "/cards/front/200A.png",
+    "imageBack": "/cards/back/200B.png",
+    "score": 1
   }
 ]

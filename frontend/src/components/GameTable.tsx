@@ -1,15 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDrop } from 'react-dnd';
 import Card from './Card';
 
 interface CardType {
   id: number;
-  title: string;
   imageFront?: string;
   imageBack?: string;
-  verse: string;
   order: number;
-  color?: string;
 }
 
 interface GameTableProps {
@@ -17,6 +14,28 @@ interface GameTableProps {
   onDropCard: (cardId: number, insertIndex: number) => void;
   isGameOver?: boolean;
   isHandEmpty?: boolean;
+  scrollToCardIndex?: number | null; // новый проп
+}
+
+// Хук для отслеживания ширины visual viewport (учитывает zoom)
+function useVisualViewportWidth() {
+  const [vw, setVw] = useState(
+    typeof window !== 'undefined' && window.visualViewport
+      ? window.visualViewport.width
+      : window.innerWidth
+  );
+  useEffect(() => {
+    function handleResize() {
+      setVw(window.visualViewport ? window.visualViewport.width : window.innerWidth);
+    }
+    window.visualViewport?.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.visualViewport?.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  return vw;
 }
 
 const CardFade: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -45,9 +64,10 @@ const DropZone: React.FC<{ onDrop: (cardId: number) => void; large?: boolean; di
   }), [onDrop, disabled]);
   // Мобильные размеры
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 700;
-  const width = isMobile ? 90 : (large ? '80%' : 48);
-  const minWidth = isMobile ? 90 : (large ? 400 : 48);
-  const maxWidth = isMobile ? 90 : (large ? 900 : 48);
+  // Увеличиваем ширину дроп-зон в 2 раза для ПК
+  const width = isMobile ? 90 : (large ? '80%' : 96);
+  const minWidth = isMobile ? 90 : (large ? 800 : 96);
+  const maxWidth = isMobile ? 90 : (large ? 1800 : 96);
   const height = isMobile ? 170 : 300;
   return (
     <div
@@ -76,42 +96,126 @@ const DropZone: React.FC<{ onDrop: (cardId: number) => void; large?: boolean; di
   );
 };
 
-const GameTable: React.FC<GameTableProps> = ({ table, onDropCard, isGameOver, isHandEmpty }) => {
+const GameTable: React.FC<GameTableProps> = ({ table, onDropCard, isGameOver, isHandEmpty, scrollToCardIndex }) => {
   const dropDisabled = !!isGameOver || !!isHandEmpty;
-  // console.log('table ids:', table.map(c => c.id));
-  if (table.length === 0) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '24px 0', minHeight: 240, width: '100%' }}>
-        <DropZone onDrop={(cardId) => onDropCard(cardId, 0)} large disabled={dropDisabled} />
-      </div>
-    );
-  }
+  // refs для карт
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const flexRef = useRef<HTMLDivElement | null>(null);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 700;
+  // Drag-to-scroll для ПК
+  useEffect(() => {
+    if (isMobile || !containerRef.current) return;
+    const el = containerRef.current;
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+    const onMouseDown = (e: MouseEvent) => {
+      // Только ЛКМ и только если не по карточке/дропзоне
+      if (e.button !== 0) return;
+      if ((e.target as HTMLElement).closest('.card') || (e.target as HTMLElement).closest('.dropzone')) return;
+      isDown = true;
+      startX = e.pageX - el.offsetLeft;
+      scrollLeft = el.scrollLeft;
+      el.style.cursor = 'grabbing';
+    };
+    const onMouseMove = (e: MouseEvent) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - el.offsetLeft;
+      const walk = (x - startX) * 1.2;
+      el.scrollLeft = scrollLeft - walk;
+    };
+    const onMouseUp = () => {
+      isDown = false;
+      el.style.cursor = '';
+    };
+    el.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+    return () => {
+      el.removeEventListener('mousedown', onMouseDown);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+  }, [isMobile]);
+  useEffect(() => {
+    if (
+      typeof scrollToCardIndex === 'number' &&
+      scrollToCardIndex >= 0 &&
+      cardRefs.current[scrollToCardIndex] &&
+      containerRef.current
+    ) {
+      const cardEl = cardRefs.current[scrollToCardIndex];
+      const containerEl = containerRef.current;
+      // Новый способ: абсолютные координаты
+      const cardRect = cardEl.getBoundingClientRect();
+      const containerRect = containerEl.getBoundingClientRect();
+      const cardCenter = cardRect.left + cardRect.width / 2;
+      const containerCenter = containerRect.left + containerRect.width / 2;
+      const scrollDiff = cardCenter - containerCenter;
+      containerEl.scrollTo({ left: containerEl.scrollLeft + scrollDiff, behavior: 'smooth' });
+    }
+  }, [table, scrollToCardIndex]);
+
   return (
-    <div className="game-table" style={{ overflowX: 'auto', overflowY: 'hidden', whiteSpace: 'nowrap', padding: '8px 0', margin: '24px 0', width: '100%', maxWidth: '100vw', boxSizing: 'border-box' }}>
-      <div style={{ display: 'inline-flex', gap: 0, alignItems: 'center', minHeight: 300, paddingRight: 150, boxSizing: 'content-box' }}>
-        <DropZone onDrop={(cardId) => onDropCard(cardId, 0)} disabled={dropDisabled} />
-        {table.map((card) => (
-          <React.Fragment key={card.id}>
-            <CardFade>
-              {card && card.title && card.order && card.id ? (
-                <Card
-                  title={card.title}
-                  order={card.order}
-                  verse={card.verse}
-                  isFaceUp={true}
-                  color={card.color}
-                  image={card.imageFront}
-                />
-              ) : (
-                <div style={{ width: 130, height: 300, background: '#eee', border: '2px solid red', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#b71c1c', fontWeight: 700 }}>
-                  Ошибка карты
+    <div ref={containerRef} className="game-table" style={{ 
+      overflowX: table.length === 0 ? 'hidden' : 'auto', 
+      overflowY: 'hidden', 
+      whiteSpace: 'nowrap', 
+      padding: '8px 0', 
+      margin: '24px 0', 
+      boxSizing: 'border-box',
+      background: '#fff'
+    }}>
+      {table.length === 0 ? (
+        <div style={{
+          display: 'flex',
+          justifyContent: isMobile ? 'flex-start' : 'center',
+          alignItems: 'center',
+          width: isMobile ? undefined : '100%',
+          minHeight: 300,
+          paddingLeft: isMobile ? 8 : 0
+        }}>
+          <DropZone onDrop={(cardId) => onDropCard(cardId, 0)} disabled={dropDisabled} large={true} />
+        </div>
+      ) : (
+        <div ref={flexRef} style={{ 
+          display: 'inline-flex', 
+          gap: 0, 
+          alignItems: 'center', 
+          minHeight: 300, 
+          paddingRight: 150, 
+          boxSizing: 'content-box',
+          minWidth: table.length > 0 ? 2000 : undefined,
+          overflowAnchor: 'none'
+        }}>
+          <DropZone onDrop={(cardId) => onDropCard(cardId, 0)} disabled={dropDisabled} />
+          {table.map((card, idx) => (
+            <React.Fragment key={card.id}>
+              <CardFade>
+                <div ref={el => { cardRefs.current[idx] = el; }} style={{ display: 'inline-block' }}>
+                  {card && card.order && card.id ? (
+                    <Card
+                      image={card.imageBack ?? ''}
+                      isFaceUp={true}
+                      imageBack={card.imageBack ?? ''}
+                      width={150}
+                      height={400}
+                      imageScaleOffset={-20}
+                    />
+                  ) : (
+                    <div style={{ width: 180, height: 300, background: '#eee', border: '2px solid red', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#b71c1c', fontWeight: 700 }}>
+                      Ошибка карты
+                    </div>
+                  )}
                 </div>
-              )}
-            </CardFade>
-            <DropZone onDrop={(cardId) => onDropCard(cardId, table.findIndex(c => c.id === card.id) + 1)} disabled={dropDisabled} />
-          </React.Fragment>
-        ))}
-      </div>
+              </CardFade>
+              <DropZone onDrop={(cardId) => onDropCard(cardId, table.findIndex(c => c.id === card.id) + 1)} disabled={dropDisabled} />
+            </React.Fragment>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
