@@ -64,6 +64,7 @@ function getActivePlayers(room) {
 
 function startTurnTimer(roomId) {
   clearTimeout(roomTimers[roomId]);
+  console.log('[TIMER] startTurnTimer для комнаты', roomId, 'currentPlayer:', rooms[roomId]?.currentPlayer, 'id:', rooms[roomId]?.players?.[rooms[roomId]?.currentPlayer]?.id, 'время:', Date.now());
   roomTimers[roomId] = setTimeout(() => {
     const room = rooms[roomId];
     if (!room || !room.gameStarted) return;
@@ -71,7 +72,7 @@ function startTurnTimer(roomId) {
     let activePlayers = getActivePlayers(room);
     if (activePlayers.length === 0) return;
     do {
-    room.currentPlayer = (room.currentPlayer + 1) % room.players.length;
+      room.currentPlayer = (room.currentPlayer + 1) % room.players.length;
     } while (room.players[room.currentPlayer].hand.length === 0);
     const nextPlayer = room.players[room.currentPlayer];
     const turnTimeout = Date.now() + 30000;
@@ -115,6 +116,7 @@ function advanceToNextPlayerWithCards(room) {
     const idx = room.players.findIndex(p => p.hand.length > 0);
     room.currentPlayer = idx;
     room.canPlay = room.players[idx].id;
+    room.players[room.currentPlayer].clientId = room.players[room.currentPlayer].clientId || room.players[room.currentPlayer].id;
     console.log('[CARD-DEBUG] Остался один игрок с картами, currentPlayer и canPlay:', room.canPlay);
     return;
   }
@@ -130,6 +132,7 @@ function advanceToNextPlayerWithCards(room) {
   if (found) {
     room.currentPlayer = nextIdx;
     room.canPlay = room.players[room.currentPlayer].id;
+    room.players[room.currentPlayer].clientId = room.players[room.currentPlayer].clientId || room.players[room.currentPlayer].id;
   } else {
     room.canPlay = null;
     console.log('[CARD-DEBUG] Нет игроков с картами (после поиска), canPlay=null, currentPlayer не меняется');
@@ -144,17 +147,42 @@ function autoSkipIfNoCards(roomId) {
     advanceToNextPlayerWithCards(room);
     safety++;
   }
+  // --- ГАРАНТИЯ clientId ---
+  if (!room.players[room.currentPlayer].clientId) {
+    room.players[room.currentPlayer].clientId = room.players[room.currentPlayer].id;
+  }
   // Обновить состояние для всех
   const turnTimeout = Date.now() + 30000;
   room.turnTimeout = turnTimeout;
+  // --- ЛОГ ---
+  console.log('[UPDATE-DEBUG] currentPlayer:', room.currentPlayer, 'id:', room.players[room.currentPlayer]?.id, 'clientId:', room.players[room.currentPlayer]?.clientId);
+  console.log('[UPDATE-DEBUG] PLAYERS:', room.players.map(p => ({id: p.id, clientId: p.clientId, name: p.name, online: p.online})));
+  if (
+    room.currentPlayer !== undefined &&
+    room.players[room.currentPlayer] &&
+    !room.players[room.currentPlayer].clientId
+  ) {
+    // Попробовать найти clientId по id, если вдруг потерялся
+    const id = room.players[room.currentPlayer].id;
+    const found = room.players.find(p => p.id === id && p.clientId);
+    if (found) {
+      room.players[room.currentPlayer].clientId = found.clientId;
+    } else {
+      // В крайнем случае присвоить clientId = id (чтобы не было undefined)
+      room.players[room.currentPlayer].clientId = id;
+    }
+    // Лог для отладки
+    console.log('[FINAL-DEBUG] Восстановлен clientId для currentPlayer:', room.currentPlayer, 'id:', id, 'clientId:', room.players[room.currentPlayer].clientId);
+  }
   room.players.forEach(p => {
     io.to(p.id).emit('update', {
       ...room,
       table: normalizeCards(deepCopy(room.table)).filter(isValidCard),
       deck: normalizeCards(deepCopy(room.deck)),
       hand: normalizeCards(deepCopy(p.hand)),
-      players: room.players.map(pl => ({ ...pl, hand: undefined })),
+      players: room.players.map(pl => ({ ...pl, hand: undefined, clientId: pl.clientId })),
       currentPlayerId: room.players[room.currentPlayer].id,
+      currentPlayerClientId: room.players[room.currentPlayer]?.clientId,
       turnTimeout: room.turnTimeout
     });
   });
@@ -178,28 +206,55 @@ function advanceToNextActivePlayer(room) {
 }
 
 function autoSkipIfNoCardsOrOffline(roomId) {
+  clearTimeout(roomTimers[roomId]);
   const room = rooms[roomId];
   if (!room || !room.gameStarted) return;
+  console.log('[AUTO-SKIP] autoSkipIfNoCardsOrOffline для комнаты', roomId, 'currentPlayer:', room.currentPlayer, 'id:', room.players[room.currentPlayer]?.id, 'время:', Date.now());
   let safety = 0;
   while ((room.players[room.currentPlayer].hand.length === 0 || room.players[room.currentPlayer].online === false) && safety < room.players.length) {
     advanceToNextActivePlayer(room);
     safety++;
   }
+  // --- ГАРАНТИЯ clientId ---
+  if (!room.players[room.currentPlayer].clientId) {
+    room.players[room.currentPlayer].clientId = room.players[room.currentPlayer].id;
+  }
   // Обновить состояние для всех
   const turnTimeout = Date.now() + 30000;
   room.turnTimeout = turnTimeout;
+  // --- ЛОГ ---
+  console.log('[UPDATE-DEBUG] currentPlayer:', room.currentPlayer, 'id:', room.players[room.currentPlayer]?.id, 'clientId:', room.players[room.currentPlayer]?.clientId);
+  console.log('[UPDATE-DEBUG] PLAYERS:', room.players.map(p => ({id: p.id, clientId: p.clientId, name: p.name, online: p.online})));
+  if (
+    room.currentPlayer !== undefined &&
+    room.players[room.currentPlayer] &&
+    !room.players[room.currentPlayer].clientId
+  ) {
+    // Попробовать найти clientId по id, если вдруг потерялся
+    const id = room.players[room.currentPlayer].id;
+    const found = room.players.find(p => p.id === id && p.clientId);
+    if (found) {
+      room.players[room.currentPlayer].clientId = found.clientId;
+    } else {
+      // В крайнем случае присвоить clientId = id (чтобы не было undefined)
+      room.players[room.currentPlayer].clientId = id;
+    }
+    // Лог для отладки
+    console.log('[FINAL-DEBUG] Восстановлен clientId для currentPlayer:', room.currentPlayer, 'id:', id, 'clientId:', room.players[room.currentPlayer].clientId);
+  }
   room.players.forEach(p => {
     io.to(p.id).emit('update', {
       ...room,
       table: normalizeCards(deepCopy(room.table)).filter(isValidCard),
       deck: normalizeCards(deepCopy(room.deck)),
       hand: normalizeCards(deepCopy(p.hand)),
-      players: room.players.map(pl => ({ ...pl, hand: undefined })),
+      players: room.players.map(pl => ({ ...pl, hand: undefined, clientId: pl.clientId })),
       currentPlayerId: room.players[room.currentPlayer].id,
+      currentPlayerClientId: room.players[room.currentPlayer]?.clientId,
       turnTimeout: room.turnTimeout
     });
   });
-  startTurnTimer(roomId);
+  startTurnTimer(roomId); // <-- теперь всегда запускаем новый таймер после авто-скипа
 }
 
 // Удаляет дубликаты карт по id (оставляет первую встреченную)
@@ -225,13 +280,17 @@ function getClientId(socket) {
 // --- THROTTLE для playCard ---
 const playCardThrottle = {};
 
+console.log('=== BACKEND INDEX.JS STARTED ===');
 io.on('connection', (socket) => {
-  console.log('Пользователь подключился:', socket.id, 'clientId:', socket.handshake.query.clientId);
+  console.log('[SOCKET-CONNECT] socket.id:', socket.id, 'clientId:', socket.handshake.query.clientId);
+  socket.onAny((event, ...args) => {
+    console.log('[SOCKET-ANY]', event, 'socket.id:', socket.id, 'args:', args);
+  });
 
   socket.on('createRoom', ({ name, clientId }, callback) => {
     const roomId = Math.random().toString(36).substr(2, 6);
     const shuffled = [...cards].sort(() => Math.random() - 0.5);
-    const players = [{ id: socket.id, hand: [], name: name || 'Игрок 1', score: 0, clientId, online: true }];
+    const players = [{ id: socket.id, hand: [], name: name || 'Игрок 1', score: 0, clientId: clientId || socket.id, online: true }];
     rooms[roomId] = {
       players,
       deck: shuffled,
@@ -240,6 +299,23 @@ io.on('connection', (socket) => {
       gameStarted: false,
       hostId: socket.id
     };
+    if (
+      room.currentPlayer !== undefined &&
+      room.players[room.currentPlayer] &&
+      !room.players[room.currentPlayer].clientId
+    ) {
+      // Попробовать найти clientId по id, если вдруг потерялся
+      const id = room.players[room.currentPlayer].id;
+      const found = room.players.find(p => p.id === id && p.clientId);
+      if (found) {
+        room.players[room.currentPlayer].clientId = found.clientId;
+      } else {
+        // В крайнем случае присвоить clientId = id (чтобы не было undefined)
+        room.players[room.currentPlayer].clientId = id;
+      }
+      // Лог для отладки
+      console.log('[FINAL-DEBUG] Восстановлен clientId для currentPlayer:', room.currentPlayer, 'id:', id, 'clientId:', room.players[room.currentPlayer].clientId);
+    }
     socket.join(roomId);
     callback({ roomId, hand: [] });
     io.to(roomId).emit('lobbyUpdate', { 
@@ -251,6 +327,8 @@ io.on('connection', (socket) => {
 
   // joinRoom с поддержкой clientId
   socket.on('joinRoom', ({ roomId, name, clientId }, callback) => {
+    console.log('[JOINROOM-HANDLER]', { roomId, name, clientId, socketId: socket.id });
+    console.log('[JOINROOM-DEBUG] socket.id:', socket.id, 'clientId:', clientId, 'roomId:', roomId);
     console.log('joinRoom:', { roomId, name, clientId, socketId: socket.id });
     const room = rooms[roomId];
     if (!room) {
@@ -279,6 +357,15 @@ io.on('connection', (socket) => {
       if (roomDeleteTimers[roomId]) {
         clearTimeout(roomDeleteTimers[roomId]);
         delete roomDeleteTimers[roomId];
+      }
+      // --- АВТОМАТИЧЕСКИЙ ПЕРЕХОД ХОДА ПРИ ПЕРЕПОДКЛЮЧЕНИИ ---
+      if (room.gameStarted && room.currentPlayer !== undefined && room.players[room.currentPlayer]?.id === socket.id) {
+        roomBusy[roomId] = false; // Сбросить возможную блокировку зависшего playCard
+        console.log('[AUTO-SKIP][joinRoom] Вызван autoSkipIfNoCardsOrOffline для комнаты', roomId, 'currentPlayer:', room.currentPlayer, 'id:', room.players[room.currentPlayer]?.id, 'canPlay:', room.canPlay, 'время:', Date.now());
+        autoSkipIfNoCardsOrOffline(roomId);
+        io.to(roomId).emit('autoSkipNotice', {
+          message: 'Из-за переподключения игрока ход был автоматически передан следующему.'
+        });
       }
       if (room.gameStarted) {
         callback({
@@ -316,9 +403,76 @@ io.on('connection', (socket) => {
         return;
       }
     }
-    if (room.gameStarted) return callback({ error: 'Игра уже началась' });
-    if (room.players.filter(p => p.online).length >= 15) return callback({ error: 'В комнате максимум 15 игроков' });
-    player = { id: socket.id, hand: [], name: name || `Игрок ${room.players.length + 1}`, score: 0, clientId, online: true };
+    // Если игрок не найден по clientId, проверяем, не был ли он хостом
+    if (room.hostId === clientId) {
+      room.hostId = socket.id;
+    }
+    // Ищем игрока по id (в том числе offline)
+    player = room.players.find(p => p.id === clientId);
+    if (player) {
+      // Если этот игрок был хостом (hostId === старый id или hostId === clientId), обновляем hostId на новый socket.id
+      if (room.hostId === player.id || room.hostId === clientId) {
+        room.hostId = socket.id;
+      }
+      player.id = socket.id;
+      player.name = name || player.name;
+      player.online = true;
+      socket.join(roomId);
+      if (playerDeleteTimers[roomId + '_' + clientId]) {
+        clearTimeout(playerDeleteTimers[roomId + '_' + clientId]);
+        delete playerDeleteTimers[roomId + '_' + clientId];
+      }
+      if (roomDeleteTimers[roomId]) {
+        clearTimeout(roomDeleteTimers[roomId]);
+        delete roomDeleteTimers[roomId];
+      }
+      // --- АВТОМАТИЧЕСКИЙ ПЕРЕХОД ХОДА ПРИ ПЕРЕПОДКЛЮЧЕНИИ ---
+      if (room.gameStarted && room.currentPlayer !== undefined && room.players[room.currentPlayer]?.id === socket.id) {
+        roomBusy[roomId] = false; // Сбросить возможную блокировку зависшего playCard
+        console.log('[AUTO-SKIP][joinRoom] Вызван autoSkipIfNoCardsOrOffline для комнаты', roomId, 'currentPlayer:', room.currentPlayer, 'id:', room.players[room.currentPlayer]?.id, 'canPlay:', room.canPlay, 'время:', Date.now());
+        autoSkipIfNoCardsOrOffline(roomId);
+        io.to(roomId).emit('autoSkipNotice', {
+          message: 'Из-за переподключения игрока ход был автоматически передан следующему.'
+        });
+      }
+      if (room.gameStarted) {
+        callback({
+          roomId,
+          hand: player.hand,
+          table: normalizeCards(deepCopy(room.table)),
+          deck: normalizeCards(deepCopy(room.deck)),
+          players: room.players.filter(p => p.online).map(p => ({ id: p.id, name: p.name, score: p.score, clientId: p.clientId })),
+          gameStarted: true,
+          currentPlayerId: room.players[room.currentPlayer]?.id,
+          turnTimeout: room.turnTimeout
+        });
+        io.to(roomId).emit('update', {
+          ...room,
+          table: normalizeCards(deepCopy(room.table)),
+          deck: normalizeCards(deepCopy(room.deck)),
+          players: room.players.filter(p => p.online).map(p => ({ ...p, hand: undefined, clientId: p.clientId })),
+          currentPlayerId: room.players[room.currentPlayer]?.id,
+          turnTimeout: room.turnTimeout
+        });
+        return;
+      } else {
+        // В лобби отправляем всех игроков (без фильтрации по online)
+        callback({
+          roomId,
+          hand: player.hand,
+          players: room.players.map(p => ({ id: p.id, name: p.name, score: p.score, clientId: p.clientId })),
+          gameStarted: false
+        });
+        io.to(roomId).emit('lobbyUpdate', {
+          roomId,
+          players: room.players.map(p => ({ id: p.id, name: p.name, score: p.score, clientId: p.clientId })),
+          gameStarted: false
+        });
+        return;
+      }
+    }
+    // Если игрок не найден ни по clientId, ни по id, добавляем его
+    player = { id: socket.id, hand: [], name: name || `Игрок ${room.players.length + 1}`, score: 0, clientId: clientId || socket.id, online: true };
     room.players.push(player);
     socket.join(roomId);
     callback({ roomId, hand: player.hand, players: room.players.filter(p => p.online).map(p => ({ id: p.id, name: p.name, score: p.score, clientId: p.clientId })), gameStarted: room.gameStarted });
@@ -331,6 +485,8 @@ io.on('connection', (socket) => {
     console.log('[LOBBY-DEBUG][joinRoom] Состав игроков после join:',
       rooms[roomId]?.players?.map(p => ({ id: p.id, clientId: p.clientId, online: p.online, name: p.name }))
     );
+    // Новый лог: выводим всех игроков комнаты после joinRoom
+    console.log('[JOINROOM-PLAYERS]', room.players.map(p => ({ id: p.id, clientId: p.clientId, name: p.name })));
   });
 
   socket.on('startGame', ({ roomId }, callback) => {
@@ -345,10 +501,12 @@ io.on('connection', (socket) => {
       player.hand = normalizeCards(deepCopy(shuffled.splice(0, 6)));
       player.score = 0;
       player.finishedPlace = null;
+      player.clientId = player.clientId || player.id;
     });
     room.deck = normalizeCards(deepCopy(shuffled));
     room.gameStarted = true;
     room.currentPlayer = 0;
+    room.players[0].clientId = room.players[0].clientId || room.players[0].clientId || (room.players[0] && room.players[0].clientId);
     const turnTimeout = Date.now() + 30000;
     room.turnTimeout = turnTimeout;
     room.canPlay = room.players[0].id;
@@ -357,6 +515,23 @@ io.on('connection', (socket) => {
     room.finalRoundPlayers = new Set();
     room.finalRoundQueue = [];
     room.finalRoundPlayerCount = null;
+    if (
+      room.currentPlayer !== undefined &&
+      room.players[room.currentPlayer] &&
+      !room.players[room.currentPlayer].clientId
+    ) {
+      // Попробовать найти clientId по id, если вдруг потерялся
+      const id = room.players[room.currentPlayer].id;
+      const found = room.players.find(p => p.id === id && p.clientId);
+      if (found) {
+        room.players[room.currentPlayer].clientId = found.clientId;
+      } else {
+        // В крайнем случае присвоить clientId = id (чтобы не было undefined)
+        room.players[room.currentPlayer].clientId = id;
+      }
+      // Лог для отладки
+      console.log('[FINAL-DEBUG] Восстановлен clientId для currentPlayer:', room.currentPlayer, 'id:', id, 'clientId:', room.players[room.currentPlayer].clientId);
+    }
     room.players.forEach(player => {
       io.to(player.id).emit('gameStarted', {
         roomId,
@@ -365,6 +540,23 @@ io.on('connection', (socket) => {
         turnTimeout: turnTimeout
       });
     });
+    if (
+      room.currentPlayer !== undefined &&
+      room.players[room.currentPlayer] &&
+      !room.players[room.currentPlayer].clientId
+    ) {
+      // Попробовать найти clientId по id, если вдруг потерялся
+      const id = room.players[room.currentPlayer].id;
+      const found = room.players.find(p => p.id === id && p.clientId);
+      if (found) {
+        room.players[room.currentPlayer].clientId = found.clientId;
+      } else {
+        // В крайнем случае присвоить clientId = id (чтобы не было undefined)
+        room.players[room.currentPlayer].clientId = id;
+      }
+      // Лог для отладки
+      console.log('[FINAL-DEBUG] Восстановлен clientId для currentPlayer:', room.currentPlayer, 'id:', id, 'clientId:', room.players[room.currentPlayer].clientId);
+    }
     // Сразу отправить актуальное состояние всем
     io.to(roomId).emit('update', {
       ...room,
@@ -393,6 +585,23 @@ io.on('connection', (socket) => {
     
     player.name = newName;
     
+    if (
+      room.currentPlayer !== undefined &&
+      room.players[room.currentPlayer] &&
+      !room.players[room.currentPlayer].clientId
+    ) {
+      // Попробовать найти clientId по id, если вдруг потерялся
+      const id = room.players[room.currentPlayer].id;
+      const found = room.players.find(p => p.id === id && p.clientId);
+      if (found) {
+        room.players[room.currentPlayer].clientId = found.clientId;
+      } else {
+        // В крайнем случае присвоить clientId = id (чтобы не было undefined)
+        room.players[room.currentPlayer].clientId = id;
+      }
+      // Лог для отладки
+      console.log('[FINAL-DEBUG] Восстановлен clientId для currentPlayer:', room.currentPlayer, 'id:', id, 'clientId:', room.players[room.currentPlayer].clientId);
+    }
     io.to(roomId).emit('lobbyUpdate', { 
       roomId, 
       players: room.players.map(p => ({ id: p.id, name: p.name, score: p.score, clientId: p.clientId })),
@@ -439,6 +648,16 @@ io.on('connection', (socket) => {
   });
 
   socket.on('playCard', async ({ roomId, cardId, insertIndex }, callback) => {
+    console.log('[PLAYCARD-ALWAYS]', socket.id, roomId);
+    // Максимально раннее логирование
+    const room = rooms[roomId];
+    console.log('[PLAYCARD-DEBUG-BEGIN]', {
+      socketId: socket.id,
+      roomId,
+      roomExists: !!room,
+      gameStarted: room?.gameStarted,
+      players: room?.players?.map(p => ({ id: p.id, clientId: p.clientId, name: p.name }))
+    });
     // Throttle: если игрок только что делал ход, игнорируем повторный вызов в течение 1 секунды
     if (!playCardThrottle[socket.id]) playCardThrottle[socket.id] = 0;
     const now = Date.now();
@@ -447,16 +666,27 @@ io.on('connection', (socket) => {
     }
     playCardThrottle[socket.id] = now;
     const debugId = Math.random().toString(36).substr(2, 6);
-    const room = rooms[roomId];
     if (!room || !room.gameStarted) return callback && callback({ error: 'Игра завершена или комната удалена' });
     if (roomBusy[roomId]) return callback && callback({ error: 'Подождите, ход обрабатывается...' });
     roomBusy[roomId] = true;
+    let playerIdx = room.players.findIndex(p => p.id === socket.id);
+    let player = room.players[playerIdx];
+    const clientId = socket.handshake.query.clientId;
+    const currentPlayer = room.players[room.currentPlayer];
+    if (
+      (currentPlayer && currentPlayer.clientId && clientId === currentPlayer.clientId) ||
+      (socket.id === currentPlayer.id)
+    ) {
+      currentPlayer.id = socket.id;
+      room.canPlay = socket.id;
+      playerIdx = room.currentPlayer;
+      player = currentPlayer;
+    } else {
+      return callback && callback({ error: 'Сейчас не ваш ход' });
+    }
     try {
-      const playerIdx = room.players.findIndex(p => p.id === socket.id);
       if (playerIdx === -1) return callback && callback({ error: 'Нет такого игрока' });
       if (room.players[playerIdx].hand.length === 0) return callback && callback({ error: 'Вы уже завершили игру' });
-      if (room.currentPlayer !== playerIdx || room.canPlay !== socket.id) return callback && callback({ error: 'Сейчас не ваш ход' });
-      const player = room.players[playerIdx];
       const cardIdx = player.hand.findIndex(c => c.id === cardId);
       if (cardIdx === -1) return callback && callback({ error: 'Нет такой карты' });
       const cardCopy = normalizeCard(deepCopy(player.hand[cardIdx]));
@@ -559,8 +789,9 @@ io.on('connection', (socket) => {
               table: normalizeCards(deepCopy(room.table)).filter(isValidCard),
               deck: normalizeCards(deepCopy(room.deck)),
               hand: normalizeCards(deepCopy(p.hand)),
-              players: room.players.map(pl => ({ ...pl, hand: undefined })),
+              players: room.players.map(pl => ({ ...pl, hand: undefined, clientId: pl.clientId })),
               currentPlayerId: room.players[room.currentPlayer].id,
+              currentPlayerClientId: room.players[room.currentPlayer]?.clientId,
               turnTimeout: room.turnTimeout
             });
           });
@@ -610,6 +841,7 @@ io.on('connection', (socket) => {
           hand: normalizeCards(deepCopy(p.hand)),
           players: room.players.map(pl => ({ ...pl, hand: undefined })),
           currentPlayerId: room.players[room.currentPlayer].id,
+          currentPlayerClientId: room.players[room.currentPlayer]?.clientId,
           turnTimeout: room.turnTimeout
         });
       });

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Card from './Card';
 import DraggableCard from './DraggableCard';
 import GameTable from './GameTable';
@@ -56,6 +56,7 @@ const SinglePlayerGame: React.FC<{ onExit: () => void }> = ({ onExit }) => {
   const [toast, setToast] = useState('');
   const [gameOver, setGameOver] = useState(initial?.gameOver || false);
   const [showRules, setShowRules] = useState(false);
+  const [scrollToCardIndex, setScrollToCardIndex] = useState<number | null>(null);
 
   // Сохранять состояние при каждом изменении
   React.useEffect(() => {
@@ -84,16 +85,21 @@ const SinglePlayerGame: React.FC<{ onExit: () => void }> = ({ onExit }) => {
       const addScore = getCardScore(card);
       setScore((s: any) => s + addScore);
       setToast('Верно!');
+      setScrollToCardIndex(null);
     } else {
       // Вставляем карту не по порядку
       const correctIndex = table.findIndex((c) => c.order > card.order);
+      let idxToScroll: number;
       if (correctIndex === -1) {
         newTable.push(card);
+        idxToScroll = newTable.length - 1;
       } else {
         newTable.splice(correctIndex, 0, card);
+        idxToScroll = correctIndex;
       }
       setLives((l: any) => l - 1);
       setToast('Карта не попала в правильный порядок!');
+      setScrollToCardIndex(idxToScroll);
     }
     // Добавляем новую карту из колоды, если есть
     if (deck.length > 0) {
@@ -114,6 +120,14 @@ const SinglePlayerGame: React.FC<{ onExit: () => void }> = ({ onExit }) => {
   function getCardScore(card: any) {
     return card.score || 1;
   }
+
+  // После рендера сбрасываем scrollToCardIndex
+  React.useEffect(() => {
+    if (scrollToCardIndex !== null) {
+      const timer = setTimeout(() => setScrollToCardIndex(null), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [scrollToCardIndex, table]);
 
   if (gameOver) {
     const getScoreText = (score: number) => {
@@ -169,7 +183,7 @@ const SinglePlayerGame: React.FC<{ onExit: () => void }> = ({ onExit }) => {
         </div>
         {/* Игровое поле */}
         <div className="mobile-v2-tablewrap">
-          <GameTable table={table} onDropCard={onDropCard} />
+          <GameTable table={table} onDropCard={onDropCard} scrollToCardIndex={scrollToCardIndex} />
         </div>
         {/* Рука */}
         <div className="mobile-v2-handlabel">Ваши карты:</div>
@@ -217,7 +231,7 @@ const SinglePlayerGame: React.FC<{ onExit: () => void }> = ({ onExit }) => {
         </div>
           </div>
           <div style={{ width: '100%', maxWidth: 1100, margin: '0 auto', overflowX: 'auto', position: 'relative' }}>
-            <GameTable table={table} onDropCard={onDropCard} />
+            <GameTable table={table} onDropCard={onDropCard} scrollToCardIndex={scrollToCardIndex} />
           </div>
           <div style={{ marginTop: 24, width: '100%' }}>
         <h3 style={{ textAlign: 'center', marginBottom: 8, color: '#2c1810' }}>Ваши карты:</h3>

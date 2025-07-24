@@ -11,7 +11,6 @@ interface DraggableCardProps {
 }
 
 const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandEmpty, width, height }) => {
-  console.log('DraggableCard card:', card);
   const disabled = !!isGameOver || !!isHandEmpty;
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'CARD',

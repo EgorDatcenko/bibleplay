@@ -21,6 +21,7 @@ interface MobileGameLayoutProps {
   toast: string;
   setToast: (msg: string) => void;
   toastDuration?: number;
+  scrollToCardIndex?: number | null;
 }
 
 const MobileGameLayout: React.FC<MobileGameLayoutProps> = ({
@@ -39,7 +40,8 @@ const MobileGameLayout: React.FC<MobileGameLayoutProps> = ({
   deckCount = 0,
   toast,
   setToast,
-  toastDuration = 2000
+  toastDuration = 2000,
+  scrollToCardIndex,
 }) => {
   const [showRules, setShowRules] = useState(false);
   const singlePlayer = mode === 'single' && players && players[0];
@@ -103,7 +105,7 @@ const MobileGameLayout: React.FC<MobileGameLayoutProps> = ({
         )}
         {/* Игровое поле */}
         <div className="mobile-v2-tablewrap">
-          <GameTable table={table} onDropCard={onDropCard} isGameOver={isGameOver} isHandEmpty={isHandEmpty} />
+          <GameTable table={table} onDropCard={onDropCard} isGameOver={isGameOver} isHandEmpty={isHandEmpty} scrollToCardIndex={scrollToCardIndex} />
         </div>
         {/* Рука */}
         <div className="mobile-v2-handlabel">Ваши карты:</div>
