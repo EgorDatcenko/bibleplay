@@ -3,16 +3,23 @@ const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 
+const corsOptions = {
+  origin: [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
-  }
+  cors: corsOptions
 });
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -72,7 +79,7 @@ function startTurnTimer(roomId) {
     let activePlayers = getActivePlayers(room);
     if (activePlayers.length === 0) return;
     do {
-      room.currentPlayer = (room.currentPlayer + 1) % room.players.length;
+    room.currentPlayer = (room.currentPlayer + 1) % room.players.length;
     } while (room.players[room.currentPlayer].hand.length === 0);
     const nextPlayer = room.players[room.currentPlayer];
     const turnTimeout = Date.now() + 30000;
@@ -299,6 +306,7 @@ io.on('connection', (socket) => {
       gameStarted: false,
       hostId: socket.id
     };
+    const room = rooms[roomId];
     if (
       room.currentPlayer !== undefined &&
       room.players[room.currentPlayer] &&
@@ -378,14 +386,14 @@ io.on('connection', (socket) => {
           currentPlayerId: room.players[room.currentPlayer]?.id,
           turnTimeout: room.turnTimeout
         });
-        io.to(roomId).emit('update', {
-          ...room,
-          table: normalizeCards(deepCopy(room.table)),
-          deck: normalizeCards(deepCopy(room.deck)),
-          players: room.players.filter(p => p.online).map(p => ({ ...p, hand: undefined, clientId: p.clientId })),
+          io.to(roomId).emit('update', {
+            ...room,
+            table: normalizeCards(deepCopy(room.table)),
+            deck: normalizeCards(deepCopy(room.deck)),
+            players: room.players.filter(p => p.online).map(p => ({ ...p, hand: undefined, clientId: p.clientId })),
           currentPlayerId: room.players[room.currentPlayer]?.id,
-          turnTimeout: room.turnTimeout
-        });
+            turnTimeout: room.turnTimeout
+          });
         return;
       } else {
         // В лобби отправляем всех игроков (без фильтрации по online)
@@ -671,7 +679,7 @@ io.on('connection', (socket) => {
     roomBusy[roomId] = true;
     let playerIdx = room.players.findIndex(p => p.id === socket.id);
     let player = room.players[playerIdx];
-    const clientId = socket.handshake.query.clientId;
+        const clientId = socket.handshake.query.clientId;
     const currentPlayer = room.players[room.currentPlayer];
     if (
       (currentPlayer && currentPlayer.clientId && clientId === currentPlayer.clientId) ||
