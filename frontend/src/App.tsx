@@ -14,6 +14,7 @@ import SinglePlayerGame from './components/SinglePlayerGame';
 import GameRules from './components/GameRules';
 import MobileGameLayout from './components/MobileGameLayout';
 import cards from './components/cards.json';
+import CustomDragLayer from './components/CustomDragLayer';
 
 // Исправить определение backendHost:
 // Если window.location.hostname === 'localhost', использовать prompt для ввода IP или брать из localStorage, иначе использовать window.location.hostname
@@ -1326,6 +1327,7 @@ function App() {
           <div style={{ width: '100%', maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', marginTop: 60 }}>
             <div style={{ width: '100%', maxWidth: 1100, margin: '0 auto', overflowX: 'auto', position: 'relative', display: 'flex', justifyContent: 'center' }}>
               <GameTable table={deduplicateTable(table)} onDropCard={onDropCard} isGameOver={isGameOver} isHandEmpty={hand.length === 0} scrollToCardIndex={scrollToCardIndex} />
+              <CustomDragLayer />
             </div>
             <div style={{ marginTop: 32, width: '100%', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
               <h3 style={{ textAlign: 'center', marginBottom: 12 }}>Ваши карты:</h3>

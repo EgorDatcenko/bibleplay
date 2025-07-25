@@ -14,7 +14,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandE
   const disabled = !!isGameOver || !!isHandEmpty;
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'CARD',
-    item: { id: card.id },
+    item: { id: card.id, imageFront: card.imageFront, imageBack: card.imageBack },
     canDrag: () => !disabled,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
