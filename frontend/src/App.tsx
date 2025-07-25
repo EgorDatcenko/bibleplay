@@ -86,6 +86,34 @@ const TURN_TIME_12 = 60;
 const TURN_TIME_16 = 75;
 const TURN_TIME_30 = 90;
 
+function FooterKuBBiA() {
+  return (
+    <div className="footer" style={{ width: '100%', minHeight: 40, background: '#faf8f4', borderTop: '1px solid #ece6da', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#7c6f57', fontSize: 15, fontFamily: 'Istok Web, Arial, sans-serif', marginTop: 32, boxSizing: 'border-box', flexDirection: 'column', padding: '32px 0 24px 0' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', justifyContent: 'center', margin: '0 0 18px 0' }}>
+        <span style={{ fontWeight: 700 }}>Оригинал и другие настольные игры можете приобрести в магазине KuBBiA - </span>
+        <a href="https://kubbia.ru/" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#742a2a', fontWeight: 700, textDecoration: 'underline' }}>
+          <img src="/i (2).webp" alt="KuBBiA" style={{ width: 54, height: 54, objectFit: 'contain', background: '#fff', border: '2px solid #ece6da', borderRadius: 16, padding: 6, boxSizing: 'border-box', boxShadow: '0 2px 8px rgba(0,0,0,0.07)' }} />
+          kubbia.ru
+        </a>
+      </div>
+      <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0, margin: '0 0 14px 0' }}>
+        <div style={{ fontSize: 15, fontWeight: 500, marginBottom: 4, textAlign: 'center' }}>
+          Заходите в наш Telegram канал, чтобы вы могли знать о новом контенте на сайте и о грядущих обновлениях
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 18, justifyContent: 'center' }}>
+          <a href="https://t.me/bibleplaychannel" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center' }}>
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="16" cy="16" r="16" fill="#229ED9"/>
+              <path d="M23.3 10.1L8.7 15.3C8.7 15.3 8.1 15.6 8.1 16C8.1 16.4 8.7 16.6 8.7 16.6L12.3 17.6C12.3 17.6 12.7 17.7 12.8 17.6C12.9 17.5 17.1 14.1 17.1 14.1C17.1 14.1 17.4 14 17.5 14.1C17.6 14.2 17.5 14.5 17.5 14.5L14.3 17.5C14.3 17.5 14.2 17.7 14.3 17.8C14.4 17.9 14.5 17.9 14.5 17.9L19.1 19C19.1 19 19.5 19.1 19.8 18.8C20.1 18.5 20.2 18 20.2 18L23.7 11.1C23.7 11.1 24.1 10.4 23.3 10.1Z" fill="white"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div>При технических проблемах сайта и по другим вопросам, обращаться в наш Telegram - @bibleplay</div>
+    </div>
+  );
+}
+
 function App() {
   const initial = getInitialStateFromStorage();
   const [inRoom, setInRoom] = useState(initial.inRoom);
@@ -674,7 +702,7 @@ function App() {
               </button>
             </div>
           </div>
-          <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @bibleplay</div>
+          <FooterKuBBiA />
         </>
       );
     }
@@ -744,7 +772,7 @@ function App() {
             </button>
           </div>
         </div>
-        <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @bibleplay</div>
+        <FooterKuBBiA />
       </>
     );
   }
@@ -763,7 +791,7 @@ function App() {
           onLeaveRoom={leaveRoom}
           currentPlayerId={socket.id || ''}
         />
-        <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @bibleplay</div>
+        <FooterKuBBiA />
       </>
     );
   }
@@ -777,7 +805,7 @@ function App() {
             sessionStorage.removeItem('chronium_singleMode');
             setSingleMode(false);
           }} />
-          <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @bibleplay</div>
+          <FooterKuBBiA />
         </>
       );
     }
@@ -789,7 +817,7 @@ function App() {
           sessionStorage.removeItem('chronium_singleMode');
           setSingleMode(false);
         }} />
-        <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @bibleplay</div>
+        <FooterKuBBiA />
       </>
     );
   }
@@ -1089,9 +1117,7 @@ function App() {
             </div>
           )}
         </div>
-        <div className="footer" style={{ position: 'fixed', left: 0, right: 0, bottom: 0, background: '#faf8f4', borderTop: '1px solid #ece6da', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#7c6f57', fontSize: 15, fontFamily: 'Istok Web, Arial, sans-serif', minHeight: 40, zIndex: 10000 }}>
-          При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @bibleplay
-        </div>
+        <FooterKuBBiA />
       </>
     );
   }
@@ -1404,7 +1430,7 @@ function App() {
           </div>
         </div>
       )}
-      <div className="footer">При технических проблемах сайта и по другим вопросам, обращаться в наш telegram - @bibleplay</div>
+      <FooterKuBBiA />
     </>
   );
 }
