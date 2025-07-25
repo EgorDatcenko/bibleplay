@@ -127,7 +127,7 @@ const GameRules: React.FC<GameRulesProps> = ({ isOpen, onClose, mode = 'both' })
               <li style={{ marginBottom: 8 }}>Карты размещаются в порядке возрастания номеров событий</li>
               <li style={{ marginBottom: 8 }}>Перетаскивайте карты из руки на игровое поле</li>
               <li style={{ marginBottom: 8 }}>Карты можно размещать между уже выложенными картами</li>
-              <li style={{ marginBottom: 8 }}>Цвет карты зависит от типа события</li>
+              <li style={{ marginBottom: 8 }}>Цвет карты зависит от сложности события</li>
               <li style={{ marginBottom: 8 }}>Изучайте библейскую хронологию и улучшайте свои знания!</li>
             </ul>
             <h3 style={{ color: '#742a2a', fontSize: 20, fontWeight: 600, margin: '18px 0 8px 0' }}>Управление</h3>

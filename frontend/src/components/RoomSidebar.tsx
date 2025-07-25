@@ -14,6 +14,7 @@ interface RoomSidebarProps {
   lives?: number;
   score?: number;
   mobileLightBg?: boolean; // Новый проп
+  roomId?: string; // Добавляю roomId
 }
 
 const RoomSidebar: React.FC<RoomSidebarProps> = ({
@@ -29,7 +30,8 @@ const RoomSidebar: React.FC<RoomSidebarProps> = ({
   showLeaderboard = true,
   lives = 0,
   score = 0,
-  mobileLightBg = false // Новый проп
+  mobileLightBg = false,
+  roomId // Добавляю roomId
 }) => {
   const isMobile = mobile || window.innerWidth <= 700;
   if (isMobile) {
@@ -90,7 +92,7 @@ const RoomSidebar: React.FC<RoomSidebarProps> = ({
     );
   }
   return (
-    <div style={{ width: 220, background: '#faf8f4', padding: 8, minHeight: '100vh', boxSizing: 'border-box', transition: 'background 0.2s, color 0.2s' }}>
+    <div style={{ width: 220, background: '#faf8f4', padding: 8, minHeight: '100vh', boxSizing: 'border-box', transition: 'background 0.2s, color 0.2s', position: 'relative' }}>
       {/* Таймер, жизни, баллы */}
       {(showTimer || showLives || showScore) && (
         <div style={{ marginBottom: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -137,6 +139,12 @@ const RoomSidebar: React.FC<RoomSidebarProps> = ({
               <div>{p.score}</div>
             </div>
           ))}
+        </div>
+      )}
+      {/* Код комнаты внизу сайдбара */}
+      {roomId && (
+        <div style={{ position: 'absolute', bottom: 16, left: 0, width: '100%', textAlign: 'center', color: '#7c6f57', fontSize: 15, fontWeight: 600 }}>
+          Код комнаты: <span style={{ letterSpacing: 1 }}>{roomId}</span>
         </div>
       )}
     </div>

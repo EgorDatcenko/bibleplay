@@ -36,7 +36,9 @@ function getOrCreateClientId() {
   return clientId as string;
 }
 const clientId = getOrCreateClientId();
-const apiUrl = import.meta.env.VITE_API_URL || window.location.origin;
+const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+console.log('VITE_API_URL:', import.meta.env.VITE_API_URL);
+console.log('apiUrl:', apiUrl);
 const socket: Socket = io(apiUrl, { query: { clientId } });
 (window as any).chroniumSocket = socket;
 
@@ -1316,7 +1318,6 @@ function App() {
                 <li>Если кто-то из игроков покинул игру, передача хода может работать некорректно. В этом случае пересоздайте комнату.</li>
                 <li>Если во время игры возникла логическая ошибка (например, игра зависла или не реагирует), попробуйте обновить страницу. Если проблема не исчезла — проверьте ваше интернет-соединение.</li>
                 <li>Если ошибка повторяется или вы столкнулись с другой проблемой, пожалуйста, свяжитесь с нами через контакты внизу сайта и опишите ситуацию.</li>
-                <li>Если у вас некорректно отображается внешний вид игры, измените масштаб страницы в вашем браузере. Затем обновите страницу.</li>
               </ol>
             </div>
           </div>
@@ -1332,6 +1333,7 @@ function App() {
               showLeaderboard={true}
               showLives={false}
               showScore={false}
+              roomId={roomId}
             />
           </div>
           {toast && <Toast message={toast} onClose={() => setToast('')} duration={toastDuration} />}
