@@ -299,6 +299,7 @@ io.on('connection', (socket) => {
       gameStarted: false,
       hostId: socket.id
     };
+    const room = rooms[roomId];
     if (
       room.currentPlayer !== undefined &&
       room.players[room.currentPlayer] &&
