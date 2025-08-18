@@ -442,6 +442,10 @@ body, html {
     padding-left: 0;
     line-height: 1.2;
     white-space: nowrap;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .mobile-v2-cardsleft {
@@ -452,6 +456,10 @@ body, html {
     text-align: center;
     padding-left: 0;
     white-space: nowrap;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .mobile-v2-infocard {
@@ -648,6 +656,10 @@ body, html {
     text-align: center;
     padding-left: 0;
     white-space: nowrap;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .mobile-v2-handwrap {
@@ -787,6 +799,10 @@ body, html {
   .mobile-v2-title {
     font-size: 20px !important;
     padding-left: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
   .mobile-v2-infocard {
     transform: none;
