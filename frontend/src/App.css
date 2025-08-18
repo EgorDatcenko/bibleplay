@@ -436,10 +436,10 @@ body, html {
     font-size: 26px;
     font-weight: 700;
     color: #2c1810;
-    text-align: left;
+    text-align: center;
     margin: 64px 0 6px 0;
     letter-spacing: 1px;
-    padding-left: 16px;
+    padding-left: 0;
     line-height: 1.2;
     white-space: nowrap;
   }
@@ -786,7 +786,7 @@ body, html {
   }
   .mobile-v2-title {
     font-size: 20px !important;
-    padding-left: 16px !important;
+    padding-left: 0 !important;
   }
   .mobile-v2-infocard {
     transform: none;

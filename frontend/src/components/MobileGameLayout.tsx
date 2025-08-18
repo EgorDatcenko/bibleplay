@@ -114,9 +114,7 @@ const MobileGameLayout: React.FC<MobileGameLayoutProps> = ({
         <div className="mobile-v2-handwrap">
           <div className="mobile-v2-handscroll">
             {hand.map(card => (
-              mode === 'multiplayer'
-                ? <DraggableCard key={card.id} card={card} isGameOver={isGameOver} isHandEmpty={isHandEmpty} width={90} height={170} />
-                : <DraggableCard key={card.id} card={card} isGameOver={isGameOver} isHandEmpty={isHandEmpty} />
+              <DraggableCard key={card.id} card={card} isGameOver={isGameOver} isHandEmpty={isHandEmpty} />
             ))}
           </div>
         </div>
