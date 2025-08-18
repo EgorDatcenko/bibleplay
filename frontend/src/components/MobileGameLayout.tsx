@@ -60,7 +60,7 @@ const MobileGameLayout: React.FC<MobileGameLayoutProps> = ({
       {/* Основной layout */}
       <div className="mobile-v2-main">
         {/* Заголовок */}
-        <div className="mobile-v2-title" style={{ paddingLeft: 47 }}>{mode === 'single' ? 'Одиночный режим' : 'Библейская хронология'}</div>
+        <div className="mobile-v2-title">{mode === 'single' ? 'Одиночный режим' : 'Библейская хронология'}</div>
         {/* Осталось карт */}
         <div className="mobile-v2-cardsleft">Осталось карт: {deckCount}</div>
         {/* Инфоблок */}
@@ -114,9 +114,7 @@ const MobileGameLayout: React.FC<MobileGameLayoutProps> = ({
         <div className="mobile-v2-handwrap">
           <div className="mobile-v2-handscroll">
             {hand.map(card => (
-              mode === 'multiplayer'
-                ? <DraggableCard key={card.id} card={card} isGameOver={isGameOver} isHandEmpty={isHandEmpty} width={90} height={170} />
-                : <DraggableCard key={card.id} card={card} isGameOver={isGameOver} isHandEmpty={isHandEmpty} />
+              <DraggableCard key={card.id} card={card} isGameOver={isGameOver} isHandEmpty={isHandEmpty} />
             ))}
           </div>
         </div>
