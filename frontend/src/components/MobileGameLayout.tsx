@@ -60,7 +60,7 @@ const MobileGameLayout: React.FC<MobileGameLayoutProps> = ({
       {/* Основной layout */}
       <div className="mobile-v2-main">
         {/* Заголовок */}
-        <div className="mobile-v2-title" style={{ paddingLeft: 47 }}>{mode === 'single' ? 'Одиночный режим' : 'Библейская хронология'}</div>
+        <div className="mobile-v2-title">{mode === 'single' ? 'Одиночный режим' : 'Библейская хронология'}</div>
         {/* Осталось карт */}
         <div className="mobile-v2-cardsleft">Осталось карт: {deckCount}</div>
         {/* Инфоблок */}
