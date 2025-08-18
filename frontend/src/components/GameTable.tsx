@@ -114,7 +114,7 @@ const DropZone: React.FC<{ onDrop: (cardId: number) => void; large?: boolean; di
             borderTop: '14px solid #90caf9',
             marginBottom: 4
           }} />
-          <div style={{ fontSize: 12, color: '#90caf9', fontWeight: 700, whiteSpace: 'nowrap' }}>Положить сюда</div>
+          <div style={{ fontSize: 11, color: '#90caf9', fontWeight: 700, whiteSpace: 'nowrap' }}>Положить сюда</div>
           <style>{`@keyframes arrowPulse { 0% { transform: translateY(0); } 50% { transform: translateY(4px); } 100% { transform: translateY(0); } }`}</style>
         </div>
       )}
