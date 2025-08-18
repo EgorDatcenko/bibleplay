@@ -20,9 +20,9 @@ createRoot(document.getElementById('root')!).render(
         isTouchDevice()
           ? {
               enableMouseEvents: true,
-              // Долгое нажатие для старта перетаскивания (оставляем прежнее значение)
-              delayTouchStart: 180,
-              delay: 180,
+              // Мгновенный старт dnd. Задержку и эффект зажатия контролируем в компоненте
+              delayTouchStart: 0,
+              delay: 0,
               touchSlop: 12,
               ignoreContextMenu: true,
             }
