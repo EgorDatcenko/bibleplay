@@ -497,7 +497,7 @@ function App() {
           setToast('Из-за вашего переподключения вы не можете сделать ход, дождитесь окончания таймера для продолжения игры');
           setToastDuration(10000); // 10 секунд
         } else {
-          setToast(res.error);
+        setToast(res.error);
           // Не сбрасываем toastDuration здесь, чтобы не перебивать длительность для других сообщений
         }
       }
@@ -1192,25 +1192,25 @@ function App() {
             </div>
           </div>
         )}
-        <MobileGameLayout
-          mode={singleMode ? 'single' : 'multiplayer'}
-          onLeaveRoom={leaveRoom}
-          onShowRules={() => setShowRules(true)}
-          players={players}
-          currentPlayerId={currentPlayerId}
-          progress={progress}
-          timeLeft={turnTimeLeft}
-          table={deduplicateTable(table)}
-          hand={hand}
-          onDropCard={onDropCard}
-          isGameOver={isGameOver}
-          isHandEmpty={hand.length === 0}
-          deckCount={deckCount}
-          toast={toast}
-          setToast={setToast}
-          toastDuration={toastDuration}
-          scrollToCardIndex={scrollToCardIndex}
-        />
+      <MobileGameLayout
+        mode={singleMode ? 'single' : 'multiplayer'}
+        onLeaveRoom={leaveRoom}
+        onShowRules={() => setShowRules(true)}
+        players={players}
+        currentPlayerId={currentPlayerId}
+        progress={progress}
+        timeLeft={turnTimeLeft}
+        table={deduplicateTable(table)}
+        hand={hand}
+        onDropCard={onDropCard}
+        isGameOver={isGameOver}
+        isHandEmpty={hand.length === 0}
+        deckCount={deckCount}
+        toast={toast}
+        setToast={setToast}
+        toastDuration={toastDuration}
+        scrollToCardIndex={scrollToCardIndex}
+      />
       </>
     );
   }

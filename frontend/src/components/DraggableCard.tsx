@@ -22,14 +22,17 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandE
   }), [card, disabled]);
 
   return (
-    <div ref={drag as unknown as React.Ref<HTMLDivElement>} style={{ opacity: isDragging ? 0.5 : 1, pointerEvents: disabled ? 'none' : undefined }}>
+    <div
+      ref={drag as unknown as React.Ref<HTMLDivElement>}
+      style={{ opacity: isDragging ? 0.5 : 1, pointerEvents: disabled ? 'none' : undefined }}
+    >
       <Card
         image={card.imageFront}
         imageBack={card.imageBack}
         isFaceUp={true}
         isDragPreview={isDragging}
-        width={120}
-        height={350}
+        width={width ?? 120}
+        height={height ?? 350}
         imageScaleOffset={-20}
       />
     </div>

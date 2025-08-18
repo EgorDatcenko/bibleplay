@@ -133,6 +133,7 @@ const GameRules: React.FC<GameRulesProps> = ({ isOpen, onClose, mode = 'both' })
             <h3 style={{ color: '#742a2a', fontSize: 20, fontWeight: 600, margin: '18px 0 8px 0' }}>Управление</h3>
             <ul style={{ paddingLeft: 20, margin: 0 }}>
               <li style={{ marginBottom: 8 }}>Для перетаскивания карты зажмите её <b>мышкой</b> (на ПК) или <b>пальцем</b> (на телефоне).</li>
+              <li style={{ marginBottom: 8 }}>На телефоне нужно <b>зажать карту минимум на одну секунду</b>, затем не отрывая палец, перемещать в нужную дроп-зону.</li>
               <li style={{ marginBottom: 8 }}>Перетащите карту на один из <b>плюсиков</b> (дроп-зон) на хронологической линии, чтобы разместить её в нужном месте.</li>
             </ul>
           </div>

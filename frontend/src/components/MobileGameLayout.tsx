@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import GameTable from './GameTable';
 import DraggableCard from './DraggableCard';
+import CustomDragLayer from './CustomDragLayer';
 import Toast from './Toast';
 import GameRules from './GameRules';
 
@@ -107,6 +108,7 @@ const MobileGameLayout: React.FC<MobileGameLayoutProps> = ({
         <div className="mobile-v2-tablewrap">
           <GameTable table={table} onDropCard={onDropCard} isGameOver={isGameOver} isHandEmpty={isHandEmpty} scrollToCardIndex={scrollToCardIndex} />
         </div>
+        <CustomDragLayer />
         {/* Рука */}
         <div className="mobile-v2-handlabel">Ваши карты:</div>
         <div className="mobile-v2-handwrap">

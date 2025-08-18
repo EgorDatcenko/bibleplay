@@ -14,7 +14,21 @@ const DND_BACKEND = isTouchDevice() ? TouchBackend : HTML5Backend;
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <DndProvider backend={DND_BACKEND} options={isTouchDevice() ? { enableMouseEvents: true } : undefined}>
+    <DndProvider
+      backend={DND_BACKEND}
+      options={
+        isTouchDevice()
+          ? {
+              enableMouseEvents: true,
+              // Долгое нажатие для старта перетаскивания (оставляем прежнее значение)
+              delayTouchStart: 180,
+              delay: 180,
+              touchSlop: 12,
+              ignoreContextMenu: true,
+            }
+          : undefined
+      }
+    >
       <App />
     </DndProvider>
   </StrictMode>,

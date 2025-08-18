@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import Card from './Card';
 import DraggableCard from './DraggableCard';
 import GameTable from './GameTable';
+import CustomDragLayer from './CustomDragLayer';
 import Toast from './Toast';
 import GameRules from './GameRules';
 import RoomSidebar from './RoomSidebar';
@@ -185,6 +186,7 @@ const SinglePlayerGame: React.FC<{ onExit: () => void }> = ({ onExit }) => {
         <div className="mobile-v2-tablewrap">
           <GameTable table={table} onDropCard={onDropCard} scrollToCardIndex={scrollToCardIndex} />
         </div>
+        <CustomDragLayer />
         {/* Рука */}
         <div className="mobile-v2-handlabel">Ваши карты:</div>
         <div className="mobile-v2-handwrap">

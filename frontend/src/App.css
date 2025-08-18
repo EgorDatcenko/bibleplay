@@ -712,6 +712,8 @@ body, html {
     box-sizing: border-box;
     padding-left: 0;
     margin-left: 0;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
   }
   .mobile-v2-infobox {
     background: #fffbe6;

@@ -51,7 +51,7 @@ const CardFade: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 );
 
 const DropZone: React.FC<{ onDrop: (cardId: number) => void; large?: boolean; disabled?: boolean }> = ({ onDrop, large, disabled }) => {
-  const [{ isOver, canDrop }, drop] = useDrop(() => ({
+  const [{ isOver, canDrop, isDragging }, drop] = useDrop(() => ({
     accept: 'CARD',
     drop: (item: any) => {
       if (!disabled) onDrop(item.id);
@@ -60,6 +60,8 @@ const DropZone: React.FC<{ onDrop: (cardId: number) => void; large?: boolean; di
     collect: monitor => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
+      // Есть активный drag (для подсказок со стрелкой)
+      isDragging: !!monitor.getClientOffset(),
     })
   }), [onDrop, disabled]);
   // Мобильные размеры
@@ -70,28 +72,52 @@ const DropZone: React.FC<{ onDrop: (cardId: number) => void; large?: boolean; di
   const maxWidth = isMobile ? 90 : (large ? 1800 : 96);
   const height = isMobile ? 170 : 300;
   return (
-    <div
-      ref={drop as unknown as React.Ref<HTMLDivElement>}
-      style={{
-        width,
-        minWidth,
-        maxWidth,
-        height,
-        background: isOver ? '#bde0fe' : canDrop ? '#f0e9d2' : '#f0e9d2',
-        borderRadius: 12,
-        transition: 'background 0.2s, box-shadow 0.2s, transform 0.2s',
-        margin: isMobile ? '0 2px' : (large ? '0 auto' : '0 8px'),
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        boxSizing: 'border-box',
-        border: isOver ? '2.5px solid #90caf9' : '2px dashed #bdbdbd',
-        position: 'relative',
-        zIndex: 1,
-        transform: isOver ? 'scale(1.05)' : 'scale(1)'
-      }}
-    >
-      <span style={{ fontSize: isMobile ? 32 : 48, color: '#bdbdbd', userSelect: 'none', pointerEvents: 'none' }}>+</span>
+    <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', width, minWidth, maxWidth, margin: isMobile ? '0 2px' : (large ? '0 auto' : '0 8px') }}>
+      <div
+        ref={drop as unknown as React.Ref<HTMLDivElement>}
+        className="DropZone"
+        style={{
+          width: '100%',
+          height,
+          background: isOver ? '#bde0fe' : canDrop ? '#f0e9d2' : '#f0e9d2',
+          borderRadius: 12,
+          transition: 'background 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxSizing: 'border-box',
+          border: isOver ? '2.5px solid #90caf9' : '2px dashed #bdbdbd',
+          position: 'relative',
+          zIndex: 1,
+          transform: isOver ? 'scale(1.05)' : 'scale(1)'
+        }}
+      >
+        <span style={{ fontSize: isMobile ? 32 : 48, color: '#bdbdbd', userSelect: 'none', pointerEvents: 'none' }}>+</span>
+      </div>
+      {isDragging && !isOver && canDrop && (
+        <div style={{
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          pointerEvents: 'none',
+          opacity: 0.9,
+          animation: 'arrowPulse 1.2s ease-in-out infinite',
+          marginTop: 6
+        }}>
+          <div style={{
+            width: 0,
+            height: 0,
+            borderLeft: '10px solid transparent',
+            borderRight: '10px solid transparent',
+            borderTop: '14px solid #90caf9',
+            marginBottom: 4
+          }} />
+          <div style={{ fontSize: 12, color: '#90caf9', fontWeight: 700, whiteSpace: 'nowrap' }}>Положить сюда</div>
+          <style>{`@keyframes arrowPulse { 0% { transform: translateY(0); } 50% { transform: translateY(4px); } 100% { transform: translateY(0); } }`}</style>
+        </div>
+      )}
     </div>
   );
 };
