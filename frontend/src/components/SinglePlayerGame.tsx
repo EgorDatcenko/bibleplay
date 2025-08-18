@@ -163,7 +163,7 @@ const SinglePlayerGame: React.FC<{ onExit: () => void }> = ({ onExit }) => {
         {/* Toast всегда поверх */}
         {toast && <Toast message={toast} onClose={() => setToast('')} />}
         {/* Заголовок */}
-        <div className="mobile-v2-title" style={{ paddingLeft: 85 }}>Одиночный режим</div>
+        <div className="mobile-v2-title">Одиночный режим</div>
         {/* Осталось карт */}
         <div className="mobile-v2-cardsleft">Осталось карт: {deck.length}</div>
         {/* Инфоблок с метриками */}

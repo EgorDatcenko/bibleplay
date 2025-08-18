@@ -20,9 +20,9 @@ createRoot(document.getElementById('root')!).render(
         isTouchDevice()
           ? {
               enableMouseEvents: true,
-              // Мгновенный старт перетаскивания на телефоне (без задержки)
-              delayTouchStart: 0,
-              delay: 0,
+              // Полусекундная задержка для старта перетаскивания на телефоне
+              delayTouchStart: 500,
+              delay: 500,
               touchSlop: 12,
               ignoreContextMenu: true,
             }
