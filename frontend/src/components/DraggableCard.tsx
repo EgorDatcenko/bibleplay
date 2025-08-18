@@ -14,12 +14,18 @@ const isTouchDevice = () =>
   typeof window !== 'undefined' &&
   ('ontouchstart' in window || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0));
 
+const MOVE_THRESHOLD_PX = 8; // небольшой порог смещения
+
 const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandEmpty, width, height }) => {
   const disabled = !!isGameOver || !!isHandEmpty;
   const isTouch = isTouchDevice();
+  const rootRef = React.useRef<HTMLDivElement | null>(null);
   const [isPressed, setIsPressed] = React.useState(false);
   const [dragReady, setDragReady] = React.useState(!isTouch); // на тач — после задержки; на десктопе сразу
   const pressTimerRef = React.useRef<number | null>(null);
+  const startPosRef = React.useRef<{ x: number; y: number } | null>(null);
+  const lastPosRef = React.useRef<{ x: number; y: number } | null>(null);
+  const canceledRef = React.useRef(false);
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'CARD',
@@ -44,13 +50,29 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandE
     }
   }
 
-  function handlePointerDown() {
+  function withinElement(x: number, y: number): boolean {
+    const el = rootRef.current;
+    if (!el) return false;
+    const rect = el.getBoundingClientRect();
+    return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+  }
+
+  function handlePointerDown(e: any) {
     if (disabled) return;
+    canceledRef.current = false;
+    const { clientX, clientY } = getClientXY(e);
+    startPosRef.current = { x: clientX, y: clientY };
+    lastPosRef.current = { x: clientX, y: clientY };
+
     if (isTouch) {
       setDragReady(false);
       clearPressTimer();
       // Показываем анимацию зажатия и разрешаем dnd только через 250мс
       pressTimerRef.current = window.setTimeout(() => {
+        if (canceledRef.current) return;
+        const pos = lastPosRef.current;
+        if (!pos) return;
+        if (!withinElement(pos.x, pos.y)) return;
         setIsPressed(true);
         setDragReady(true);
       }, 250);
@@ -61,13 +83,35 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandE
     }
   }
 
+  function handlePointerMove(e: any) {
+    if (pressTimerRef.current && !isPressed) {
+      const { clientX, clientY } = getClientXY(e);
+      lastPosRef.current = { x: clientX, y: clientY };
+      const start = startPosRef.current;
+      if (start) {
+        const dx = clientX - start.x;
+        const dy = clientY - start.y;
+        const moved = Math.hypot(dx, dy) > MOVE_THRESHOLD_PX;
+        const inside = withinElement(clientX, clientY);
+        if (moved || !inside) {
+          canceledRef.current = true;
+          clearPressTimer();
+          setIsPressed(false);
+          setDragReady(false);
+        }
+      }
+    }
+  }
+
   function handlePointerUp() {
+    canceledRef.current = true;
     clearPressTimer();
     setIsPressed(false);
     if (isTouch) setDragReady(false);
   }
 
   function handlePointerLeave() {
+    canceledRef.current = true;
     clearPressTimer();
     setIsPressed(false);
     if (isTouch) setDragReady(false);
@@ -75,12 +119,17 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandE
 
   return (
     <div
-      ref={drag as unknown as React.Ref<HTMLDivElement>}
+      ref={(node) => {
+        rootRef.current = node;
+        (drag as any)(node);
+      }}
       onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
       onPointerLeave={handlePointerLeave}
       onTouchStart={handlePointerDown}
+      onTouchMove={handlePointerMove}
       onTouchEnd={handlePointerUp}
       style={{
         opacity: isDragging ? 0.5 : 1,
@@ -102,5 +151,11 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandE
     </div>
   );
 };
+
+function getClientXY(e: any): { clientX: number; clientY: number } {
+  if (e?.clientX != null && e?.clientY != null) return { clientX: e.clientX, clientY: e.clientY };
+  const t = e?.touches?.[0] || e?.changedTouches?.[0];
+  return { clientX: t?.clientX ?? 0, clientY: t?.clientY ?? 0 };
+}
 
 export default DraggableCard; 
