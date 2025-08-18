@@ -449,8 +449,8 @@ body, html {
     font-size: 16px;
     margin-bottom: 8px;
     font-weight: 500;
-    text-align: left;
-    padding-left: 16px;
+    text-align: center;
+    padding-left: 0;
     white-space: nowrap;
   }
 
@@ -645,8 +645,8 @@ body, html {
     color: #2c1810;
     font-weight: 600;
     margin: 4px 0 2px 0;
-    text-align: left;
-    padding-left: 16px;
+    text-align: center;
+    padding-left: 0;
     white-space: nowrap;
   }
 
