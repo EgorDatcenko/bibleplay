@@ -5,14 +5,26 @@ const cors = require('cors');
 
 const app = express();
 const server = http.createServer(app);
+
+// Настройка CORS из переменной окружения ORIGIN (список через запятую)
+const allowedOrigins = (process.env.ORIGIN || '').split(',').map(o => o.trim()).filter(Boolean);
+const corsOptions = {
+  origin: allowedOrigins.length ? allowedOrigins : ['https://bibleplay.vercel.app', 'https://api.bibleplay.ru'],
+  methods: ['GET', 'POST'],
+  credentials: true
+};
+
 const io = new Server(server, {
   cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
+    origin: corsOptions.origin,
+    methods: corsOptions.methods,
+    credentials: corsOptions.credentials
   }
 });
 
-app.use(cors());
+app.set('trust proxy', 1);
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -991,6 +1003,6 @@ io.on('connection', (socket) => {
 });
 
 const PORT = process.env.PORT || 4000;
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`Сервер запущен на порту ${PORT}`);
 }); 
