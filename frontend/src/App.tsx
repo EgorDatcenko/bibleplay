@@ -38,8 +38,16 @@ function getOrCreateClientId() {
   return clientId as string;
 }
 const clientId = getOrCreateClientId();
-const apiUrl = import.meta.env.VITE_API_URL || window.location.origin;
-const socket: Socket = io(apiUrl, { query: { clientId } });
+// Определяем URL бэкенда:
+// 1) Если задан VITE_API_URL — используем его
+// 2) Если фронт на vercel.app — используем продакшн API https://api.bibleplay.ru
+// 3) Иначе — текущий origin (локальная разработка)
+let defaultApi = window.location.origin;
+if (window.location.hostname.endsWith('vercel.app')) {
+  defaultApi = 'https://api.bibleplay.ru';
+}
+const apiUrl = (import.meta as any).env.VITE_API_URL || defaultApi;
+const socket: Socket = io(apiUrl, { transports: ['websocket', 'polling'], withCredentials: true, query: { clientId } });
 (window as any).chroniumSocket = socket;
 
 // Удаляет дубликаты карт по id (оставляет первую встреченную)
