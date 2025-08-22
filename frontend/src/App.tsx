@@ -939,7 +939,7 @@ function App() {
           position: 'relative',
         }}>
           {/* Кнопка назад к списку игр */}
-          <div style={{ position: 'absolute', top: 18, left: 24, zIndex: 20 }}>
+          <div style={{ position: 'absolute', top: 80, left: 24, zIndex: 20 }}>
             <button
               onClick={() => { setSelectedGame(null); setCreateRoomMode(false); setJoinRoomMode(false); }}
               style={{ background: '#bdb7af', color: '#2c1810', border: 'none', borderRadius: 8, padding: '8px 14px', fontSize: 16, cursor: 'pointer', fontWeight: 700 }}
