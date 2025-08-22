@@ -959,6 +959,7 @@ function App() {
           }}>
             <h1 style={{ 
               marginBottom: 32, 
+              marginTop: 60,
               color: '#2c1810',
               fontSize: 32,
               fontWeight: 700
