@@ -90,6 +90,16 @@ function enrichCards(arr: any[]) {
   });
 }
 
+// Предзагрузка изображений (ускоряет первый показ карт)
+function preloadImages(urls: string[]) {
+  urls.filter(Boolean).forEach((url) => {
+    const img = new Image();
+    (img as any).decoding = 'async';
+    (img as any).loading = 'eager';
+    img.src = url;
+  });
+}
+
 const DEFAULT_TURN_TIME = 30; // секунд
 const TURN_TIME_8 = 45;
 const TURN_TIME_12 = 60;
@@ -270,6 +280,12 @@ function App() {
       setCurrentPlayerId(data.currentPlayerId || '');
       setCurrentPlayerClientId(data.currentPlayerClientId || '');
       setTurnTimeout(data.turnTimeout || 0);
+      // Предзагружаем изображения текущей руки и уже выложенных карт
+      try {
+        const handUrls = (data.hand || []).flatMap((c: any) => [c.imageFront, c.imageBack]).filter(Boolean);
+        const tableUrls = (data.table || []).map((c: any) => c.imageBack).filter(Boolean);
+        preloadImages([...handUrls, ...tableUrls]);
+      } catch {}
       // Показываем предупреждение только один раз за сессию
       if (sessionStorage.getItem('chronium_startWarningShown') !== '1') {
         setShowStartWarning(true);
@@ -300,6 +316,12 @@ function App() {
       // Обновляем руку только если она передана в обновлении
       if (room.hand) {
         setHand(enrichCards(JSON.parse(JSON.stringify(room.hand))));
+        // Предзагружаем изображения руки и стола из апдейта
+        try {
+          const handUrls = (room.hand || []).flatMap((c: any) => [c.imageFront, c.imageBack]).filter(Boolean);
+          const tableUrls = (room.table || []).map((c: any) => c.imageBack).filter(Boolean);
+          preloadImages([...handUrls, ...tableUrls]);
+        } catch {}
       }
       // Разрешаем ходить только если ход реально за этим сокетом
       // Удаляю обработку syncTurn и canPlayNow
@@ -886,7 +908,7 @@ function App() {
               margin: '12px 0 28px 0',
               marginTop: (typeof window !== 'undefined' && window.innerWidth <= 700) ? 56 : 12,
               marginBottom: 28
-            }}>Библейские игры для времяпрепровождения с друзьями:</h1>
+            }}>Библейские игры для провождения времени с друзьями!</h1>
 
             {/* Блок 1 — Библейская хронология */}
             <div style={{ background: '#efebe5', borderRadius: 16, padding: 16, border: '1px solid #e2d9ca', marginBottom: 16, boxShadow: '0 4px 18px rgba(0,0,0,0.06)' }}>
