@@ -380,6 +380,33 @@ function App() {
     setOpenInfoGame(null);
   };
 
+  // При выходе из мультиплеера — возвращаемся в меню библейской хронологии
+  const goToChronologyMenu = () => {
+    setInRoom(false);
+    setInLobby(false);
+    setGameStarted(false);
+    setSingleMode(false);
+    setHand([]);
+    setTable([]);
+    setLobbyPlayers([]);
+    setIsHost(false);
+    setRoomId('');
+    setPlayerName('');
+    setJoinRoomMode(false);
+    setJoinRoomId('');
+    setJoinError('');
+    setWinner('');
+    // Полностью очищаем sessionStorage для мультиплеера
+    sessionStorage.removeItem('chronium_roomId');
+    sessionStorage.removeItem('chronium_playerName');
+    sessionStorage.removeItem('chronium_inLobby');
+    sessionStorage.removeItem('chronium_gameStarted');
+    sessionStorage.setItem('chronium_singleMode', '0');
+    // Возврат в меню "Библейская хронология"
+    setSelectedGame('chronology');
+    setOpenInfoGame(null);
+  };
+
   // При переходе в одиночный режим
   const goToSingleMode = () => {
     setSingleMode(true);
@@ -404,9 +431,17 @@ function App() {
       return;
     }
     setNameError('');
+    let handled = false;
+    const maintenanceTimer = window.setTimeout(() => {
+      if (!handled) {
+        setToast('Мультиплеерная игра недоступна, так как сейчас проходит техническое обслуживание сервера');
+      }
+    }, 5000);
     socket.emit('createRoom', { name: playerName.trim(), clientId }, (response: any) => {
+      handled = true;
+      window.clearTimeout(maintenanceTimer);
       if (!response || !response.roomId || !response.hand) {
-        setToast('Ошибка создания комнаты');
+        setToast('Мультиплеерная игра недоступна, так как сейчас проходит техническое обслуживание сервера');
         return;
       }
       setRoomId(response.roomId);
@@ -450,8 +485,8 @@ function App() {
         setToast(response.error);
       } else {
         setWinner('');
-        // Вместо ручного сброса — вызываем goToMenu для полного сброса и очистки localStorage
-        goToMenu();
+        // Возвращаемся в меню библейской хронологии
+        goToChronologyMenu();
         // Очищаем одиночное состояние на всякий случай
         sessionStorage.removeItem('chronium_single_state');
       }

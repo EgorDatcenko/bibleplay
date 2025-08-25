@@ -67,10 +67,10 @@ const DropZone: React.FC<{ onDrop: (cardId: number) => void; large?: boolean; di
   // Мобильные размеры
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 700;
   // Увеличиваем ширину дроп-зон в 2 раза для ПК
-  const width = isMobile ? 90 : (large ? '80%' : 96);
-  const minWidth = isMobile ? 90 : (large ? 800 : 96);
-  const maxWidth = isMobile ? 90 : (large ? 1800 : 96);
-  const height = isMobile ? 170 : 300;
+  const width = isMobile ? 90 : (large ? '80%' : 120);
+  const minWidth = isMobile ? 90 : (large ? 800 : 120);
+  const maxWidth = isMobile ? 90 : (large ? 1800 : 120);
+  const height = isMobile ? 170 : 350;
   return (
     <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', width, minWidth, maxWidth, margin: isMobile ? '0 2px' : (large ? '0 auto' : '0 8px') }}>
       <div
@@ -200,7 +200,7 @@ const GameTable: React.FC<GameTableProps> = ({ table, onDropCard, isGameOver, is
           justifyContent: isMobile ? 'flex-start' : 'center',
           alignItems: 'center',
           width: isMobile ? undefined : '100%',
-          minHeight: 300,
+          minHeight: 350,
           paddingLeft: isMobile ? 8 : 0
         }}>
           <DropZone onDrop={(cardId) => onDropCard(cardId, 0)} disabled={dropDisabled} large={true} />
@@ -210,7 +210,7 @@ const GameTable: React.FC<GameTableProps> = ({ table, onDropCard, isGameOver, is
           display: 'inline-flex', 
           gap: 0, 
           alignItems: 'center', 
-          minHeight: 300, 
+          minHeight: 350, 
           paddingRight: 150, 
           boxSizing: 'content-box',
           minWidth: table.length > 0 ? 2000 : undefined,
@@ -226,12 +226,12 @@ const GameTable: React.FC<GameTableProps> = ({ table, onDropCard, isGameOver, is
                       image={card.imageBack ?? ''}
                       isFaceUp={true}
                       imageBack={card.imageBack ?? ''}
-                      width={150}
-                      height={400}
+                      width={120}
+                      height={350}
                       imageScaleOffset={-20}
                     />
                   ) : (
-                    <div style={{ width: 180, height: 300, background: '#eee', border: '2px solid red', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#b71c1c', fontWeight: 700 }}>
+                    <div style={{ width: 120, height: 350, background: '#eee', border: '2px solid red', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#b71c1c', fontWeight: 700 }}>
                       Ошибка карты
                     </div>
                   )}
