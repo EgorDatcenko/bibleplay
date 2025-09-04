@@ -191,7 +191,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
 
   if (hasWinner && winner) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: 20 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: 20, paddingTop: 'clamp(40px, 10vw, 80px)' }}>
         <h2 style={{ fontSize: 'clamp(20px, 5vw, 24px)', textAlign: 'center' }}>Победа: {winner.name}</h2>
         <button onClick={handleBackToMenu} style={{ background: '#d4a373', color: '#fff', border: 'none', borderRadius: 8, padding: 'clamp(12px, 3vw, 16px) clamp(24px, 5vw, 28px)', fontWeight: 700, fontSize: 'clamp(14px, 3.5vw, 16px)' }}>В меню</button>
       </div>
@@ -200,7 +200,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
 
   if (phase === 'setup') {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: 20 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: 20, paddingTop: 'clamp(40px, 10vw, 80px)' }}>
         <button onClick={handleBackToMenu} style={{ 
           background: '#ccc', 
           color: '#fff', 
@@ -290,7 +290,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
 
   if (phase === 'playing') {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: 20 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: 20, paddingTop: 'clamp(40px, 10vw, 80px)' }}>
         <h2 style={{ fontSize: 'clamp(20px, 5vw, 24px)' }}>Библейский Alias</h2>
         <div style={{ background: '#faf8f4', border: '1px solid #ece6da', borderRadius: 12, padding: 16, width: '100%', maxWidth: 700 }}>
           <div style={{ display: 'flex', gap: 12, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
@@ -344,7 +344,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
   // phase === 'round'
   const word = deck[currentWordIdx];
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: 20 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: 20, paddingTop: 'clamp(40px, 10vw, 80px)' }}>
       <div style={{ display: 'flex', width: '100%', maxWidth: 720, alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ fontWeight: 800, fontSize: 'clamp(16px, 4vw, 20px)' }}>Ход: {teams[currentTeamIdx]?.name}</div>
         <div style={{ fontSize: 'clamp(16px, 4vw, 20px)' }}>⏱ {timeLeft}s</div>
