@@ -174,6 +174,41 @@ function App() {
   });
   const [selectedGame, setSelectedGame] = useState<'chronology' | 'alias' | null>(null);
   const [openInfoGame, setOpenInfoGame] = useState<null | 'chronology' | 'alias' | 'pharisees'>(null);
+  const [aliasMenuMode, setAliasMenuMode] = useState(false);
+
+  // Функции для работы с сохраненным состоянием Alias
+  const hasAliasSave = React.useMemo(() => {
+    try {
+      const saved = sessionStorage.getItem('alias_game_state');
+      return saved && JSON.parse(saved).phase !== 'setup';
+    } catch {
+      return false;
+    }
+  }, []);
+
+  const handleContinueAlias = () => {
+    setAliasMenuMode(false);
+    // AliasGame сам загрузит сохраненное состояние
+  };
+
+  const handleNewAlias = () => {
+    try {
+      sessionStorage.removeItem('alias_game_state');
+    } catch (e) {
+      console.warn('Не удалось очистить сохраненное состояние Alias:', e);
+    }
+    setAliasMenuMode(false);
+  };
+
+  const handleExitAlias = () => {
+    try {
+      sessionStorage.removeItem('alias_game_state');
+    } catch (e) {
+      console.warn('Не удалось очистить сохраненное состояние Alias:', e);
+    }
+    setAliasMenuMode(false);
+    setSelectedGame(null);
+  };
 
   // refs для автоскролла к формам
   const createFormRef = useRef<HTMLDivElement>(null);
@@ -930,7 +965,7 @@ function App() {
             <div style={{ background: '#efebe5', borderRadius: 16, padding: 16, border: '1px solid #e2d9ca', marginBottom: 16, boxShadow: '0 4px 18px rgba(0,0,0,0.06)' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
                 <div style={{ fontSize: 20, fontWeight: 700, color: '#2c1810' }}>Библейский Alias</div>
-                <button onClick={() => setSelectedGame('alias')} style={{ background: '#2e7d32', color: '#fff', border: 'none', borderRadius: 20, padding: '8px 16px', fontSize: 16, fontWeight: 700, cursor: 'pointer' }}>Играть</button>
+                <button onClick={() => { setSelectedGame('alias'); setAliasMenuMode(true); }} style={{ background: '#2e7d32', color: '#fff', border: 'none', borderRadius: 20, padding: '8px 16px', fontSize: 16, fontWeight: 700, cursor: 'pointer' }}>Играть</button>
               </div>
               <div style={{ color: '#4d3b2f', fontSize: 14, marginTop: 8 }}>
                 Объясняйте библейские термины, имена, места и книги так, чтобы команда угадала слово быстрее соперников.
@@ -982,11 +1017,110 @@ function App() {
     );
   }
 
-  if (selectedGame === 'alias') {
+  if (selectedGame === 'alias' && !aliasMenuMode) {
     return (
       <>
         <div className="header"><span className="header-logo">BiblePlay</span></div>
-        <AliasGame onExit={() => setSelectedGame(null)} />
+        <AliasGame onExit={handleExitAlias} />
+      </>
+    );
+  }
+
+  if (selectedGame === 'alias' && aliasMenuMode) {
+    return (
+      <>
+        <div className="header"><span className="header-logo">BiblePlay</span></div>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh',
+          background: '#f9f6ef',
+          padding: '20px',
+          position: 'relative',
+        }}>
+          {/* Кнопка назад к списку игр */}
+          <div style={{ position: 'absolute', top: 80, left: 24, zIndex: 20 }}>
+            <button
+              onClick={() => { setSelectedGame(null); setAliasMenuMode(false); }}
+              style={{ background: '#bdb7af', color: '#2c1810', border: 'none', borderRadius: 8, padding: '8px 14px', fontSize: 16, cursor: 'pointer', fontWeight: 700 }}
+            >
+              ← Назад
+            </button>
+          </div>
+          <div style={{
+            background: '#faf8f4',
+            borderRadius: 16,
+            padding: '40px',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+            border: '1px solid #ece6da',
+            maxWidth: 400,
+            width: '100%',
+            textAlign: 'center'
+          }}>
+            <h1 style={{ 
+              marginBottom: 32, 
+              marginTop: 60,
+              color: '#2c1810',
+              fontSize: 32,
+              fontWeight: 700
+            }}>
+              Библейский Alias
+            </h1>
+            <p style={{
+              color: '#7c6f57',
+              fontSize: 16,
+              marginBottom: 32,
+              lineHeight: 1.5
+            }}>
+              Объясняйте библейские термины команде и набирайте очки быстрее соперников
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 32 }}>
+              {hasAliasSave && (
+                <>
+                  <button onClick={handleContinueAlias} style={{ background: '#d4a373', color: 'white', border: 'none', borderRadius: 8, padding: '16px 24px', fontSize: 18, cursor: 'pointer', fontWeight: 600 }}>▶ Продолжить игру</button>
+                  <button onClick={handleNewAlias} style={{ background: '#fff', color: '#d4a373', border: '2px solid #d4a373', borderRadius: 8, padding: '16px 24px', fontSize: 18, cursor: 'pointer', fontWeight: 600 }}>♻️ Новая игра</button>
+                </>
+              )}
+              {!hasAliasSave && (
+                <button onClick={handleNewAlias} style={{ background: '#d4a373', color: 'white', border: 'none', borderRadius: 8, padding: '16px 24px', fontSize: 18, cursor: 'pointer', fontWeight: 600 }}>🎮 Начать новую игру</button>
+              )}
+              <button 
+                onClick={() => setShowRules(true)}
+                style={{
+                  background: '#fff',
+                  color: '#742a2a',
+                  border: '2px solid #742a2a',
+                  borderRadius: 8,
+                  padding: '16px 24px',
+                  fontSize: 18,
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                  transition: 'all 0.3s'
+                }}
+              >
+                📖 Правила игры
+              </button>
+              <button
+                onClick={() => setShowDonate(true)}
+                style={{
+                  background: '#ffd600',
+                  color: '#2c1810',
+                  border: '2px solid #ffd600',
+                  borderRadius: 8,
+                  padding: '16px 24px',
+                  fontSize: 18,
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                  transition: 'all 0.3s'
+                }}
+              >
+                💝 Пожертвовать
+              </button>
+            </div>
+          </div>
+        </div>
       </>
     );
   }
