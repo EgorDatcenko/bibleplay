@@ -175,7 +175,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: 20 }}>
         <h2 style={{ fontSize: 'clamp(20px, 5vw, 24px)', textAlign: 'center' }}>Победа: {winner.name}</h2>
-        <button onClick={handleExit} style={{ background: '#d4a373', color: '#fff', border: 'none', borderRadius: 8, padding: 'clamp(12px, 3vw, 16px) clamp(24px, 5vw, 28px)', fontWeight: 700, fontSize: 'clamp(14px, 3.5vw, 16px)' }}>В меню</button>
+        <button onClick={handleBackToMenu} style={{ background: '#d4a373', color: '#fff', border: 'none', borderRadius: 8, padding: 'clamp(12px, 3vw, 16px) clamp(24px, 5vw, 28px)', fontWeight: 700, fontSize: 'clamp(14px, 3.5vw, 16px)' }}>В меню</button>
       </div>
     );
   }
@@ -183,7 +183,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
   if (phase === 'setup') {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: 20 }}>
-        <button onClick={handleExit} style={{ 
+        <button onClick={handleBackToMenu} style={{ 
           background: '#ccc', 
           color: '#fff', 
           border: 'none', 
@@ -288,7 +288,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
             </div>
           </div>
         </div>
-        <button onClick={handleExit} style={{ background: '#ccc', color: '#fff', border: 'none', borderRadius: 8, padding: 'clamp(10px, 2.5vw, 12px) clamp(16px, 4vw, 20px)', fontSize: 'clamp(14px, 3.5vw, 16px)' }}>В меню</button>
+        <button onClick={handleBackToMenu} style={{ background: '#ccc', color: '#fff', border: 'none', borderRadius: 8, padding: 'clamp(10px, 2.5vw, 12px) clamp(16px, 4vw, 20px)', fontSize: 'clamp(14px, 3.5vw, 16px)' }}>В меню</button>
       </div>
     );
   }
