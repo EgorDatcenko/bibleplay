@@ -182,7 +182,7 @@ export default function App() {
 
                 <div style={{ marginTop: 20 }}>
           <button onClick={() => setShowDonate(true)} style={{ background: '#ffd600', color: '#2c1810', border: 'none', borderRadius: 8, padding: '12px 20px' }}>Пожертвовать</button>
-        </div>
+          </div>
 
           {/* Модальные окна «Подробнее» */}
           <InfoModal isOpen={openInfoGame === 'chronology'} onClose={() => setOpenInfoGame(null)} title="Библейская хронология">
