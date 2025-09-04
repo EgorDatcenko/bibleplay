@@ -117,6 +117,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
           borderRadius: 8, 
           padding: 'clamp(10px, 2.5vw, 12px) clamp(16px, 4vw, 20px)',
           alignSelf: 'flex-start',
+          marginTop: 'clamp(20px, 5vw, 30px)',
           marginBottom: '20px',
           fontSize: 'clamp(14px, 3.5vw, 16px)'
         }}>← Назад</button>
@@ -190,7 +191,6 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
           </label>
           <div style={{ display: 'flex', gap: 12, marginTop: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
             <button onClick={startGame} style={{ background: '#d4a373', color: '#fff', border: 'none', borderRadius: 8, padding: 'clamp(12px, 3vw, 16px) clamp(20px, 4vw, 24px)', fontWeight: 700, fontSize: 'clamp(14px, 3.5vw, 16px)' }}>Начать игру</button>
-            <button onClick={onExit} style={{ background: '#ccc', color: '#fff', border: 'none', borderRadius: 8, padding: 'clamp(12px, 3vw, 16px) clamp(20px, 4vw, 24px)', fontSize: 'clamp(14px, 3.5vw, 16px)' }}>В меню</button>
           </div>
         </div>
       </div>
