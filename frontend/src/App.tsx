@@ -212,6 +212,11 @@ function App() {
     setSelectedGame(null);
   };
 
+  const handleBackToAliasMenu = () => {
+    setAliasMenuMode(true);
+    // Не очищаем состояние, чтобы можно было продолжить игру
+  };
+
   // refs для автоскролла к формам
   const createFormRef = useRef<HTMLDivElement>(null);
   const joinFormRef = useRef<HTMLDivElement>(null);
@@ -1034,6 +1039,27 @@ function App() {
               <p>Игра вдохновлена и адаптирована на основе материалов проекта «PHARISEES: The Party Game». Подробности и полезные материалы для ведущего см. на сайте <a href="https://phariseesgame.com" target="_blank" rel="noopener noreferrer">phariseesgame.com</a>.</p>
             </div>
           </InfoModal>
+          
+          {/* Кнопка пожертвования в главном меню */}
+          <div style={{ textAlign: 'center', marginTop: 32, marginBottom: 16 }}>
+            <button
+              onClick={() => setShowDonate(true)}
+              style={{
+                background: '#ffd600',
+                color: '#2c1810',
+                border: '2px solid #ffd600',
+                borderRadius: 8,
+                padding: '16px 24px',
+                fontSize: 18,
+                cursor: 'pointer',
+                fontWeight: 600,
+                transition: 'all 0.3s'
+              }}
+            >
+              💝 Пожертвовать
+            </button>
+          </div>
+          
           <FooterKuBBiA />
         </div>
       </>
@@ -1044,7 +1070,7 @@ function App() {
     return (
       <>
         <div className="header"><span className="header-logo">BiblePlay</span></div>
-        <AliasGame onExit={handleExitAlias} />
+        <AliasGame onExit={handleBackToAliasMenu} />
       </>
     );
   }

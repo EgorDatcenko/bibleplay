@@ -69,10 +69,13 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
   const timeLeft = useCountdown(roundEndAt);
 
   React.useEffect(() => {
-    const words = shuffle(getAllWords(settings.selectedCategories, settings.includeAdvanced));
-    setDeck(words);
-    setCurrentWordIdx(0);
-  }, [settings.selectedCategories, settings.includeAdvanced]);
+    // Только если нет сохраненного состояния или deck пустой
+    if (!savedState?.deck || savedState.deck.length === 0) {
+      const words = shuffle(getAllWords(settings.selectedCategories, settings.includeAdvanced));
+      setDeck(words);
+      setCurrentWordIdx(0);
+    }
+  }, [settings.selectedCategories, settings.includeAdvanced, savedState?.deck]);
 
   // Сохраняем состояние игры при изменениях
   React.useEffect(() => {
