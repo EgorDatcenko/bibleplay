@@ -14,6 +14,33 @@ type Settings = {
 
 type Phase = 'setup' | 'playing' | 'round';
 
+// Функции для сохранения состояния игры
+function saveAliasGameState(state: any) {
+  try {
+    sessionStorage.setItem('alias_game_state', JSON.stringify(state));
+  } catch (e) {
+    console.warn('Не удалось сохранить состояние игры Alias:', e);
+  }
+}
+
+function loadAliasGameState() {
+  try {
+    const saved = sessionStorage.getItem('alias_game_state');
+    return saved ? JSON.parse(saved) : null;
+  } catch (e) {
+    console.warn('Не удалось загрузить состояние игры Alias:', e);
+    return null;
+  }
+}
+
+function clearAliasGameState() {
+  try {
+    sessionStorage.removeItem('alias_game_state');
+  } catch (e) {
+    console.warn('Не удалось очистить состояние игры Alias:', e);
+  }
+}
+
 function useCountdown(endAtMs: number | null) {
   const [now, setNow] = React.useState<number>(() => Date.now());
   React.useEffect(() => {
@@ -26,16 +53,19 @@ function useCountdown(endAtMs: number | null) {
 }
 
 export default function AliasGame({ onExit }: { onExit: () => void }) {
-  const [phase, setPhase] = React.useState<Phase>('setup');
-  const [teams, setTeams] = React.useState<Team[]>([
+  // Загружаем сохраненное состояние при инициализации
+  const savedState = React.useMemo(() => loadAliasGameState(), []);
+  
+  const [phase, setPhase] = React.useState<Phase>(savedState?.phase || 'setup');
+  const [teams, setTeams] = React.useState<Team[]>(savedState?.teams || [
     { id: 't1', name: 'Команда 1', score: 0 },
     { id: 't2', name: 'Команда 2', score: 0 },
   ]);
-  const [currentTeamIdx, setCurrentTeamIdx] = React.useState(0);
-  const [settings, setSettings] = React.useState<Settings>({ roundSeconds: 60, targetScore: 20, selectedCategories: aliasCategories.map(c => c.key), includeAdvanced: false, disableHints: false });
-  const [deck, setDeck] = React.useState<AliasWord[]>([]);
-  const [currentWordIdx, setCurrentWordIdx] = React.useState(0);
-  const [roundEndAt, setRoundEndAt] = React.useState<number | null>(null);
+  const [currentTeamIdx, setCurrentTeamIdx] = React.useState(savedState?.currentTeamIdx || 0);
+  const [settings, setSettings] = React.useState<Settings>(savedState?.settings || { roundSeconds: 60, targetScore: 20, selectedCategories: aliasCategories.map(c => c.key), includeAdvanced: false, disableHints: false });
+  const [deck, setDeck] = React.useState<AliasWord[]>(savedState?.deck || []);
+  const [currentWordIdx, setCurrentWordIdx] = React.useState(savedState?.currentWordIdx || 0);
+  const [roundEndAt, setRoundEndAt] = React.useState<number | null>(savedState?.roundEndAt || null);
   const timeLeft = useCountdown(roundEndAt);
 
   React.useEffect(() => {
@@ -43,6 +73,28 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
     setDeck(words);
     setCurrentWordIdx(0);
   }, [settings.selectedCategories, settings.includeAdvanced]);
+
+  // Сохраняем состояние игры при изменениях
+  React.useEffect(() => {
+    if (phase !== 'setup') { // Сохраняем только во время игры
+      const gameState = {
+        phase,
+        teams,
+        currentTeamIdx,
+        settings,
+        deck,
+        currentWordIdx,
+        roundEndAt,
+        timestamp: Date.now()
+      };
+      saveAliasGameState(gameState);
+    }
+  }, [phase, teams, currentTeamIdx, settings, deck, currentWordIdx, roundEndAt]);
+
+  const handleExit = () => {
+    clearAliasGameState();
+    onExit();
+  };
 
   const startGame = () => {
     setPhase('playing');
@@ -56,7 +108,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
   const endRound = () => {
     setPhase('playing');
     setRoundEndAt(null);
-    setCurrentTeamIdx((i) => (i + 1) % teams.length);
+    setCurrentTeamIdx((i: number) => (i + 1) % teams.length);
   };
 
   React.useEffect(() => {
@@ -92,7 +144,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
   };
 
   const nextWord = () => {
-    setCurrentWordIdx((i) => (i + 1) % Math.max(1, deck.length));
+    setCurrentWordIdx((i: number) => (i + 1) % Math.max(1, deck.length));
   };
 
   const hasWinner = teams.some(t => t.score >= settings.targetScore);
@@ -102,7 +154,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: 20 }}>
         <h2 style={{ fontSize: 'clamp(20px, 5vw, 24px)', textAlign: 'center' }}>Победа: {winner.name}</h2>
-        <button onClick={onExit} style={{ background: '#d4a373', color: '#fff', border: 'none', borderRadius: 8, padding: 'clamp(12px, 3vw, 16px) clamp(24px, 5vw, 28px)', fontWeight: 700, fontSize: 'clamp(14px, 3.5vw, 16px)' }}>В меню</button>
+        <button onClick={handleExit} style={{ background: '#d4a373', color: '#fff', border: 'none', borderRadius: 8, padding: 'clamp(12px, 3vw, 16px) clamp(24px, 5vw, 28px)', fontWeight: 700, fontSize: 'clamp(14px, 3.5vw, 16px)' }}>В меню</button>
       </div>
     );
   }
@@ -110,7 +162,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
   if (phase === 'setup') {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: 20 }}>
-        <button onClick={onExit} style={{ 
+        <button onClick={handleExit} style={{ 
           background: '#ccc', 
           color: '#fff', 
           border: 'none', 
@@ -215,7 +267,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
             </div>
           </div>
         </div>
-        <button onClick={onExit} style={{ background: '#ccc', color: '#fff', border: 'none', borderRadius: 8, padding: 'clamp(10px, 2.5vw, 12px) clamp(16px, 4vw, 20px)', fontSize: 'clamp(14px, 3.5vw, 16px)' }}>В меню</button>
+        <button onClick={handleExit} style={{ background: '#ccc', color: '#fff', border: 'none', borderRadius: 8, padding: 'clamp(10px, 2.5vw, 12px) clamp(16px, 4vw, 20px)', fontSize: 'clamp(14px, 3.5vw, 16px)' }}>В меню</button>
       </div>
     );
   }
