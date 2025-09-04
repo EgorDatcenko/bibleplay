@@ -2,7 +2,7 @@ import React from 'react';
 import { aliasCategories, getAllWords, shuffle } from './aliasData.ts';
 import type { AliasCategory, AliasWord } from './aliasData.ts';
 
-type Team = { id: string; name: string; score: number };
+type Team = { id: string; name: string; score: number; roundScore: number };
 
 type Settings = {
   roundSeconds: number;
@@ -58,8 +58,8 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
   
   const [phase, setPhase] = React.useState<Phase>(savedState?.phase || 'setup');
   const [teams, setTeams] = React.useState<Team[]>(savedState?.teams || [
-    { id: 't1', name: 'Команда 1', score: 0 },
-    { id: 't2', name: 'Команда 2', score: 0 },
+    { id: 't1', name: 'Команда 1', score: 0, roundScore: 0 },
+    { id: 't2', name: 'Команда 2', score: 0, roundScore: 0 },
   ]);
   const [currentTeamIdx, setCurrentTeamIdx] = React.useState(savedState?.currentTeamIdx || 0);
   const [settings, setSettings] = React.useState<Settings>(savedState?.settings || { roundSeconds: 60, targetScore: 20, selectedCategories: aliasCategories.map(c => c.key), includeAdvanced: false, disableHints: false });
@@ -127,6 +127,13 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
   };
 
   const endRound = () => {
+    // Добавляем баллы текущего раунда к общему счету и сбрасываем roundScore
+    setTeams((t) => t.map((team, idx) => {
+      if (idx === currentTeamIdx) {
+        return { ...team, score: team.score + team.roundScore, roundScore: 0 };
+      }
+      return team;
+    }));
     setPhase('playing');
     setRoundEndAt(null);
     setCurrentTeamIdx((i: number) => (i + 1) % teams.length);
@@ -140,7 +147,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
 
   const addTeam = () => {
     const id = Math.random().toString(36).slice(2, 8);
-    setTeams((t) => [...t, { id, name: `Команда ${t.length + 1}`, score: 0 }]);
+    setTeams((t) => [...t, { id, name: `Команда ${t.length + 1}`, score: 0, roundScore: 0 }]);
   };
 
   const removeTeam = (id: string) => {
@@ -153,21 +160,16 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
   };
 
   const guessed = () => {
-    // +1 очко текущей команде, следующeе слово
-    setTeams((t) => t.map((team, idx) => idx === currentTeamIdx ? { ...team, score: team.score + 1 } : team));
+    // +1 очко текущей команде за текущий раунд, следующее слово
+    setTeams((t) => t.map((team, idx) => idx === currentTeamIdx ? { ...team, roundScore: team.roundScore + 1 } : team));
     nextWord();
   };
 
   const skipped = () => {
-    // -1 очко текущей команде за пропуск, следующее слово
-    // Но не отнимаем очки, если команда уже достигла целевого счета
+    // -1 очко текущей команде за пропуск в текущем раунде, следующее слово
     setTeams((t) => t.map((team, idx) => {
       if (idx === currentTeamIdx) {
-        // Если команда уже достигла целевого счета, не отнимаем очки
-        if (team.score >= settings.targetScore) {
-          return team;
-        }
-        return { ...team, score: Math.max(0, team.score - 1) };
+        return { ...team, roundScore: Math.max(0, team.roundScore - 1) };
       }
       return team;
     }));
@@ -300,9 +302,16 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
           <div style={{ marginTop: 16 }}>
             <h3 style={{ fontSize: 'clamp(16px, 4vw, 18px)' }}>Счёт</h3>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              {teams.map(t => (
-                <div key={t.id} style={{ background: '#efebe5', border: '1px solid #e2d9ca', borderRadius: 12, padding: 'clamp(8px, 2vw, 12px)', fontSize: 'clamp(14px, 3.5vw, 16px)' }}>{t.name}: <b>{t.score}</b></div>
-              ))}
+                             {teams.map(t => (
+                 <div key={t.id} style={{ background: '#efebe5', border: '1px solid #e2d9ca', borderRadius: 12, padding: 'clamp(8px, 2vw, 12px)', fontSize: 'clamp(14px, 3.5vw, 16px)' }}>
+                   {t.name}: <b>{t.score}</b>
+                   {t.roundScore !== 0 && (
+                     <span style={{ color: t.roundScore > 0 ? '#4caf50' : '#b71c1c', marginLeft: 8 }}>
+                       ({t.roundScore > 0 ? '+' : ''}{t.roundScore})
+                     </span>
+                   )}
+                 </div>
+               ))}
             </div>
           </div>
         </div>
