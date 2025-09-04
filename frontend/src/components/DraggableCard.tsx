@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDrag } from 'react-dnd';
 import Card from './Card';
 
@@ -57,7 +57,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandE
     return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
   }
 
-  function handlePointerDown(e: any) {
+  const handlePointerDown = useCallback((e: any) => {
     if (disabled) return;
     canceledRef.current = false;
     const { clientX, clientY } = getClientXY(e);
@@ -67,7 +67,6 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandE
     if (isTouch) {
       setDragReady(false);
       clearPressTimer();
-      // Показываем анимацию зажатия и разрешаем dnd только через 250мс
       pressTimerRef.current = window.setTimeout(() => {
         if (canceledRef.current) return;
         const pos = lastPosRef.current;
@@ -77,13 +76,12 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandE
         setDragReady(true);
       }, 250);
     } else {
-      // На ПК — визуал сразу, dnd доступен сразу
       setIsPressed(true);
       setDragReady(true);
     }
-  }
+  }, [disabled, isTouch, clearPressTimer, withinElement]);
 
-  function handlePointerMove(e: any) {
+  const handlePointerMove = useCallback((e: any) => {
     if (pressTimerRef.current && !isPressed) {
       const { clientX, clientY } = getClientXY(e);
       lastPosRef.current = { x: clientX, y: clientY };
@@ -101,7 +99,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandE
         }
       }
     }
-  }
+  }, [isPressed, clearPressTimer, withinElement]);
 
   function handlePointerUp() {
     canceledRef.current = true;
@@ -152,6 +150,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ card, isGameOver, isHandE
   );
 };
 
+// Функция для получения координат клиента
 function getClientXY(e: any): { clientX: number; clientY: number } {
   if (e?.clientX != null && e?.clientY != null) return { clientX: e.clientX, clientY: e.clientY };
   const t = e?.touches?.[0] || e?.changedTouches?.[0];

@@ -846,6 +846,18 @@ io.on('connection', (socket) => {
       const turnTimeout = Date.now() + 30000;
       room.turnTimeout = turnTimeout;
       startTurnTimer(roomId);
+      
+      // --- ГАРАНТИЯ clientId ---
+      if (room && room.currentPlayer !== undefined && room.players && room.players[room.currentPlayer]) {
+        if (!room.players[room.currentPlayer].clientId) {
+          // Восстановить clientId если вдруг потерялся
+          const id = room.players[room.currentPlayer].id;
+          const found = room.players.find(p => p.id === id && p.clientId);
+          room.players[room.currentPlayer].clientId = found ? found.clientId : id;
+        }
+        console.log('[FINAL-DEBUG] currentPlayer:', room.currentPlayer, 'id:', room.players[room.currentPlayer].id, 'clientId:', room.players[room.currentPlayer].clientId);
+      }
+      
       room.players.forEach(p => {
         io.to(p.id).emit('update', {
           ...room,
