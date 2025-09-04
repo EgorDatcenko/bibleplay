@@ -1060,6 +1060,76 @@ function App() {
             </button>
           </div>
           
+          {/* Модальные окна для главного меню */}
+          <GameRules isOpen={showRules} onClose={() => setShowRules(false)} mode="both" />
+          <AliasRules isOpen={showAliasRules} onClose={() => setShowAliasRules(false)} />
+          {showDonate && (
+            <div style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0,0,0,0.5)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 2000
+            }}>
+              <div style={{
+                background: '#faf8f4',
+                borderRadius: 16,
+                padding: '32px',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+                border: '1px solid #ece6da',
+                maxWidth: 340,
+                width: '90vw',
+                minWidth: 220,
+                textAlign: 'center',
+                boxSizing: 'border-box',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <h2 style={{ color: '#2c1810', fontSize: 24, fontWeight: 700, marginBottom: 16 }}>Пожертвование</h2>
+                <p style={{ color: '#7c6f57', fontSize: 16, marginBottom: 24 }}>
+                  Ваши пожертвования помогут в оплате серверов, поддержке и расширении проекта (усовершенствование и добавление новых игр).
+                </p>
+                <a href="https://www.donationalerts.com/r/bibleplay" target="_blank" rel="noopener noreferrer" style={{
+                  display: 'inline-block',
+                  background: '#ffd600',
+                  color: '#2c1810',
+                  fontWeight: 700,
+                  fontSize: 18,
+                  padding: '12px 32px',
+                  borderRadius: 8,
+                  textDecoration: 'none',
+                  marginBottom: 16,
+                  whiteSpace: 'nowrap',
+                  minWidth: 220,
+                  textAlign: 'center'
+                }}>
+                  Перейти на DonationAlerts
+                </a>
+                <div>
+                  <button onClick={() => setShowDonate(false)} style={{
+                    background: '#bdb7af',
+                    color: '#2c1810',
+                    border: 'none',
+                    borderRadius: 8,
+                    padding: '8px 16px',
+                    fontSize: 16,
+                    cursor: 'pointer',
+                    marginTop: 12
+                  }}>
+                    Закрыть
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+          
           <FooterKuBBiA />
         </div>
       </>
@@ -1169,6 +1239,75 @@ function App() {
               </button>
             </div>
           </div>
+          
+          {/* Модальные окна для меню Alias */}
+          <AliasRules isOpen={showAliasRules} onClose={() => setShowAliasRules(false)} />
+          {showDonate && (
+            <div style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0,0,0,0.5)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 2000
+            }}>
+              <div style={{
+                background: '#faf8f4',
+                borderRadius: 16,
+                padding: '32px',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+                border: '1px solid #ece6da',
+                maxWidth: 340,
+                width: '90vw',
+                minWidth: 220,
+                textAlign: 'center',
+                boxSizing: 'border-box',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <h2 style={{ color: '#2c1810', fontSize: 24, fontWeight: 700, marginBottom: 16 }}>Пожертвование</h2>
+                <p style={{ color: '#7c6f57', fontSize: 16, marginBottom: 24 }}>
+                  Ваши пожертвования помогут в оплате серверов, поддержке и расширении проекта (усовершенствование и добавление новых игр).
+                </p>
+                <a href="https://www.donationalerts.com/r/bibleplay" target="_blank" rel="noopener noreferrer" style={{
+                  display: 'inline-block',
+                  background: '#ffd600',
+                  color: '#2c1810',
+                  fontWeight: 700,
+                  fontSize: 18,
+                  padding: '12px 32px',
+                  borderRadius: 8,
+                  textDecoration: 'none',
+                  marginBottom: 16,
+                  whiteSpace: 'nowrap',
+                  minWidth: 220,
+                  textAlign: 'center'
+                }}>
+                  Перейти на DonationAlerts
+                </a>
+                <div>
+                  <button onClick={() => setShowDonate(false)} style={{
+                    background: '#bdb7af',
+                    color: '#2c1810',
+                    border: 'none',
+                    borderRadius: 8,
+                    padding: '8px 16px',
+                    fontSize: 16,
+                    cursor: 'pointer',
+                    marginTop: 12
+                  }}>
+                    Закрыть
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </>
     );

@@ -99,6 +99,24 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
     onExit();
   };
 
+  const handleBackToMenu = () => {
+    // Сохраняем текущее состояние перед выходом в меню
+    if (phase !== 'setup') {
+      const gameState = {
+        phase,
+        teams,
+        currentTeamIdx,
+        settings,
+        deck,
+        currentWordIdx,
+        roundEndAt,
+        timestamp: Date.now()
+      };
+      saveAliasGameState(gameState);
+    }
+    onExit();
+  };
+
   const startGame = () => {
     setPhase('playing');
   };
