@@ -104,7 +104,7 @@ const GameRules: React.FC<GameRulesProps> = ({ isOpen, onClose, mode = 'both' })
               <ul style={{ paddingLeft: 20, margin: 0 }}>
                 <li style={{ marginBottom: 8 }}>Играйте в одиночку, изучая библейскую хронологию</li>
                 <li style={{ marginBottom: 8 }}>У вас есть 5 жизней</li>
-                <li style={{ marginBottom: 8 }}>Каждый правильный ход даёт +1 балл</li>
+                <li style={{ marginBottom: 8 }}>Каждый правильный ход дает определенное количество баллов</li>
                 <li style={{ marginBottom: 8 }}>При неправильном размещении карты: -1 жизнь</li>
                 <li style={{ marginBottom: 8 }}>Игра заканчивается, когда заканчиваются жизни или все карты</li>
                 <li style={{ marginBottom: 8 }}>Цель — набрать как можно больше баллов</li>
@@ -127,7 +127,7 @@ const GameRules: React.FC<GameRulesProps> = ({ isOpen, onClose, mode = 'both' })
               <li style={{ marginBottom: 8 }}>Карты размещаются в порядке возрастания номеров событий</li>
               <li style={{ marginBottom: 8 }}>Перетаскивайте карты из руки на игровое поле</li>
               <li style={{ marginBottom: 8 }}>Карты можно размещать между уже выложенными картами</li>
-              <li style={{ marginBottom: 8 }}>Цвет карты зависит от типа события</li>
+              <li style={{ marginBottom: 8 }}>Цвет карты зависит от сложности события</li>
               <li style={{ marginBottom: 8 }}>Изучайте библейскую хронологию и улучшайте свои знания!</li>
             </ul>
             <h3 style={{ color: '#742a2a', fontSize: 20, fontWeight: 600, margin: '18px 0 8px 0' }}>Управление</h3>
