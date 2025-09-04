@@ -20,8 +20,8 @@ class CardLoader {
   preloadCriticalCards(cards: any[]) {
     const criticalCards = cards.slice(0, 20);
     criticalCards.forEach(card => {
-      if (card.imageFront) this.preloadImage(card.imageFront);
-      if (card.imageBack) this.preloadImage(card.imageBack);
+      if (card.imageFront) this.loadImage(card.imageFront);
+      if (card.imageBack) this.loadImage(card.imageBack);
     });
   }
 
