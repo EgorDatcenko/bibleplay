@@ -91,6 +91,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
         timestamp: Date.now()
       };
       saveAliasGameState(gameState);
+      console.log('Автосохранение состояния:', gameState);
     }
   }, [phase, teams, currentTeamIdx, settings, deck, currentWordIdx, roundEndAt]);
 
@@ -113,6 +114,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
         timestamp: Date.now()
       };
       saveAliasGameState(gameState);
+      console.log('Сохранено состояние при выходе в меню:', gameState);
     }
     onExit();
   };
