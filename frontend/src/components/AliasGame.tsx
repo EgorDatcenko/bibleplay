@@ -119,6 +119,8 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
 
   const startGame = () => {
     setPhase('playing');
+    // Анимация скролла вверх для мобильной версии
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const startRound = () => {
@@ -211,7 +213,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
           padding: 'clamp(10px, 2.5vw, 12px) clamp(16px, 4vw, 20px)',
           alignSelf: 'flex-start',
           marginTop: 'clamp(20px, 5vw, 30px)',
-          marginBottom: '20px',
+          marginBottom: 'clamp(20px, 5vw, 30px)',
           fontSize: 'clamp(14px, 3.5vw, 16px)'
         }}>← Назад</button>
         <h2 style={{ marginTop: '0px', marginBottom: '20px', textAlign: 'center', fontSize: 'clamp(20px, 5vw, 24px)' }}>Библейский Alias — Настройки</h2>
