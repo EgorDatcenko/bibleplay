@@ -66,6 +66,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
   const [deck, setDeck] = React.useState<AliasWord[]>(savedState?.deck || []);
   const [currentWordIdx, setCurrentWordIdx] = React.useState(savedState?.currentWordIdx || 0);
   const [roundEndAt, setRoundEndAt] = React.useState<number | null>(savedState?.roundEndAt || null);
+  const [allowLastExplain, setAllowLastExplain] = React.useState<boolean>(false);
   const timeLeft = useCountdown(roundEndAt);
 
   React.useEffect(() => {
@@ -93,6 +94,34 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
       saveAliasGameState(gameState);
       console.log('Автосохранение состояния:', gameState);
     }
+  }, [phase, teams, currentTeamIdx, settings, deck, currentWordIdx, roundEndAt]);
+
+  // Резервное сохранение при скрытии вкладки/уходе со страницы
+  React.useEffect(() => {
+    const handler = () => {
+      if (phase !== 'setup') {
+        const gameState = {
+          phase,
+          teams,
+          currentTeamIdx,
+          settings,
+          deck,
+          currentWordIdx,
+          roundEndAt,
+          timestamp: Date.now()
+        };
+        try {
+          sessionStorage.setItem('alias_game_state', JSON.stringify(gameState));
+          console.log('Сохранение при visibilitychange/pagehide:', gameState);
+        } catch {}
+      }
+    };
+    document.addEventListener('visibilitychange', handler);
+    window.addEventListener('pagehide', handler);
+    return () => {
+      document.removeEventListener('visibilitychange', handler);
+      window.removeEventListener('pagehide', handler);
+    };
   }, [phase, teams, currentTeamIdx, settings, deck, currentWordIdx, roundEndAt]);
 
   const handleExit = () => {
@@ -128,6 +157,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
   const startRound = () => {
     setPhase('round');
     setRoundEndAt(Date.now() + settings.roundSeconds * 1000);
+    setAllowLastExplain(false);
   };
 
   const endRound = () => {
@@ -145,7 +175,9 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
 
   React.useEffect(() => {
     if (phase === 'round' && timeLeft === 0 && roundEndAt) {
-      endRound();
+      // Время вышло — разрешаем объяснить последнее слово, затем завершаем ход
+      setAllowLastExplain(true);
+      setRoundEndAt(null);
     }
   }, [timeLeft, phase, roundEndAt]);
 
@@ -164,19 +196,31 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
   };
 
   const guessed = () => {
-    // +1 очко текущей команде за текущий раунд, следующее слово
+    // +1 очко текущей команде за текущий раунд
     setTeams((t) => t.map((team, idx) => idx === currentTeamIdx ? { ...team, roundScore: team.roundScore + 1 } : team));
+    if (allowLastExplain) {
+      // Завершаем ход после последнего слова
+      setAllowLastExplain(false);
+      endRound();
+      return;
+    }
     nextWord();
   };
 
   const skipped = () => {
-    // -1 очко текущей команде за пропуск в текущем раунде, следующее слово
+    // -1 очко текущей команде за пропуск в текущем раунде
     setTeams((t) => t.map((team, idx) => {
       if (idx === currentTeamIdx) {
         return { ...team, roundScore: Math.max(0, team.roundScore - 1) };
       }
       return team;
     }));
+    if (allowLastExplain) {
+      // Завершаем ход после последнего слова
+      setAllowLastExplain(false);
+      endRound();
+      return;
+    }
     nextWord();
   };
 

@@ -62,6 +62,8 @@ const Card: React.FC<CardProps> = ({
         src={isFaceUp ? image : (imageBack || image)}
         alt="card"
         style={imageStyle}
+        width={typeof width === 'number' ? width - imageScaleOffset : undefined}
+        height={typeof height === 'number' ? height - imageScaleOffset : undefined}
         loading="lazy"
         decoding="async"
         draggable={false}
