@@ -124,6 +124,26 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
     };
   }, [phase, teams, currentTeamIdx, settings, deck, currentWordIdx, roundEndAt]);
 
+  // Сохранение при размонтировании компонента (например, возврат в меню)
+  React.useEffect(() => {
+    return () => {
+      try {
+        const gameState = {
+          phase,
+          teams,
+          currentTeamIdx,
+          settings,
+          deck,
+          currentWordIdx,
+          roundEndAt,
+          timestamp: Date.now()
+        };
+        sessionStorage.setItem('alias_game_state', JSON.stringify(gameState));
+        console.log('Сохранение при размонтировании AliasGame:', gameState);
+      } catch {}
+    };
+  }, [phase, teams, currentTeamIdx, settings, deck, currentWordIdx, roundEndAt]);
+
   const handleExit = () => {
     clearAliasGameState();
     onExit();
@@ -201,6 +221,8 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
     if (allowLastExplain) {
       // Завершаем ход после последнего слова
       setAllowLastExplain(false);
+      // Переходим к следующему слову, чтобы оно не повторилось у следующей команды
+      nextWord();
       endRound();
       return;
     }
@@ -218,6 +240,8 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
     if (allowLastExplain) {
       // Завершаем ход после последнего слова
       setAllowLastExplain(false);
+      // Переходим к следующему слову, чтобы оно не повторилось у следующей команды
+      nextWord();
       endRound();
       return;
     }

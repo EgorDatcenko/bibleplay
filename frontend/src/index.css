@@ -1,5 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
 
+.header .header-logo{
+  position: relative;
+  padding-right: 42px;
+}
+.header .header-logo::after{
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  background: url('/i (2).webp') center/contain no-repeat;
+  border-radius: 6px;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
