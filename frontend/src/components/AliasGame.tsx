@@ -145,7 +145,35 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
   }, [phase, teams, currentTeamIdx, settings, deck, currentWordIdx, roundEndAt]);
 
   const handleExit = () => {
-    clearAliasGameState();
+    // Сохраняем состояние перед выходом, а не очищаем
+    if (phase !== 'setup') {
+      const gameState = {
+        phase,
+        teams,
+        currentTeamIdx,
+        settings,
+        deck,
+        currentWordIdx,
+        roundEndAt,
+        timestamp: Date.now()
+      };
+      saveAliasGameState(gameState);
+      console.log('Сохранено состояние при выходе в меню:', gameState);
+      // Дополнительное сохранение через небольшую задержку
+      setTimeout(() => {
+        try {
+          sessionStorage.setItem('alias_game_state', JSON.stringify(gameState));
+          console.log('Дополнительное сохранение при выходе:', gameState);
+        } catch (e) {
+          console.warn('Ошибка дополнительного сохранения:', e);
+        }
+      }, 100);
+      // Перезагружаем страницу для надёжного восстановления состояния
+      setTimeout(() => {
+        window.location.reload();
+      }, 200);
+      return; // Не вызываем onExit(), так как перезагружаем страницу
+    }
     onExit();
   };
 
@@ -164,6 +192,11 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
       };
       saveAliasGameState(gameState);
       console.log('Сохранено состояние при выходе в меню:', gameState);
+      // Перезагружаем страницу для надёжного восстановления состояния
+      setTimeout(() => {
+        window.location.reload();
+      }, 200);
+      return; // Не вызываем onExit(), так как перезагружаем страницу
     }
     onExit();
   };
@@ -188,6 +221,8 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
       }
       return team;
     }));
+    // Переходим к следующему слову, чтобы оно не повторилось у следующей команды
+    nextWord();
     setPhase('playing');
     setRoundEndAt(null);
     setCurrentTeamIdx((i: number) => (i + 1) % teams.length);
@@ -431,15 +466,15 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
         <div style={{ fontSize: 'clamp(16px, 4vw, 20px)' }}>⏱ {timeLeft}s</div>
       </div>
       <div style={{ background: '#faf8f4', border: '1px solid #ece6da', borderRadius: 16, padding: 'clamp(16px, 4vw, 24px)', width: '100%', maxWidth: 720, textAlign: 'center' }}>
-        <div style={{ fontSize: 'clamp(24px, 6vw, 32px)', fontWeight: 800, marginBottom: 8 }}>{word?.term || '—'}</div>
-        {!settings.disableHints && <div style={{ color: '#7c6f57', minHeight: 20, fontSize: 'clamp(14px, 3.5vw, 16px)' }}>{word?.hint || ''}</div>}
+        <div style={{ fontSize: 'clamp(34px, 8.4vw, 45px)', fontWeight: 800, marginBottom: 8 }}>{word?.term || '—'}</div>
+        {!settings.disableHints && <div style={{ color: '#7c6f57', minHeight: 20, fontSize: 'clamp(20px, 4.9vw, 22px)' }}>{word?.hint || ''}</div>}
       </div>
       <div style={{ display: 'flex', gap: 'clamp(8px, 2vw, 12px)', flexWrap: 'wrap', justifyContent: 'center' }}>
-        <button onClick={guessed} style={{ background: '#4caf50', color: '#fff', border: 'none', borderRadius: 8, padding: 'clamp(12px, 3vw, 16px) clamp(18px, 4vw, 24px)', fontWeight: 800, fontSize: 'clamp(14px, 3.5vw, 16px)' }}>Угадано +1</button>
-        <button onClick={skipped} style={{ background: '#b71c1c', color: '#fff', border: 'none', borderRadius: 8, padding: 'clamp(12px, 3vw, 16px) clamp(18px, 4vw, 24px)', fontWeight: 800, fontSize: 'clamp(14px, 3.5vw, 16px)' }}>Пропустить -1</button>
+        <button onClick={guessed} style={{ background: '#4caf50', color: '#fff', border: 'none', borderRadius: 8, padding: 'clamp(17px, 4.2vw, 22px) clamp(25px, 5.6vw, 34px)', fontWeight: 800, fontSize: 'clamp(20px, 4.9vw, 22px)' }}>Угадано +1</button>
+        <button onClick={skipped} style={{ background: '#b71c1c', color: '#fff', border: 'none', borderRadius: 8, padding: 'clamp(17px, 4.2vw, 22px) clamp(25px, 5.6vw, 34px)', fontWeight: 800, fontSize: 'clamp(20px, 4.9vw, 22px)' }}>Пропустить -1</button>
         <button onClick={endRound} style={{ background: '#bdb7af', color: '#2c1810', border: 'none', borderRadius: 8, padding: 'clamp(12px, 3vw, 16px) clamp(18px, 4vw, 24px)', fontWeight: 800, fontSize: 'clamp(14px, 3.5vw, 16px)' }}>Завершить ход</button>
       </div>
-      <div style={{ marginTop: 8, color: '#7c6f57', fontSize: 'clamp(14px, 3.5vw, 16px)' }}>Категория: {word?.category}</div>
+      <div style={{ marginTop: 8, color: '#7c6f57', fontSize: 'clamp(20px, 4.9vw, 22px)' }}>Категория: {word?.category}</div>
       
       {/* Надпись о связи в Telegram */}
       <div style={{ textAlign: 'center', marginTop: 16, color: '#7c6f57', fontSize: 'clamp(12px, 3vw, 14px)' }}>
