@@ -2,7 +2,7 @@
 
 .header .header-logo{
   position: relative;
-  padding-right: 42px;
+  padding-right: 50px;
 }
 .header .header-logo::after{
   content: '';
@@ -10,9 +10,9 @@
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  width: 32px;
-  height: 32px;
-  background: url('/i (2).webp') center/contain no-repeat;
+  width: 45px;
+  height: 45px;
+  background: url('/photo_2025-09-08_22-11-17.jpg') center/contain no-repeat;
   border-radius: 6px;
 }
 
