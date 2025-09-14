@@ -65,6 +65,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
   const [settings, setSettings] = React.useState<Settings>(savedState?.settings || { roundSeconds: 60, targetScore: 20, selectedCategories: aliasCategories.map(c => c.key), includeAdvanced: false, disableHints: false });
   const [deck, setDeck] = React.useState<AliasWord[]>(savedState?.deck || []);
   const [currentWordIdx, setCurrentWordIdx] = React.useState(savedState?.currentWordIdx || 0);
+  const [usedWordIndices, setUsedWordIndices] = React.useState<Set<number>>(new Set(savedState?.usedWordIndices || []));
   const [roundEndAt, setRoundEndAt] = React.useState<number | null>(savedState?.roundEndAt || null);
   const [allowLastExplain, setAllowLastExplain] = React.useState<boolean>(false);
   const timeLeft = useCountdown(roundEndAt);
@@ -75,6 +76,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
       const words = shuffle(getAllWords(settings.selectedCategories, settings.includeAdvanced));
       setDeck(words);
       setCurrentWordIdx(0);
+      setUsedWordIndices(new Set()); // Сбрасываем использованные слова при новой колоде
     }
   }, [settings.selectedCategories, settings.includeAdvanced, savedState?.deck]);
 
@@ -88,13 +90,14 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
         settings,
         deck,
         currentWordIdx,
+        usedWordIndices: Array.from(usedWordIndices),
         roundEndAt,
         timestamp: Date.now()
       };
       saveAliasGameState(gameState);
       console.log('Автосохранение состояния:', gameState);
     }
-  }, [phase, teams, currentTeamIdx, settings, deck, currentWordIdx, roundEndAt]);
+  }, [phase, teams, currentTeamIdx, settings, deck, currentWordIdx, usedWordIndices, roundEndAt]);
 
   // Резервное сохранение при скрытии вкладки/уходе со страницы
   React.useEffect(() => {
@@ -202,6 +205,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
   };
 
   const startGame = () => {
+    setUsedWordIndices(new Set()); // Сбрасываем использованные индексы слов
     setPhase('playing');
     // Анимация скролла вверх для мобильной версии
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -221,8 +225,7 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
       }
       return team;
     }));
-    // Переходим к следующему слову, чтобы оно не повторилось у следующей команды
-    nextWord();
+    // Следующее слово будет выбрано при следующем guessed/skipped
     setPhase('playing');
     setRoundEndAt(null);
     setCurrentTeamIdx((i: number) => (i + 1) % teams.length);
@@ -253,15 +256,46 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
   const guessed = () => {
     // +1 очко текущей команде за текущий раунд
     setTeams((t) => t.map((team, idx) => idx === currentTeamIdx ? { ...team, roundScore: team.roundScore + 1 } : team));
+    
+    // Добавляем текущий индекс слова в использованные и сразу переходим к следующему слову
+    console.log('guessed - добавляем в использованные индекс:', currentWordIdx, 'слово:', deck[currentWordIdx]?.term);
+    setUsedWordIndices(prev => {
+      const newUsed = new Set([...prev, currentWordIdx]);
+      
+      // Находим неиспользованные слова с обновленным состоянием
+      const availableIndices = deck
+        .map((_, idx) => idx)
+        .filter(idx => !newUsed.has(idx));
+      
+      // Если все слова использованы
+      if (availableIndices.length === 0) {
+        // В обычном режиме (без усложнений) игра заканчивается
+        if (!settings.includeAdvanced) {
+          endGame();
+          return newUsed;
+        } else {
+          // В усложненном режиме сбрасываем использованные слова и перемешиваем
+          const shuffledDeck = shuffle([...deck]);
+          setDeck(shuffledDeck);
+          setCurrentWordIdx(0); // Начинаем с первого слова
+          return new Set(); // Возвращаем пустой Set
+        }
+      }
+      
+      // Выбираем случайное неиспользованное слово
+      const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+      console.log('guessed - выбран новый индекс:', randomIndex, 'слово:', deck[randomIndex]?.term);
+      setCurrentWordIdx(randomIndex);
+      
+      return newUsed;
+    });
+    
     if (allowLastExplain) {
       // Завершаем ход после последнего слова
       setAllowLastExplain(false);
-      // Переходим к следующему слову, чтобы оно не повторилось у следующей команды
-      nextWord();
       endRound();
       return;
     }
-    nextWord();
   };
 
   const skipped = () => {
@@ -272,28 +306,58 @@ export default function AliasGame({ onExit }: { onExit: () => void }) {
       }
       return team;
     }));
+    
+    // Добавляем текущий индекс слова в использованные (даже если пропустили) и сразу переходим к следующему слову
+    console.log('skipped - добавляем в использованные индекс:', currentWordIdx, 'слово:', deck[currentWordIdx]?.term);
+    setUsedWordIndices(prev => {
+      const newUsed = new Set([...prev, currentWordIdx]);
+      
+      // Находим неиспользованные слова с обновленным состоянием
+      const availableIndices = deck
+        .map((_, idx) => idx)
+        .filter(idx => !newUsed.has(idx));
+      
+      // Если все слова использованы
+      if (availableIndices.length === 0) {
+        // В обычном режиме (без усложнений) игра заканчивается
+        if (!settings.includeAdvanced) {
+          endGame();
+          return newUsed;
+        } else {
+          // В усложненном режиме сбрасываем использованные слова и перемешиваем
+          const shuffledDeck = shuffle([...deck]);
+          setDeck(shuffledDeck);
+          setCurrentWordIdx(0); // Начинаем с первого слова
+          return new Set(); // Возвращаем пустой Set
+        }
+      }
+      
+      // Выбираем случайное неиспользованное слово
+      const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+      console.log('skipped - выбран новый индекс:', randomIndex, 'слово:', deck[randomIndex]?.term);
+      setCurrentWordIdx(randomIndex);
+      
+      return newUsed;
+    });
+    
     if (allowLastExplain) {
       // Завершаем ход после последнего слова
       setAllowLastExplain(false);
-      // Переходим к следующему слову, чтобы оно не повторилось у следующей команды
-      nextWord();
       endRound();
       return;
     }
-    nextWord();
   };
 
-  const nextWord = () => {
-    setCurrentWordIdx((i: number) => {
-      const nextIdx = (i + 1) % Math.max(1, deck.length);
-      // Если мы прошли всю колоду, перемешиваем её заново
-      if (nextIdx === 0 && deck.length > 0) {
-        const shuffledDeck = shuffle([...deck]);
-        setDeck(shuffledDeck);
-      }
-      return nextIdx;
-    });
+  const endGame = () => {
+    // Находим команду с наибольшим количеством очков
+    const winningTeam = teams.reduce((a, b) => a.score >= b.score ? a : b);
+    setPhase('setup');
+    setRoundEndAt(null);
+    setAllowLastExplain(false);
+    // Показываем сообщение о победе
+    alert(`Игра окончена! Закончились слова. Победила команда "${winningTeam.name}" со счетом ${winningTeam.score} очков!`);
   };
+
 
   const hasWinner = teams.some(t => t.score >= settings.targetScore);
   const winner = hasWinner ? teams.reduce((a, b) => a.score >= b.score ? a : b) : null;
