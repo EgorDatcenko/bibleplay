@@ -9,7 +9,7 @@ class ServerlessP2P {
     this.eventHandlers = new Map();
     this.players = new Map();
     this.playerId = this.generatePlayerId();
-    this.apiUrl = import.meta.env.VITE_API_URL || 'https://bibleplay.vercel.app/api';
+    this.apiUrl = import.meta.env.VITE_API_URL || 'https://bibleplay-h1kluvl43-egors-projects-f86fbb5c.vercel.app/api';
     
     this.stunServers = [
       'stun:stun.l.google.com:19302',

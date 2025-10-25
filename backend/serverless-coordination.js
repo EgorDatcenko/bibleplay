@@ -4,13 +4,13 @@ import { initializeApp } from 'firebase/app';
 
 // Конфигурация Firebase
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY || "AIzaSyBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  apiKey: process.env.FIREBASE_API_KEY || "AIzaSyBEO0F_911vQE5RSXQ3PMRW7SESzUryhiU",
   authDomain: process.env.FIREBASE_AUTH_DOMAIN || "bibleplay-p2p.firebaseapp.com",
-  databaseURL: process.env.FIREBASE_DATABASE_URL || "https://bibleplay-p2p-default-rtdb.firebaseio.com",
+  databaseURL: process.env.FIREBASE_DATABASE_URL || "https://bibleplay-p2p-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: process.env.FIREBASE_PROJECT_ID || "bibleplay-p2p",
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET || "bibleplay-p2p.appspot.com",
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET || "bibleplay-p2p.firebasestorage.app",
   messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || "931731334835",
-  appId: process.env.FIREBASE_APP_ID || "1:931731334835:web:XXXXXXXXXXXXXXXX"
+  appId: process.env.FIREBASE_APP_ID || "1:931731334835:web:768a2c4293ecbf11df72c6"
 };
 
 // Инициализация Firebase
