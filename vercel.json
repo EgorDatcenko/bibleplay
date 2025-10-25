@@ -22,7 +22,11 @@
   "routes": [
     {
       "src": "/api/coordination",
-      "dest": "/api/coordination.js"
+      "dest": "/api/simple-coordination.js"
+    },
+    {
+      "src": "/api/test",
+      "dest": "/api/test.js"
     }
   ]
 }
