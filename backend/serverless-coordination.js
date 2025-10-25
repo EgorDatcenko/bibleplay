@@ -1,6 +1,6 @@
 // Serverless координационный сервер для Vercel/Netlify
-import { getDatabase, ref, set, get, remove, onValue, off } from 'firebase/database';
-import { initializeApp } from 'firebase/app';
+const { getDatabase, ref, set, get, remove, onValue, off } = require('firebase/database');
+const { initializeApp } = require('firebase/app');
 
 // Конфигурация Firebase
 const firebaseConfig = {
@@ -236,4 +236,14 @@ export const getStats = async () => {
     console.error('[SERVERLESS] Ошибка получения статистики:', error);
     return { success: false, error: error.message };
   }
+};
+
+module.exports = {
+  createRoom,
+  findRoom,
+  joinRoom,
+  exchangeSignal,
+  getSignals,
+  getActiveRooms,
+  getStats
 };

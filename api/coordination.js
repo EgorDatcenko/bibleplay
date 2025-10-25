@@ -1,7 +1,7 @@
 // Vercel API функция для координации P2P соединений
-import { createRoom, findRoom, joinRoom, exchangeSignal, getSignals, getActiveRooms, getStats } from '../backend/serverless-coordination.js';
+const { createRoom, findRoom, joinRoom, exchangeSignal, getSignals, getActiveRooms, getStats } = require('../backend/serverless-coordination.js');
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // Настройка CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
