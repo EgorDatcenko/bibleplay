@@ -1,15 +1,4 @@
-const { initializeApp } = require('firebase/app');
-const { getDatabase, ref, set, get } = require('firebase/database');
-
-const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.FIREBASE_DATABASE_URL,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID
-};
+const admin = require('./_admin');
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -18,12 +7,11 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') { res.status(200).end(); return; }
 
   try {
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const r = ref(db, 'test/ping');
-    await set(r, { ts: Date.now() });
-    const snap = await get(r);
-    return res.json({ success: true, data: snap.val() });
+    const db = admin.database();
+    const r = db.ref('test/ping');
+    await r.set({ ts: Date.now() });
+    const snap = await r.get();
+    return res.json({ success: true, data: snap.val(), region: process.env.VERCEL_REGION });
   } catch (e) {
     console.error('[test] error', e);
     return res.status(500).json({ success: false, error: e.message });
