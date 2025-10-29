@@ -160,7 +160,7 @@ function App() {
   const [openInfoGame, setOpenInfoGame] = useState<null | 'chronology' | 'alias' | 'pharisees'>(null);
   const [aliasMenuMode, setAliasMenuMode] = useState(false);
   const [p2pMode, setP2pMode] = useState(false);
-  const [p2pIntegration, setP2pIntegration] = useState<ServerlessP2P | null>(null);
+  const [p2pIntegration, setP2pIntegration] = useState<any>(null);
   const [connectionStatus, setConnectionStatus] = useState<'disconnected' | 'connecting' | 'connected'>('disconnected');
 
   // Инициализация P2P-интеграции
