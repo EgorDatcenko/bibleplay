@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/coordination.js": {
+    "api/*.js": {
       "runtime": "nodejs18.x"
     }
   },
@@ -12,21 +12,5 @@
     "FIREBASE_STORAGE_BUCKET": "bibleplay-p2p.firebasestorage.app",
     "FIREBASE_MESSAGING_SENDER_ID": "931731334835",
     "FIREBASE_APP_ID": "1:931731334835:web:768a2c4293ecbf11df72c6"
-  },
-  "builds": [
-    {
-      "src": "api/coordination.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/coordination",
-      "dest": "/api/simple-coordination.js"
-    },
-    {
-      "src": "/api/test",
-      "dest": "/api/test.js"
-    }
-  ]
+  }
 }
