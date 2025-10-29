@@ -185,7 +185,7 @@ function App() {
     if (!p2pIntegration) return;
 
     // Обработчик обновления игры
-    p2pIntegration.on('game-update', (data) => {
+    p2pIntegration.on('game-update', (data: any) => {
       console.log('[P2P] Получено обновление игры:', data);
       if (data.hand) setHand(enrichCards(data.hand));
       if (data.table) setTable(enrichCards(data.table));
@@ -197,14 +197,14 @@ function App() {
     });
 
     // Обработчик обновления лобби
-    p2pIntegration.on('lobby-update', (data) => {
+    p2pIntegration.on('lobby-update', (data: any) => {
       console.log('[P2P] Получено обновление лобби:', data);
       if (data.players) setLobbyPlayers(data.players);
       if (data.gameStarted !== undefined) setGameStarted(data.gameStarted);
     });
 
     // Обработчик ошибок
-    p2pIntegration.on('error', (data) => {
+    p2pIntegration.on('error', (data: any) => {
       console.error('[P2P] Ошибка:', data);
       setToast(data.message || 'Ошибка P2P-соединения');
     });
